@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="new_integer_employee_b98cb189-d772-449b-a43b-63f80334316d" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">integer</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Maximum shifts per week</field>
+    <field name="model">hr.employee</field>
+    <field name="model_id" ref="hr.model_hr_employee"/>
+    <field name="name">x_studio_maximum_shifts_per_week</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="new_integer_employee_396bdead-4471-4116-a27a-29ea474ae5d9" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">integer</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">New Integer</field>
+    <field name="model">hr.employee</field>
+    <field name="model_id" ref="hr.model_hr_employee"/>
+    <field name="name">x_studio_integer_field_5co_1jhj9ncg4</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="new_checkbox_employe_404b152d-b0ed-4324-ae32-0eb6f62611fb" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">boolean</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Combine evening and morning shifts</field>
+    <field name="model">hr.employee</field>
+    <field name="model_id" ref="hr.model_hr_employee"/>
+    <field name="name">x_studio_combine_evening_and_morning_shifts</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="new_checkbox_employe_20e9cb38-2e5a-468b-8928-986a6e06f79d" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">boolean</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Morning shifts</field>
+    <field name="model">hr.employee</field>
+    <field name="model_id" ref="hr.model_hr_employee"/>
+    <field name="name">x_studio_morning_shifts</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="new_checkbox_employe_ba3cd112-af17-448a-8bf3-36dea47fbffe" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">boolean</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Evening shifts</field>
+    <field name="model">hr.employee</field>
+    <field name="model_id" ref="hr.model_hr_employee"/>
+    <field name="name">x_studio_evening_shifts</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="new_checkbox_employe_a62de08e-cc7c-4807-97d9-d649f22a3b98" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">boolean</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Midnight shifts</field>
+    <field name="model">hr.employee</field>
+    <field name="model_id" ref="hr.model_hr_employee"/>
+    <field name="name">x_studio_midnight_shifts</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="new_text_employee_727e0b34-a3d3-4687-a68e-f56a007a958d" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">char</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Shift availability</field>
+    <field name="model">hr.employee</field>
+    <field name="model_id" ref="hr.model_hr_employee"/>
+    <field name="name">x_studio_shift_availability</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="sequence_hr_employee_7153be3e-9e0c-4808-8818-dcb4da82f5ce" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">integer</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Sequence</field>
+    <field name="model">x_hr_employee_line_136a9</field>
+    <field name="model_id" ref="hr_employee_line_184f6145-85c8-4ab3-aacc-b6a0fce09172"/>
+    <field name="name">x_studio_sequence</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="description_hr_emplo_86d61d12-7051-41b9-8d40-abf2f697c7d6" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">char</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Description</field>
+    <field name="model">x_hr_employee_line_136a9</field>
+    <field name="model_id" ref="hr_employee_line_184f6145-85c8-4ab3-aacc-b6a0fce09172"/>
+    <field name="name">x_name</field>
+    <field name="on_delete" eval="False"/>
+    <field name="required" eval="True"/>
+    <field name="translate">standard</field>
+  </record>
+  <record id="hr_employee_line_6970256d-b7c8-42fd-97f3-42ac70a85672" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2one</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">X Hr Employee</field>
+    <field name="model">x_hr_employee_line_136a9</field>
+    <field name="model_id" ref="hr_employee_line_184f6145-85c8-4ab3-aacc-b6a0fce09172"/>
+    <field name="name">x_hr_employee_id</field>
+    <field name="relation">hr.employee</field>
+  </record>
+  <record id="new_lines_employee_262ed191-227a-46a4-92c5-c29aa102ce53" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">one2many</field>
+    <field name="field_description">New Lines</field>
+    <field name="model">hr.employee</field>
+    <field name="model_id" ref="hr.model_hr_employee"/>
+    <field name="name">x_studio_one2many_field_87n_1jhj9uhr1</field>
+    <field name="on_delete" eval="False"/>
+    <field name="relation">x_hr_employee_line_136a9</field>
+    <field name="relation_field">x_hr_employee_id</field>
+  </record>
+  <record id="new_checkbox_employe_6e08592b-d1d7-42c9-b6ea-0dfe1efe5d55" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">boolean</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">SMP Eligible</field>
+    <field name="model">hr.employee</field>
+    <field name="model_id" ref="hr.model_hr_employee"/>
+    <field name="name">x_studio_smp_eligible</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="new_checkbox_employe_092de106-72d5-4fe9-b4fd-a1365fe4a449" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">boolean</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Bicycle</field>
+    <field name="model">hr.employee</field>
+    <field name="model_id" ref="hr.model_hr_employee"/>
+    <field name="name">x_studio_bicycle</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="new_checkbox_employe_1a7735f2-70c1-45e1-b94f-adcf4461eda6" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">boolean</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Auto</field>
+    <field name="model">hr.employee</field>
+    <field name="model_id" ref="hr.model_hr_employee"/>
+    <field name="name">x_studio_auto</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="new_checkbox_employe_69b1447f-915c-4a53-a336-071b183564eb" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">boolean</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Other</field>
+    <field name="model">hr.employee</field>
+    <field name="model_id" ref="hr.model_hr_employee"/>
+    <field name="name">x_studio_other</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+</odoo>

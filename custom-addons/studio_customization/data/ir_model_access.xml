@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="hr_employee_line_gro_d7dc0906-0f98-4434-80f1-7b4313742cd6" model="ir.model.access" context="{'studio': True}">
+    <field name="group_id" ref="base.group_system"/>
+    <field name="model_id" ref="hr_employee_line_184f6145-85c8-4ab3-aacc-b6a0fce09172"/>
+    <field name="name">hr_employee_line group_system</field>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_unlink" eval="True"/>
+    <field name="perm_write" eval="True"/>
+  </record>
+  <record id="hr_employee_line_gro_fae38948-8e7a-4bcf-b3ef-66fbc0ecc677" model="ir.model.access" context="{'studio': True}">
+    <field name="group_id" ref="base.group_user"/>
+    <field name="model_id" ref="hr_employee_line_184f6145-85c8-4ab3-aacc-b6a0fce09172"/>
+    <field name="name">hr_employee_line group_user</field>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_write" eval="True"/>
+  </record>
+</odoo>

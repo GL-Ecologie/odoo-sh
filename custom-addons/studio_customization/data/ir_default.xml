@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="new_integer_employee_021c2c98-4b2c-4d4f-825c-7cdfe673e899" model="ir.default" context="{'studio': True}">
+    <field name="field_id" ref="new_integer_employee_b98cb189-d772-449b-a43b-63f80334316d"/>
+    <field name="json_value">"0"</field>
+  </record>
+  <record id="new_integer_employee_1db0a182-fa5d-4198-8925-e7133f517d0a" model="ir.default" context="{'studio': True}">
+    <field name="field_id" ref="new_integer_employee_396bdead-4471-4116-a27a-29ea474ae5d9"/>
+    <field name="json_value">"0"</field>
+  </record>
+</odoo>

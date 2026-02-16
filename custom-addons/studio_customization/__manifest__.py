@@ -5,7 +5,11 @@
                 'It contains the apps created with Studio and the '
                 'customizations of existing apps.',
  'author': 'GL Ecologie B.V.',
- 'depends': ['web_studio'],
- 'data': [],
+ 'depends': ['ai', 'hr', 'web_grid', 'web_hierarchy', 'web_studio'],
+ 'data': ['data/ir_model.xml',
+          'data/ir_model_fields.xml',
+          'data/ir_ui_view.xml',
+          'data/ir_model_access.xml',
+          'data/ir_default.xml'],
  'demo': [],
  'license': 'OPL-1'}

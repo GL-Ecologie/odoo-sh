@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="odoo_studio_hr_emplo_290550c1-7b1b-47ae-ae4d-0b9eb16f71a4" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="/form//div[@id='o_hr_work_information_container']" position="after">
+          <group name="studio_group_94h_1jhj9kqoj" string="Shift availability">
+            <group name="studio_group_94h_left">
+              <field name="x_studio_maximum_shifts_per_week"/>
+              <field name="x_studio_morning_shifts"/>
+              <field name="x_studio_evening_shifts"/>
+              <field name="x_studio_midnight_shifts"/>
+              <field name="x_studio_combine_evening_and_morning_shifts"/>
+            </group>
+            <group name="studio_group_94h_right"/>
+          </group>
+        </xpath>
+        <xpath expr="/form//field[@name='parent_id']" position="after">
+          <field name="x_studio_smp_eligible"/>
+        </xpath>
+        <xpath expr="/form/sheet/notebook/page[@name='personal_information']/group" position="after">
+          <group name="studio_group_2ac_1jhja4565" string="Means of transport">
+            <group name="studio_group_2ac_left">
+              <field name="x_studio_bicycle"/>
+              <field name="x_studio_auto"/>
+              <field name="x_studio_other" widget="boolean"/>
+            </group>
+            <group name="studio_group_2ac_right"/>
+          </group>
+        </xpath>
+      </data>
+    </field>
+    <field name="inherit_id" ref="hr.view_employee_form"/>
+    <field name="mode">extension</field>
+    <field name="model">hr.employee</field>
+    <field name="name">Odoo Studio: hr.employee.form customization</field>
+    <field name="priority">10000</field>
+    <field name="type">form</field>
+  </record>
+  <record id="default_list_view_fo_5643823f-7dc4-46bb-ab4f-622f74eb1c63" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <list default_order="x_studio_sequence asc,id desc">
+        <field name="x_studio_sequence" widget="handle"/>
+        <field name="x_name"/>
+      </list>
+    </field>
+    <field name="model">x_hr_employee_line_136a9</field>
+    <field name="name">Default list view for x_hr_employee_line_136a9</field>
+    <field name="type">list</field>
+  </record>
+  <record id="default_form_view_fo_639be24b-dff8-4646-8417-bd4c33e6646b" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <form>
+        <header/>
+        <sheet string="hr_employee_line">
+          <div class="oe_title">
+            <h1>
+              <field name="x_name" required="1" placeholder="Name..."/>
+            </h1>
+          </div>
+          <group name="studio_group_591f3d">
+            <group name="studio_group_591f3d_left"/>
+            <group name="studio_group_591f3d_right"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+    <field name="model">x_hr_employee_line_136a9</field>
+    <field name="name">Default form view for x_hr_employee_line_136a9</field>
+    <field name="type">form</field>
+  </record>
+  <record id="default_search_view__5a5d3a0c-5455-4b1f-8af2-6b62435c4605" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <search>
+        <field name="x_name"/>
+      </search>
+    </field>
+    <field name="model">x_hr_employee_line_136a9</field>
+    <field name="name">Default search view for x_hr_employee_line_136a9</field>
+    <field name="type">search</field>
+  </record>
+</odoo>
