@@ -138,4 +138,377 @@
     <field name="name">x_studio_other</field>
     <field name="on_delete" eval="False"/>
   </record>
+  <record id="new_tags_employee_d9314d02-6b85-4e3f-85a3-206fad1ed75d" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2many</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Languages</field>
+    <field name="model">hr.employee</field>
+    <field name="model_id" ref="hr.model_hr_employee"/>
+    <field name="name">x_studio_languages</field>
+    <field name="on_delete" eval="False"/>
+    <field name="relation">res.lang</field>
+    <field name="relation_table">x_hr_employee_res_lang_rel</field>
+  </record>
+  <record id="new_tags_employee_d0f6327c-e6e5-4bed-a3a5-c3f3f5d99687" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2many</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Certificates</field>
+    <field name="model">hr.employee</field>
+    <field name="model_id" ref="hr.model_hr_employee"/>
+    <field name="name">x_studio_certificates</field>
+    <field name="on_delete" eval="False"/>
+    <field name="relation">hr.skill</field>
+    <field name="relation_table">x_hr_employee_hr_skill_rel</field>
+  </record>
+  <record id="description_properti_988183e5-c701-445c-b20a-114912ad31d4" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">char</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Location</field>
+    <field name="model">x_properties</field>
+    <field name="model_id" ref="properties_93cb7511-af1d-46de-a0cb-7ee6f067ebe9"/>
+    <field name="name">x_name</field>
+    <field name="on_delete" eval="False"/>
+    <field name="required" eval="True"/>
+    <field name="tracking">1</field>
+    <field name="translate">standard</field>
+  </record>
+  <record id="active_properties_1b35be9a-0066-4d47-a017-d495db9a7c7f" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">boolean</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Active</field>
+    <field name="model">x_properties</field>
+    <field name="model_id" ref="properties_93cb7511-af1d-46de-a0cb-7ee6f067ebe9"/>
+    <field name="name">x_active</field>
+    <field name="on_delete" eval="False"/>
+    <field name="tracking">1</field>
+  </record>
+  <record id="notes_properties_621737c1-4ee6-4284-a320-7d81226283b2" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">html</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Notes</field>
+    <field name="model">x_properties</field>
+    <field name="model_id" ref="properties_93cb7511-af1d-46de-a0cb-7ee6f067ebe9"/>
+    <field name="name">x_studio_notes</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="date_properties_2ea0d039-d07e-4099-952f-94a0d265ae94" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">date</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Date</field>
+    <field name="model">x_properties</field>
+    <field name="model_id" ref="properties_93cb7511-af1d-46de-a0cb-7ee6f067ebe9"/>
+    <field name="name">x_studio_date</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="image_properties_8b1763c4-83fe-4f76-a05e-982025c8c227" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">binary</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Image</field>
+    <field name="model">x_properties</field>
+    <field name="model_id" ref="properties_93cb7511-af1d-46de-a0cb-7ee6f067ebe9"/>
+    <field name="name">x_studio_image</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="sequence_properties_3a5a4654-00dd-4231-a243-b7a713e073b6" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">integer</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Sequence</field>
+    <field name="model">x_properties</field>
+    <field name="model_id" ref="properties_93cb7511-af1d-46de-a0cb-7ee6f067ebe9"/>
+    <field name="name">x_studio_sequence</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="tags_properties_7dc522ec-8cb3-41c3-9fee-fd1c63f673cc" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2many</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Tags</field>
+    <field name="model">x_properties</field>
+    <field name="model_id" ref="properties_93cb7511-af1d-46de-a0cb-7ee6f067ebe9"/>
+    <field name="name">x_studio_tag_ids</field>
+    <field name="on_delete" eval="False"/>
+    <field name="relation">x_properties_tag</field>
+    <field name="relation_table">x_properties_tag_rel</field>
+  </record>
+  <record id="name_properties_tags_2805661a-d7da-4154-a144-6dd605c0d6ba" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">char</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Name</field>
+    <field name="model">x_properties_tag</field>
+    <field name="model_id" ref="properties_tags_52a1b0e0-0ca9-4203-bf01-50aacf717f94"/>
+    <field name="name">x_name</field>
+    <field name="on_delete" eval="False"/>
+    <field name="required" eval="True"/>
+  </record>
+  <record id="color_properties_tag_9a368447-3a58-4bfc-b0f6-d628f3ac5e7c" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">integer</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Color</field>
+    <field name="model">x_properties_tag</field>
+    <field name="model_id" ref="properties_tags_52a1b0e0-0ca9-4203-bf01-50aacf717f94"/>
+    <field name="name">x_color</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="new_text_properties_85debb7c-ba87-42a9-85ba-41c350289c12" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">char</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Label</field>
+    <field name="model">x_properties</field>
+    <field name="model_id" ref="properties_93cb7511-af1d-46de-a0cb-7ee6f067ebe9"/>
+    <field name="name">x_studio_label</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="new_text_properties_d2cba25d-1892-49fe-8a9c-88fb5a4cc780" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">char</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Postal code</field>
+    <field name="model">x_properties</field>
+    <field name="model_id" ref="properties_93cb7511-af1d-46de-a0cb-7ee6f067ebe9"/>
+    <field name="name">x_studio_postal_code</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="new_text_properties_8def94e5-72de-4cc4-a88f-806287052cd0" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">char</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Street</field>
+    <field name="model">x_properties</field>
+    <field name="model_id" ref="properties_93cb7511-af1d-46de-a0cb-7ee6f067ebe9"/>
+    <field name="name">x_studio_street</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="new_integer_properti_19f5996c-6fd7-4bcd-9f1f-9f4411a22fc5" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">integer</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Number</field>
+    <field name="model">x_properties</field>
+    <field name="model_id" ref="properties_93cb7511-af1d-46de-a0cb-7ee6f067ebe9"/>
+    <field name="name">x_studio_number</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="new_text_properties_971564e2-71c0-43f3-b3c7-aa3b639aab9e" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">char</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Addition</field>
+    <field name="model">x_properties</field>
+    <field name="model_id" ref="properties_93cb7511-af1d-46de-a0cb-7ee6f067ebe9"/>
+    <field name="name">x_studio_addition</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="new_many2one_propert_0b493f55-8046-47cb-9a5e-14041e249243" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2one</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Country</field>
+    <field name="model">x_properties</field>
+    <field name="model_id" ref="properties_93cb7511-af1d-46de-a0cb-7ee6f067ebe9"/>
+    <field name="name">x_studio_country</field>
+    <field name="relation">res.country</field>
+  </record>
+  <record id="new_many2one_propert_0dbb6478-0d00-4b3c-bb98-379846713b80" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2one</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Province</field>
+    <field name="model">x_properties</field>
+    <field name="model_id" ref="properties_93cb7511-af1d-46de-a0cb-7ee6f067ebe9"/>
+    <field name="name">x_studio_province</field>
+    <field name="relation">res.country.state</field>
+  </record>
+  <record id="new_text_properties_986f3bee-30b9-4053-a410-03736ab841ab" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">char</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">City</field>
+    <field name="model">x_properties</field>
+    <field name="model_id" ref="properties_93cb7511-af1d-46de-a0cb-7ee6f067ebe9"/>
+    <field name="name">x_studio_city</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="city_copy_properties_6fd391b4-fa1c-4354-8641-aa65e4adebe3" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">char</field>
+    <field name="related">x_studio_city</field>
+    <field name="field_description">City (Copy)</field>
+    <field name="model">x_properties</field>
+    <field name="model_id" ref="properties_93cb7511-af1d-46de-a0cb-7ee6f067ebe9"/>
+    <field name="name">x_studio_related_field_8ug_1jhlsj34b</field>
+    <field name="on_delete" eval="False"/>
+    <field name="readonly" eval="True"/>
+    <field name="store" eval="False"/>
+  </record>
+  <record id="new_text_locations_e5da54b1-db61-4d18-8a0c-3a833790572e" model="ir.model.fields" context="{'studio': True}">
+    <field name="compute"><![CDATA[for record in self:
+    parts = [
+        record.x_studio_street or '',
+        str(record.x_studio_number) or '',
+        record.x_studio_postal_code or '',
+        record.x_studio_city or ''
+    ]
+    address = ', '.join([p for p in parts if p])
+    record['x_studio_show_in_maps'] = (
+        "https://www.google.com/maps/search/?api=1&query=" + address
+        if address else False
+    )]]></field>
+    <field name="ttype">char</field>
+    <field name="depends">x_studio_street,x_studio_postal_code,x_studio_number,x_studio_city</field>
+    <field name="field_description">Show in maps</field>
+    <field name="model">x_properties</field>
+    <field name="model_id" ref="properties_93cb7511-af1d-46de-a0cb-7ee6f067ebe9"/>
+    <field name="name">x_studio_show_in_maps</field>
+    <field name="on_delete" eval="False"/>
+    <field name="readonly" eval="True"/>
+  </record>
+  <record id="new_selection_projec_3d6706cd-02e2-4392-8fca-f83a089f33c0" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">selection</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Type</field>
+    <field name="model">project.project</field>
+    <field name="model_id" ref="project.model_project_project"/>
+    <field name="name">x_studio_type_1</field>
+    <field name="on_delete" eval="False"/>
+    <field name="selection">[('SMP', 'SMP'), ('Master', 'Master'), ('Spring', 'Spring'), ('Autumn', 'Autumn'), ('Extra', 'Extra')]</field>
+  </record>
+  <record id="new_many2many_projec_03a8eace-44fe-4627-a89e-309bd99cab9f" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2many</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Locations</field>
+    <field name="model">project.project</field>
+    <field name="model_id" ref="project.model_project_project"/>
+    <field name="name">x_studio_locations</field>
+    <field name="on_delete" eval="False"/>
+    <field name="relation">x_properties</field>
+    <field name="relation_table">x_project_project_x_properties_rel</field>
+  </record>
+  <record id="new_text_shift_templ_0f3fe135-17ce-4c00-be73-82cd7c36e879" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">char</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Name</field>
+    <field name="model">planning.slot.template</field>
+    <field name="model_id" ref="planning.model_planning_slot_template"/>
+    <field name="name">x_studio_label</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="new_text_shift_templ_0c1a7772-9ceb-4f67-bbbd-6fe959a18c9d" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">char</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Label</field>
+    <field name="model">planning.slot.template</field>
+    <field name="model_id" ref="planning.model_planning_slot_template"/>
+    <field name="name">x_studio_label_1</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="label_copy_shift_tem_3b19e66d-49d3-4cf1-8810-79808c6485bd" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">char</field>
+    <field name="related">x_studio_label</field>
+    <field name="field_description">Name</field>
+    <field name="model">planning.slot.template</field>
+    <field name="model_id" ref="planning.model_planning_slot_template"/>
+    <field name="name">x_studio_related_field_37f_1jho6f9t7</field>
+    <field name="on_delete" eval="False"/>
+    <field name="readonly" eval="True"/>
+    <field name="store" eval="False"/>
+  </record>
+  <record id="new_many2one_shift_t_ca52e2ae-91cb-4e6f-9992-0366ebd5f6f3" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2one</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Task</field>
+    <field name="model">planning.slot.template</field>
+    <field name="model_id" ref="planning.model_planning_slot_template"/>
+    <field name="name">x_studio_task</field>
+    <field name="relation">project.task</field>
+  </record>
+  <record id="new_many2one_shift_t_158c1c92-d0cc-4017-a955-29aae8a59cac" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2one</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">New Many2One</field>
+    <field name="model">planning.slot.template</field>
+    <field name="model_id" ref="planning.model_planning_slot_template"/>
+    <field name="name">x_studio_many2one_field_8pu_1jho88elt</field>
+    <field name="relation">project.task</field>
+  </record>
+  <record id="new_many2one_shift_t_5cee7bfe-5485-49a5-ae17-24457677e918" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2one</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Task</field>
+    <field name="model">planning.slot.template</field>
+    <field name="model_id" ref="planning.model_planning_slot_template"/>
+    <field name="name">x_studio_task_id</field>
+    <field name="relation">project.task</field>
+  </record>
+  <record id="id_copy_shift_templa_a8d94e2b-d3b7-4b57-a0d3-2ffa9b2095c4" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">integer</field>
+    <field name="related">project_id.id</field>
+    <field name="field_description">project_id</field>
+    <field name="model">planning.slot.template</field>
+    <field name="model_id" ref="planning.model_planning_slot_template"/>
+    <field name="name">x_studio_related_field_97j_1jhoapsdf</field>
+    <field name="on_delete" eval="False"/>
+    <field name="readonly" eval="True"/>
+    <field name="store" eval="False"/>
+  </record>
+  <record id="project_copy_shift_t_5f90e8ee-47a6-4e68-aa8f-c3e19af72d72" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2one</field>
+    <field name="related">project_id</field>
+    <field name="field_description">Project (Copy)</field>
+    <field name="model">planning.slot.template</field>
+    <field name="model_id" ref="planning.model_planning_slot_template"/>
+    <field name="name">x_studio_related_field_76j_1jhoasb3h</field>
+    <field name="readonly" eval="True"/>
+    <field name="relation">project.project</field>
+    <field name="store" eval="False"/>
+  </record>
+  <record id="new_many2one_plannin_6f78901e-0b27-45d8-9ab4-b68b04bd7584" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2one</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">New Many2One</field>
+    <field name="model">planning.slot</field>
+    <field name="model_id" ref="planning.model_planning_slot"/>
+    <field name="name">x_studio_many2one_field_9d9_1jhoh0duf</field>
+    <field name="relation">project.task</field>
+  </record>
+  <record id="new_many2one_plannin_63446f0c-338f-49ad-88c0-9d0de3c22e36" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2one</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Task</field>
+    <field name="model">planning.slot</field>
+    <field name="model_id" ref="planning.model_planning_slot"/>
+    <field name="name">x_studio_task</field>
+    <field name="relation">project.task</field>
+  </record>
+  <record id="id_copy_planning_shi_41abfb01-94a6-400e-98a9-5824b9b83886" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">integer</field>
+    <field name="related">project_id.id</field>
+    <field name="field_description">related_project_id</field>
+    <field name="model">planning.slot</field>
+    <field name="model_id" ref="planning.model_planning_slot"/>
+    <field name="name">x_studio_related_project_id</field>
+    <field name="on_delete" eval="False"/>
+    <field name="readonly" eval="True"/>
+    <field name="store" eval="False"/>
+  </record>
+  <record id="new_one2many_task_0f857c83-5999-4ee1-8fc7-00d556aee0e1" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">one2many</field>
+    <field name="field_description">New One2Many</field>
+    <field name="model">project.task</field>
+    <field name="model_id" ref="project.model_project_task"/>
+    <field name="name">x_studio_one2many_field_6k3_1jhoktf9v</field>
+    <field name="on_delete" eval="False"/>
+    <field name="relation">planning.slot</field>
+    <field name="relation_field">x_studio_task</field>
+  </record>
+  <record id="new_one2many_task_4ef9af8c-7d07-4c8f-9124-eaa6b2c0c4e2" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">one2many</field>
+    <field name="field_description">Assigned shifts</field>
+    <field name="model">project.task</field>
+    <field name="model_id" ref="project.model_project_task"/>
+    <field name="name">x_studio_assigned_shifts</field>
+    <field name="on_delete" eval="False"/>
+    <field name="relation">planning.slot</field>
+    <field name="relation_field">x_studio_task</field>
+  </record>
+  <record id="new_one2many_task_ddeed225-5a50-40f0-9645-33772a5f03bc" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">one2many</field>
+    <field name="field_description">Assigned shifts</field>
+    <field name="model">project.task</field>
+    <field name="model_id" ref="project.model_project_task"/>
+    <field name="name">x_studio_one2many_field_610_1jhol42jk</field>
+    <field name="on_delete" eval="False"/>
+    <field name="relation">planning.slot</field>
+    <field name="relation_field">x_studio_task</field>
+  </record>
 </odoo>

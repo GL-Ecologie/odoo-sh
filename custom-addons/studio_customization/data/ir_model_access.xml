@@ -17,4 +17,36 @@
     <field name="perm_read" eval="True"/>
     <field name="perm_write" eval="True"/>
   </record>
+  <record id="properties_group_sys_9c4c316d-0afd-4a60-8f77-19a8fcb52bd1" model="ir.model.access" context="{'studio': True}">
+    <field name="group_id" ref="base.group_system"/>
+    <field name="model_id" ref="properties_93cb7511-af1d-46de-a0cb-7ee6f067ebe9"/>
+    <field name="name">Properties group_system</field>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_unlink" eval="True"/>
+    <field name="perm_write" eval="True"/>
+  </record>
+  <record id="properties_group_use_bbc3f483-e748-479e-91dc-558296cada85" model="ir.model.access" context="{'studio': True}">
+    <field name="group_id" ref="base.group_user"/>
+    <field name="model_id" ref="properties_93cb7511-af1d-46de-a0cb-7ee6f067ebe9"/>
+    <field name="name">Properties group_user</field>
+    <field name="perm_read" eval="True"/>
+  </record>
+  <record id="properties_tags_grou_866ae22d-56c3-4862-91d8-f9f3d7d8a98b" model="ir.model.access" context="{'studio': True}">
+    <field name="group_id" ref="base.group_system"/>
+    <field name="model_id" ref="properties_tags_52a1b0e0-0ca9-4203-bf01-50aacf717f94"/>
+    <field name="name">Properties Tags group_system</field>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_unlink" eval="True"/>
+    <field name="perm_write" eval="True"/>
+  </record>
+  <record id="properties_tags_grou_1da5bbf3-d6e8-491d-9bfb-30cf22bae863" model="ir.model.access" context="{'studio': True}">
+    <field name="group_id" ref="base.group_user"/>
+    <field name="model_id" ref="properties_tags_52a1b0e0-0ca9-4203-bf01-50aacf717f94"/>
+    <field name="name">Properties Tags group_user</field>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_write" eval="True"/>
+  </record>
 </odoo>

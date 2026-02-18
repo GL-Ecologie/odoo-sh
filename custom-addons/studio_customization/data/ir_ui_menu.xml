@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="locations_20bc2253-3105-4798-8b3a-402bbff2b64a" model="ir.ui.menu" context="{'studio': True}">
+    <field name="name">Locations</field>
+    <field name="web_icon">fa fa-map-marker,#00CEB3,#FFFFFF</field>
+  </record>
+  <record id="locations_properties_228e291c-51c3-4ad7-98a8-48e89bc1d859" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" ref="properties_dd07782d-e5a5-45fc-a2f6-35bfa3ef004b"/>
+    <field name="name">Locations</field>
+    <field name="parent_id" ref="locations_20bc2253-3105-4798-8b3a-402bbff2b64a"/>
+  </record>
+  <record id="locations_configurat_0b7f1dcf-af17-49e4-9df1-cedbe5d18454" model="ir.ui.menu" context="{'studio': True}">
+    <field name="name">Configuration</field>
+    <field name="parent_id" ref="locations_20bc2253-3105-4798-8b3a-402bbff2b64a"/>
+    <field name="sequence">100</field>
+  </record>
+  <record id="locations_configurat_072ed2aa-b54e-405d-84d0-2e6504588ed3" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" ref="properties_tags_4bc6eb7f-3548-412d-bf96-ad9d3d1269d8"/>
+    <field name="name">Locations Tags</field>
+    <field name="parent_id" ref="locations_configurat_0b7f1dcf-af17-49e4-9df1-cedbe5d18454"/>
+  </record>
+</odoo>

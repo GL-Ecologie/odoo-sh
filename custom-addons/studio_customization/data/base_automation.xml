@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="update_selectable_ta_47768398-dcb6-4b4f-9fb7-e50dc2f50765" model="base.automation" context="{'studio': True}">
+    <field name="model_id" ref="planning.model_planning_slot"/>
+    <field name="trigger">on_change</field>
+    <field name="name">Update selectable tasks for shift</field>
+    <field name="on_change_field_ids" eval="[(6, 0, [ref('project_forecast.field_planning_slot__project_id')])]"/>
+  </record>
+</odoo>

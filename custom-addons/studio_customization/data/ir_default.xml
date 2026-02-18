@@ -8,4 +8,16 @@
     <field name="field_id" ref="new_integer_employee_396bdead-4471-4116-a27a-29ea474ae5d9"/>
     <field name="json_value">"0"</field>
   </record>
+  <record id="active_properties_2c3a3521-3a8f-4c74-98f0-ddbc1e40e6d8" model="ir.default" context="{'studio': True}">
+    <field name="field_id" ref="active_properties_1b35be9a-0066-4d47-a017-d495db9a7c7f"/>
+    <field name="json_value">true</field>
+  </record>
+  <record id="sequence_properties_48c619de-1ad1-462d-8767-48438c8ee45d" model="ir.default" context="{'studio': True}">
+    <field name="field_id" ref="sequence_properties_3a5a4654-00dd-4231-a243-b7a713e073b6"/>
+    <field name="json_value">10</field>
+  </record>
+  <record id="new_integer_properti_b4372d63-831c-4f05-9554-014d7caea29b" model="ir.default" context="{'studio': True}">
+    <field name="field_id" ref="new_integer_properti_19f5996c-6fd7-4bcd-9f1f-9f4411a22fc5"/>
+    <field name="json_value">"0"</field>
+  </record>
 </odoo>
