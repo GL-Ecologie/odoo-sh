@@ -31,4 +31,95 @@
     <field name="name">Locations Tags</field>
     <field name="res_model">x_properties_tag</field>
   </record>
+  <record id="protocols_98ed6b4c-5390-4796-a751-fdb28018f2a3" model="ir.actions.act_window" context="{'studio': True}">
+    <field name="help"><![CDATA[<p class="o_view_nocontent_smiling_face">
+                    This is your new action.
+                </p>
+                <p>By default, it contains a list and a form view and possibly
+                    other view types depending on the options you chose for your model.
+                </p>
+                <p>
+                    You can start customizing these screens by clicking on the Studio icon on the
+                    top right corner (you can also customize this help message there).
+                </p>
+            ]]></field>
+    <field name="name">Protocols</field>
+    <field name="res_model">x_protocols</field>
+    <field name="view_mode">list,form,calendar,gantt</field>
+  </record>
+  <record id="protocols_tags_7ca43b92-2e2a-4f15-a415-63febb5f1754" model="ir.actions.act_window" context="{'studio': True}">
+    <field name="help"><![CDATA[<p class="o_view_nocontent_smiling_face">
+                    This is your new action.
+                </p>
+                <p>By default, it contains a list and a form view and possibly
+                    other view types depending on the options you chose for your model.
+                </p>
+                <p>
+                    You can start customizing these screens by clicking on the Studio icon on the
+                    top right corner (you can also customize this help message there).
+                </p>
+            ]]></field>
+    <field name="name">Protocols Tags</field>
+    <field name="res_model">x_protocols_tag</field>
+  </record>
+  <record id="protocols_visits_b7d9d824-6d69-493c-a842-5d77a8851ccd" model="ir.actions.act_window" context="{'studio': True}">
+    <field name="help"><![CDATA[<p class="o_view_nocontent_smiling_face">
+                    This is your new action.
+                </p>
+                <p>By default, it contains a list and a form view and possibly
+                    other view types depending on the options you chose for your model.
+                </p>
+                <p>
+                    You can start customizing these screens by clicking on the Studio icon on the
+                    top right corner (you can also customize this help message there).
+                </p>
+            ]]></field>
+    <field name="name">Protocols Visits</field>
+    <field name="res_model">x_protocols_line_514e0</field>
+  </record>
+  <record id="protocols_visits_50d22540-1288-4252-8d40-ecdc55b0aaf6" model="ir.actions.act_window" context="{'studio': True}">
+    <field name="help"><![CDATA[<p class="o_view_nocontent_smiling_face">
+                    This is your new action.
+                </p>
+                <p>By default, it contains a list and a form view and possibly
+                    other view types depending on the options you chose for your model.
+                </p>
+                <p>
+                    You can start customizing these screens by clicking on the Studio icon on the
+                    top right corner (you can also customize this help message there).
+                </p>
+            ]]></field>
+    <field name="name">Protocols Visits</field>
+    <field name="res_model">x_protocols_line_514e0</field>
+  </record>
+  <record id="species_25add082-0c42-4d14-a751-5b46803509be" model="ir.actions.act_window" context="{'studio': True}">
+    <field name="help"><![CDATA[<p class="o_view_nocontent_smiling_face">
+                    This is your new action.
+                </p>
+                <p>By default, it contains a list and a form view and possibly
+                    other view types depending on the options you chose for your model.
+                </p>
+                <p>
+                    You can start customizing these screens by clicking on the Studio icon on the
+                    top right corner (you can also customize this help message there).
+                </p>
+            ]]></field>
+    <field name="name">Species</field>
+    <field name="res_model">x_species</field>
+  </record>
+  <record id="species_tags_29feff46-2a06-45ee-8529-bae7853b4729" model="ir.actions.act_window" context="{'studio': True}">
+    <field name="help"><![CDATA[<p class="o_view_nocontent_smiling_face">
+                    This is your new action.
+                </p>
+                <p>By default, it contains a list and a form view and possibly
+                    other view types depending on the options you chose for your model.
+                </p>
+                <p>
+                    You can start customizing these screens by clicking on the Studio icon on the
+                    top right corner (you can also customize this help message there).
+                </p>
+            ]]></field>
+    <field name="name">Species Tags</field>
+    <field name="res_model">x_species_tag</field>
+  </record>
 </odoo>

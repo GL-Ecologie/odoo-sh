@@ -49,4 +49,106 @@
     <field name="perm_read" eval="True"/>
     <field name="perm_write" eval="True"/>
   </record>
+  <record id="protocols_group_syst_8c292419-c4cf-438c-b1bd-f02538659af4" model="ir.model.access" context="{'studio': True}">
+    <field name="group_id" ref="base.group_system"/>
+    <field name="model_id" ref="protocols_344697e0-300f-451a-bd69-942064618948"/>
+    <field name="name">Protocols group_system</field>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_unlink" eval="True"/>
+    <field name="perm_write" eval="True"/>
+  </record>
+  <record id="protocols_group_user_e5c0b4be-029a-4b41-bebc-8757fff023a3" model="ir.model.access" context="{'studio': True}">
+    <field name="group_id" ref="base.group_user"/>
+    <field name="model_id" ref="protocols_344697e0-300f-451a-bd69-942064618948"/>
+    <field name="name">Protocols group_user</field>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_write" eval="True"/>
+  </record>
+  <record id="protocols_line_group_4d594f9d-651a-4270-bb4f-9dc8be543e50" model="ir.model.access" context="{'studio': True}">
+    <field name="group_id" ref="base.group_system"/>
+    <field name="model_id" ref="protocols_line_c7496bbc-8d49-4182-8c18-6104e74df43b"/>
+    <field name="name">protocols_line group_system</field>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_unlink" eval="True"/>
+    <field name="perm_write" eval="True"/>
+  </record>
+  <record id="protocols_line_group_eb965899-5f5b-4faf-bd58-ccb0d6ddfb61" model="ir.model.access" context="{'studio': True}">
+    <field name="group_id" ref="base.group_user"/>
+    <field name="model_id" ref="protocols_line_c7496bbc-8d49-4182-8c18-6104e74df43b"/>
+    <field name="name">protocols_line group_user</field>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_write" eval="True"/>
+  </record>
+  <record id="protocols_tags_group_29522a19-1679-4c2d-a7d1-af02af7b4497" model="ir.model.access" context="{'studio': True}">
+    <field name="group_id" ref="base.group_system"/>
+    <field name="model_id" ref="protocols_tags_355527b8-1bfc-4678-a253-4cda8b303e64"/>
+    <field name="name">Protocols Tags group_system</field>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_unlink" eval="True"/>
+    <field name="perm_write" eval="True"/>
+  </record>
+  <record id="protocols_tags_group_70a204c2-0e28-473f-aa49-af6570c55655" model="ir.model.access" context="{'studio': True}">
+    <field name="group_id" ref="base.group_user"/>
+    <field name="model_id" ref="protocols_tags_355527b8-1bfc-4678-a253-4cda8b303e64"/>
+    <field name="name">Protocols Tags group_user</field>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_write" eval="True"/>
+  </record>
+  <record id="species_group_system_42a00ccb-6e23-4540-9c74-64d52e1300e1" model="ir.model.access" context="{'studio': True}">
+    <field name="group_id" ref="base.group_system"/>
+    <field name="model_id" ref="species_857ae48a-3244-43b4-81f9-88c93b6ba6dd"/>
+    <field name="name">Species group_system</field>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_unlink" eval="True"/>
+    <field name="perm_write" eval="True"/>
+  </record>
+  <record id="species_group_user_3548618a-fe8b-4e54-9867-525c920d6e74" model="ir.model.access" context="{'studio': True}">
+    <field name="group_id" ref="base.group_user"/>
+    <field name="model_id" ref="species_857ae48a-3244-43b4-81f9-88c93b6ba6dd"/>
+    <field name="name">Species group_user</field>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_write" eval="True"/>
+  </record>
+  <record id="species_line_group_s_dafe6042-8db9-434b-9e4b-e0cb97f67d0e" model="ir.model.access" context="{'studio': True}">
+    <field name="group_id" ref="base.group_system"/>
+    <field name="model_id" ref="species_line_2502401a-fab6-4a63-bcc5-0822f9b3973f"/>
+    <field name="name">species_line group_system</field>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_unlink" eval="True"/>
+    <field name="perm_write" eval="True"/>
+  </record>
+  <record id="species_line_group_u_31609493-f8e3-4426-9fd2-be8d363af780" model="ir.model.access" context="{'studio': True}">
+    <field name="group_id" ref="base.group_user"/>
+    <field name="model_id" ref="species_line_2502401a-fab6-4a63-bcc5-0822f9b3973f"/>
+    <field name="name">species_line group_user</field>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_write" eval="True"/>
+  </record>
+  <record id="species_tags_group_s_7eb75087-90f2-4db1-a192-80bfdaeaed16" model="ir.model.access" context="{'studio': True}">
+    <field name="group_id" ref="base.group_system"/>
+    <field name="model_id" ref="species_tags_926fa796-72a4-43ef-9f43-371ed7fd4c1e"/>
+    <field name="name">Species Tags group_system</field>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_unlink" eval="True"/>
+    <field name="perm_write" eval="True"/>
+  </record>
+  <record id="species_tags_group_u_4601a5bf-8d88-4cf8-8e2a-705b9c37983c" model="ir.model.access" context="{'studio': True}">
+    <field name="group_id" ref="base.group_user"/>
+    <field name="model_id" ref="species_tags_926fa796-72a4-43ef-9f43-371ed7fd4c1e"/>
+    <field name="name">Species Tags group_user</field>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_write" eval="True"/>
+  </record>
 </odoo>

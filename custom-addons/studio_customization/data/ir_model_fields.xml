@@ -511,4 +511,447 @@
     <field name="relation">planning.slot</field>
     <field name="relation_field">x_studio_task</field>
   </record>
+  <record id="new_many2one_project_47829efa-d891-4d51-a260-ece714532a69" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2one</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Project Leader</field>
+    <field name="model">project.project</field>
+    <field name="model_id" ref="project.model_project_project"/>
+    <field name="name">x_studio_project_leader</field>
+    <field name="relation">hr.employee</field>
+  </record>
+  <record id="new_many2one_project_2e67828f-c43d-4e62-98dd-f9a32748d973" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2one</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Parent project</field>
+    <field name="model">project.project</field>
+    <field name="model_id" ref="project.model_project_project"/>
+    <field name="name">x_studio_parent_project</field>
+    <field name="relation">project.project</field>
+  </record>
+  <record id="description_protocol_369b4be7-a4f1-4d0f-84c2-a93ff261537b" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">char</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Protocol name</field>
+    <field name="model">x_protocols</field>
+    <field name="model_id" ref="protocols_344697e0-300f-451a-bd69-942064618948"/>
+    <field name="name">x_name</field>
+    <field name="on_delete" eval="False"/>
+    <field name="required" eval="True"/>
+    <field name="tracking">1</field>
+    <field name="translate">standard</field>
+  </record>
+  <record id="active_protocols_2d42c1d8-30b7-4aac-baea-18a287ea8e64" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">boolean</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Active</field>
+    <field name="model">x_protocols</field>
+    <field name="model_id" ref="protocols_344697e0-300f-451a-bd69-942064618948"/>
+    <field name="name">x_active</field>
+    <field name="on_delete" eval="False"/>
+    <field name="tracking">1</field>
+  </record>
+  <record id="notes_protocols_a46b05c4-ed23-4aae-a2e8-f468a4bc7c72" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">html</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Notes</field>
+    <field name="model">x_protocols</field>
+    <field name="model_id" ref="protocols_344697e0-300f-451a-bd69-942064618948"/>
+    <field name="name">x_studio_notes</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="date_protocols_f5500bca-d38c-4f4b-8ea2-00f3aa532aa5" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">date</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Date</field>
+    <field name="model">x_protocols</field>
+    <field name="model_id" ref="protocols_344697e0-300f-451a-bd69-942064618948"/>
+    <field name="name">x_studio_date</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="image_protocols_7eaaff2e-a93c-4900-bf16-14e6b4561e04" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">binary</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Image</field>
+    <field name="model">x_protocols</field>
+    <field name="model_id" ref="protocols_344697e0-300f-451a-bd69-942064618948"/>
+    <field name="name">x_studio_image</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="sequence_protocols_6e68a65d-3d41-41fc-afad-05cd2dcd1170" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">integer</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Sequence</field>
+    <field name="model">x_protocols</field>
+    <field name="model_id" ref="protocols_344697e0-300f-451a-bd69-942064618948"/>
+    <field name="name">x_studio_sequence</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="protocols_line_5d4766f5-0427-423e-a901-adce1e4ca99a" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2one</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">X Protocols</field>
+    <field name="model">x_protocols_line_514e0</field>
+    <field name="model_id" ref="protocols_line_c7496bbc-8d49-4182-8c18-6104e74df43b"/>
+    <field name="name">x_protocols_id</field>
+    <field name="relation">x_protocols</field>
+  </record>
+  <record id="new_lines_protocols_dc570f70-ddfa-4e5b-9512-5c4164c4c888" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">one2many</field>
+    <field name="field_description">Visits</field>
+    <field name="model">x_protocols</field>
+    <field name="model_id" ref="protocols_344697e0-300f-451a-bd69-942064618948"/>
+    <field name="name">x_protocols_line_ids_a6d26</field>
+    <field name="on_delete" eval="False"/>
+    <field name="relation">x_protocols_line_514e0</field>
+    <field name="relation_field">x_protocols_id</field>
+  </record>
+  <record id="tags_protocols_24c9b90e-99c4-46bb-9631-533b552bf627" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2many</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Tags</field>
+    <field name="model">x_protocols</field>
+    <field name="model_id" ref="protocols_344697e0-300f-451a-bd69-942064618948"/>
+    <field name="name">x_studio_tag_ids</field>
+    <field name="on_delete" eval="False"/>
+    <field name="relation">x_protocols_tag</field>
+    <field name="relation_table">x_protocols_tag_rel</field>
+  </record>
+  <record id="sequence_protocols_l_3fa42570-8a9c-49d6-8ec5-ecf926442aaf" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">integer</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Sequence</field>
+    <field name="model">x_protocols_line_514e0</field>
+    <field name="model_id" ref="protocols_line_c7496bbc-8d49-4182-8c18-6104e74df43b"/>
+    <field name="name">x_studio_sequence</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="description_protocol_04a22efe-b59c-4979-9728-e15c8b9c1a80" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">char</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Visit</field>
+    <field name="index" eval="True"/>
+    <field name="model">x_protocols_line_514e0</field>
+    <field name="model_id" ref="protocols_line_c7496bbc-8d49-4182-8c18-6104e74df43b"/>
+    <field name="name">x_name</field>
+    <field name="on_delete" eval="False"/>
+    <field name="required" eval="True"/>
+    <field name="translate">standard</field>
+  </record>
+  <record id="name_protocols_tags_17ca5e70-00cc-4191-8387-39c0b1882bc9" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">char</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Name</field>
+    <field name="model">x_protocols_tag</field>
+    <field name="model_id" ref="protocols_tags_355527b8-1bfc-4678-a253-4cda8b303e64"/>
+    <field name="name">x_name</field>
+    <field name="on_delete" eval="False"/>
+    <field name="required" eval="True"/>
+  </record>
+  <record id="color_protocols_tags_8d59f077-5ad5-4310-a425-57e238f0fb48" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">integer</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Color</field>
+    <field name="model">x_protocols_tag</field>
+    <field name="model_id" ref="protocols_tags_355527b8-1bfc-4678-a253-4cda8b303e64"/>
+    <field name="name">x_color</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="new_date_protocols_038ed777-c3b2-4407-ab33-eb2fa4241db4" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">date</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Dates</field>
+    <field name="model">x_protocols</field>
+    <field name="model_id" ref="protocols_344697e0-300f-451a-bd69-942064618948"/>
+    <field name="name">x_studio_period</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="new_date_protocols_7b203517-b7dc-4fbe-8234-737b3cfcf2c9" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">date</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Start Date</field>
+    <field name="model">x_protocols</field>
+    <field name="model_id" ref="protocols_344697e0-300f-451a-bd69-942064618948"/>
+    <field name="name">x_studio_start_date</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="new_date_protocols_247d4b57-8198-4d8c-aa56-ca88e96f0e9d" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">date</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Start Date</field>
+    <field name="model">x_protocols</field>
+    <field name="model_id" ref="protocols_344697e0-300f-451a-bd69-942064618948"/>
+    <field name="name">x_studio_date_start</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="new_date_protocols_b8f9d009-cb13-4118-b266-34c3baa85878" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">date</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">End Date</field>
+    <field name="model">x_protocols</field>
+    <field name="model_id" ref="protocols_344697e0-300f-451a-bd69-942064618948"/>
+    <field name="name">x_studio_date_stop</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="end_date_copy_protoc_529ce5be-5a9f-4011-b1fd-9bf5765517be" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">date</field>
+    <field name="related">x_studio_date_stop</field>
+    <field name="field_description">Remaining days</field>
+    <field name="model">x_protocols</field>
+    <field name="model_id" ref="protocols_344697e0-300f-451a-bd69-942064618948"/>
+    <field name="name">x_studio_remaining_days</field>
+    <field name="on_delete" eval="False"/>
+    <field name="readonly" eval="True"/>
+    <field name="store" eval="False"/>
+  </record>
+  <record id="new_multiline_text_p_92e32600-49aa-4d1f-bd79-56273e200f1e" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">text</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Description</field>
+    <field name="model">x_protocols</field>
+    <field name="model_id" ref="protocols_344697e0-300f-451a-bd69-942064618948"/>
+    <field name="name">x_studio_description</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="new_selection_protoc_7530b5a2-b347-4f39-b733-afaea9ddd0fd" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">selection</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Type</field>
+    <field name="model">x_protocols</field>
+    <field name="model_id" ref="protocols_344697e0-300f-451a-bd69-942064618948"/>
+    <field name="name">x_studio_type</field>
+    <field name="on_delete" eval="False"/>
+    <field name="selection">[('SMP', 'SMP'), ('Regular research', 'Regular research'), ('Extra research', 'Extra research')]</field>
+  </record>
+  <record id="new_text_protocols_l_c0e1814c-cf4d-4eb0-8c09-46576fca4d8e" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">char</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Name</field>
+    <field name="model">x_protocols_line_514e0</field>
+    <field name="model_id" ref="protocols_line_c7496bbc-8d49-4182-8c18-6104e74df43b"/>
+    <field name="name">x_studio_name</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="new_multiline_text_p_a47f788e-6365-43e4-9bb7-0c294441317b" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">text</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Time of the visit</field>
+    <field name="model">x_protocols_line_514e0</field>
+    <field name="model_id" ref="protocols_line_c7496bbc-8d49-4182-8c18-6104e74df43b"/>
+    <field name="name">x_studio_time_of_the_visit</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="new_integer_protocol_7e74d525-b5af-4499-aa5c-ba3030913584" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">integer</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Minimum days from previous visit</field>
+    <field name="model">x_protocols_line_514e0</field>
+    <field name="model_id" ref="protocols_line_c7496bbc-8d49-4182-8c18-6104e74df43b"/>
+    <field name="name">x_studio_minimum_days_from_previous_visit</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="new_multiline_text_p_7aa622d3-8284-47d1-a91a-097cce981649" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">text</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Weather conditions</field>
+    <field name="model">x_protocols_line_514e0</field>
+    <field name="model_id" ref="protocols_line_c7496bbc-8d49-4182-8c18-6104e74df43b"/>
+    <field name="name">x_studio_weather_conditions</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="x_protocols_copy_pro_f1bcb94a-6a78-4123-997b-d5aad7ba7db1" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2one</field>
+    <field name="related">x_protocols_id</field>
+    <field name="field_description">Protocol</field>
+    <field name="model">x_protocols_line_514e0</field>
+    <field name="model_id" ref="protocols_line_c7496bbc-8d49-4182-8c18-6104e74df43b"/>
+    <field name="name">x_studio_protocol</field>
+    <field name="readonly" eval="True"/>
+    <field name="relation">x_protocols</field>
+    <field name="store" eval="False"/>
+  </record>
+  <record id="new_one2many_protoco_07cd018c-3493-4565-8027-a54f5462bcf3" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">one2many</field>
+    <field name="field_description">Visit list</field>
+    <field name="model">x_protocols</field>
+    <field name="model_id" ref="protocols_344697e0-300f-451a-bd69-942064618948"/>
+    <field name="name">x_studio_visit_list</field>
+    <field name="on_delete" eval="False"/>
+    <field name="relation">x_protocols_line_514e0</field>
+    <field name="relation_field">x_protocols_id</field>
+  </record>
+  <record id="description_species_e2596a5b-3f65-4022-9531-0d86c03c1919" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">char</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Name</field>
+    <field name="model">x_species</field>
+    <field name="model_id" ref="species_857ae48a-3244-43b4-81f9-88c93b6ba6dd"/>
+    <field name="name">x_name</field>
+    <field name="on_delete" eval="False"/>
+    <field name="required" eval="True"/>
+    <field name="tracking">1</field>
+    <field name="translate">standard</field>
+  </record>
+  <record id="active_species_4150bb7e-91bb-4fc0-8c2a-e11e6eb26c79" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">boolean</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Active</field>
+    <field name="model">x_species</field>
+    <field name="model_id" ref="species_857ae48a-3244-43b4-81f9-88c93b6ba6dd"/>
+    <field name="name">x_active</field>
+    <field name="on_delete" eval="False"/>
+    <field name="tracking">1</field>
+  </record>
+  <record id="notes_species_27496dc9-d0a4-4d88-a3bd-701eb9674415" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">html</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Notes</field>
+    <field name="model">x_species</field>
+    <field name="model_id" ref="species_857ae48a-3244-43b4-81f9-88c93b6ba6dd"/>
+    <field name="name">x_studio_notes</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="image_species_58a10608-0dd2-485d-9fd4-3c86aeaec75f" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">binary</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Image</field>
+    <field name="model">x_species</field>
+    <field name="model_id" ref="species_857ae48a-3244-43b4-81f9-88c93b6ba6dd"/>
+    <field name="name">x_studio_image</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="sequence_species_774caa14-dbba-46f1-b264-f2372024b40c" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">integer</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Sequence</field>
+    <field name="model">x_species</field>
+    <field name="model_id" ref="species_857ae48a-3244-43b4-81f9-88c93b6ba6dd"/>
+    <field name="name">x_studio_sequence</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="species_line_29ae42ed-17f1-4e59-9337-a2fde709433c" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2one</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">X Species</field>
+    <field name="model">x_species_line_a977c</field>
+    <field name="model_id" ref="species_line_2502401a-fab6-4a63-bcc5-0822f9b3973f"/>
+    <field name="name">x_species_id</field>
+    <field name="relation">x_species</field>
+  </record>
+  <record id="new_lines_species_6803a1bb-e81b-4f6c-ba74-0b55e28efd16" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">one2many</field>
+    <field name="field_description">New Lines</field>
+    <field name="model">x_species</field>
+    <field name="model_id" ref="species_857ae48a-3244-43b4-81f9-88c93b6ba6dd"/>
+    <field name="name">x_species_line_ids_7a67e</field>
+    <field name="on_delete" eval="False"/>
+    <field name="relation">x_species_line_a977c</field>
+    <field name="relation_field">x_species_id</field>
+  </record>
+  <record id="tags_species_9c480383-c24d-4f61-a955-221354b7709b" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2many</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Tags</field>
+    <field name="model">x_species</field>
+    <field name="model_id" ref="species_857ae48a-3244-43b4-81f9-88c93b6ba6dd"/>
+    <field name="name">x_studio_tag_ids</field>
+    <field name="on_delete" eval="False"/>
+    <field name="relation">x_species_tag</field>
+    <field name="relation_table">x_species_tag_rel</field>
+  </record>
+  <record id="sequence_species_lin_67f0a2c4-d0f1-4b01-8fe8-77e8dfdc20aa" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">integer</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Sequence</field>
+    <field name="model">x_species_line_a977c</field>
+    <field name="model_id" ref="species_line_2502401a-fab6-4a63-bcc5-0822f9b3973f"/>
+    <field name="name">x_studio_sequence</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="description_species__00615fea-f90a-4b38-baea-da2488ea0416" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">char</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Description</field>
+    <field name="model">x_species_line_a977c</field>
+    <field name="model_id" ref="species_line_2502401a-fab6-4a63-bcc5-0822f9b3973f"/>
+    <field name="name">x_name</field>
+    <field name="on_delete" eval="False"/>
+    <field name="required" eval="True"/>
+    <field name="translate">standard</field>
+  </record>
+  <record id="name_species_tags_34ac7dae-be07-4ae6-8e79-93313bffb8d5" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">char</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Name</field>
+    <field name="model">x_species_tag</field>
+    <field name="model_id" ref="species_tags_926fa796-72a4-43ef-9f43-371ed7fd4c1e"/>
+    <field name="name">x_name</field>
+    <field name="on_delete" eval="False"/>
+    <field name="required" eval="True"/>
+  </record>
+  <record id="color_species_tags_45b85465-6211-4717-8386-82fe0c9a1add" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">integer</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Color</field>
+    <field name="model">x_species_tag</field>
+    <field name="model_id" ref="species_tags_926fa796-72a4-43ef-9f43-371ed7fd4c1e"/>
+    <field name="name">x_color</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="new_many2many_protoc_19e1271f-270c-46bd-97e1-75a6dd08268f" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2many</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Species</field>
+    <field name="model">x_protocols</field>
+    <field name="model_id" ref="protocols_344697e0-300f-451a-bd69-942064618948"/>
+    <field name="name">x_studio_species</field>
+    <field name="on_delete" eval="False"/>
+    <field name="relation">x_species</field>
+    <field name="relation_table">x_x_protocols_x_species_rel</field>
+  </record>
+  <record id="new_many2many_specie_95720fc5-a0c4-4ec0-9744-6754c715686c" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2many</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Protocols</field>
+    <field name="model">x_species</field>
+    <field name="model_id" ref="species_857ae48a-3244-43b4-81f9-88c93b6ba6dd"/>
+    <field name="name">x_studio_protocols</field>
+    <field name="on_delete" eval="False"/>
+    <field name="relation">x_protocols</field>
+    <field name="relation_table">x_x_protocols_x_species_rel</field>
+  </record>
+  <record id="new_selection_protoc_cdc26489-170a-4101-8b8f-691d9e20369f" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">selection</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">End Day</field>
+    <field name="model">x_protocols_line_514e0</field>
+    <field name="model_id" ref="protocols_line_c7496bbc-8d49-4182-8c18-6104e74df43b"/>
+    <field name="name">x_studio_end_day</field>
+    <field name="on_delete" eval="False"/>
+    <field name="selection">[('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'), ('6', '6'), ('7', '7'), ('8', '8'), ('9', '9'), ('10', '10'), ('11', '11'), ('12', '12'), ('13', '13'), ('14', '14'), ('15', '15'), ('16', '16'), ('17', '17'), ('18', '18'), ('19', '19'), ('20', '20'), ('21', '21'), ('22', '22'), ('23', '23'), ('24', '24'), ('25', '25'), ('26', '26'), ('27', '27'), ('28', '28'), ('29', '29'), ('30', '30'), ('31', '31')]</field>
+  </record>
+  <record id="new_many2many_protoc_1a5a4664-ff77-458c-99c4-5f4fd713266c" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2many</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Species</field>
+    <field name="model">x_protocols_line_514e0</field>
+    <field name="model_id" ref="protocols_line_c7496bbc-8d49-4182-8c18-6104e74df43b"/>
+    <field name="name">x_studio_species</field>
+    <field name="on_delete" eval="False"/>
+    <field name="relation">x_species</field>
+    <field name="relation_table">x_x_protocols_line_514e0_x_species_rel</field>
+  </record>
+  <record id="species_copy_protoco_812ea93e-3927-4ad6-8498-005eb66677fd" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2many</field>
+    <field name="related">x_studio_species</field>
+    <field name="field_description">Species in Visit</field>
+    <field name="model">x_protocols_line_514e0</field>
+    <field name="model_id" ref="protocols_line_c7496bbc-8d49-4182-8c18-6104e74df43b"/>
+    <field name="name">x_studio_species_in_visit</field>
+    <field name="on_delete" eval="False"/>
+    <field name="readonly" eval="True"/>
+    <field name="relation">x_species</field>
+    <field name="relation_table">x_x_protocols_line_514e0_x_species_rel_1</field>
+    <field name="store" eval="False"/>
+  </record>
 </odoo>

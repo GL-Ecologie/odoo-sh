@@ -20,4 +20,24 @@
     <field name="field_id" ref="new_integer_properti_19f5996c-6fd7-4bcd-9f1f-9f4411a22fc5"/>
     <field name="json_value">"0"</field>
   </record>
+  <record id="active_protocols_d8622b2d-2c3c-44a0-8a3f-6beaf5a156c4" model="ir.default" context="{'studio': True}">
+    <field name="field_id" ref="active_protocols_2d42c1d8-30b7-4aac-baea-18a287ea8e64"/>
+    <field name="json_value">true</field>
+  </record>
+  <record id="sequence_protocols_acab36e6-f655-43f9-aecb-5891537c0429" model="ir.default" context="{'studio': True}">
+    <field name="field_id" ref="sequence_protocols_6e68a65d-3d41-41fc-afad-05cd2dcd1170"/>
+    <field name="json_value">10</field>
+  </record>
+  <record id="new_integer_protocol_3b5187f9-5469-4997-83c7-d817a1cb3cef" model="ir.default" context="{'studio': True}">
+    <field name="field_id" ref="new_integer_protocol_7e74d525-b5af-4499-aa5c-ba3030913584"/>
+    <field name="json_value">"0"</field>
+  </record>
+  <record id="active_species_d86726cd-8760-4898-bb13-e92812f09cad" model="ir.default" context="{'studio': True}">
+    <field name="field_id" ref="active_species_4150bb7e-91bb-4fc0-8c2a-e11e6eb26c79"/>
+    <field name="json_value">true</field>
+  </record>
+  <record id="sequence_species_bcb9b5c3-e179-4220-bd6b-150ab4834fe9" model="ir.default" context="{'studio': True}">
+    <field name="field_id" ref="sequence_species_774caa14-dbba-46f1-b264-f2372024b40c"/>
+    <field name="json_value">10</field>
+  </record>
 </odoo>

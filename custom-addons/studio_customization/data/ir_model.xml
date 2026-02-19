@@ -44,4 +44,92 @@
     <field name="model">x_properties_tag</field>
     <field name="name">Properties Tags</field>
   </record>
+  <record id="protocols_344697e0-300f-451a-bd69-942064618948" model="ir.model" context="{'studio': True}">
+    <field name="info"><![CDATA[ Main super-class for regular database-persisted Odoo models.
+
+    Odoo models are created by inheriting from this class::
+
+        class ResUsers(Model):
+            ...
+
+    The system will later instantiate the class once per database (on
+    which the class' module is installed).
+    ]]></field>
+    <field name="is_mail_thread" eval="True"/>
+    <field name="is_mail_activity" eval="True"/>
+    <field name="model">x_protocols</field>
+    <field name="name">Protocols</field>
+  </record>
+  <record id="protocols_line_c7496bbc-8d49-4182-8c18-6104e74df43b" model="ir.model" context="{'studio': True}">
+    <field name="info"><![CDATA[ Main super-class for regular database-persisted Odoo models.
+
+    Odoo models are created by inheriting from this class::
+
+        class ResUsers(Model):
+            ...
+
+    The system will later instantiate the class once per database (on
+    which the class' module is installed).
+    ]]></field>
+    <field name="model">x_protocols_line_514e0</field>
+    <field name="name">Protocol Visit</field>
+  </record>
+  <record id="protocols_tags_355527b8-1bfc-4678-a253-4cda8b303e64" model="ir.model" context="{'studio': True}">
+    <field name="info"><![CDATA[ Main super-class for regular database-persisted Odoo models.
+
+    Odoo models are created by inheriting from this class::
+
+        class ResUsers(Model):
+            ...
+
+    The system will later instantiate the class once per database (on
+    which the class' module is installed).
+    ]]></field>
+    <field name="model">x_protocols_tag</field>
+    <field name="name">Protocols Tags</field>
+  </record>
+  <record id="species_857ae48a-3244-43b4-81f9-88c93b6ba6dd" model="ir.model" context="{'studio': True}">
+    <field name="info"><![CDATA[ Main super-class for regular database-persisted Odoo models.
+
+    Odoo models are created by inheriting from this class::
+
+        class ResUsers(Model):
+            ...
+
+    The system will later instantiate the class once per database (on
+    which the class' module is installed).
+    ]]></field>
+    <field name="is_mail_thread" eval="True"/>
+    <field name="is_mail_activity" eval="True"/>
+    <field name="model">x_species</field>
+    <field name="name">Species</field>
+  </record>
+  <record id="species_line_2502401a-fab6-4a63-bcc5-0822f9b3973f" model="ir.model" context="{'studio': True}">
+    <field name="info"><![CDATA[ Main super-class for regular database-persisted Odoo models.
+
+    Odoo models are created by inheriting from this class::
+
+        class ResUsers(Model):
+            ...
+
+    The system will later instantiate the class once per database (on
+    which the class' module is installed).
+    ]]></field>
+    <field name="model">x_species_line_a977c</field>
+    <field name="name">species_line</field>
+  </record>
+  <record id="species_tags_926fa796-72a4-43ef-9f43-371ed7fd4c1e" model="ir.model" context="{'studio': True}">
+    <field name="info"><![CDATA[ Main super-class for regular database-persisted Odoo models.
+
+    Odoo models are created by inheriting from this class::
+
+        class ResUsers(Model):
+            ...
+
+    The system will later instantiate the class once per database (on
+    which the class' module is installed).
+    ]]></field>
+    <field name="model">x_species_tag</field>
+    <field name="name">Species Tags</field>
+  </record>
 </odoo>

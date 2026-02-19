@@ -244,7 +244,11 @@
     <field name="arch" type="xml">
       <data>
         <xpath expr="/form/sheet/group/group/field[@name='label_tasks']" position="after">
+          <field name="x_studio_project_leader" domain="[(&quot;employee_id.planning_role_ids&quot;, &quot;in&quot;, [1])]"/>
           <field name="x_studio_type_1"/>
+        </xpath>
+        <xpath expr="/form//field[@name='tag_ids']" position="after">
+          <field name="x_studio_parent_project"/>
         </xpath>
         <xpath expr="/form//field[@name='date_start']" position="after">
           <field name="x_studio_locations"/>
@@ -441,6 +445,492 @@
     <field name="model">project.task</field>
     <field name="name">Odoo Studio: project.task.form customization</field>
     <field name="priority">160</field>
+    <field name="type">form</field>
+  </record>
+  <record id="default_list_view_fo_6b532938-dceb-420d-81cd-24c99e5bb5c4" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <list default_order="x_studio_sequence asc,id desc">
+        <field name="x_studio_sequence" widget="handle"/>
+        <field name="x_name"/>
+        <field name="x_studio_tag_ids" widget="many2many_tags" options="{'color_field': 'x_color'}"/>
+      </list>
+    </field>
+    <field name="model">x_protocols</field>
+    <field name="name">Default list view for x_protocols</field>
+    <field name="type">list</field>
+  </record>
+  <record id="default_form_view_fo_7c381d93-436b-4c1b-9780-791515142fbc" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <form>
+        <header/>
+        <sheet string="Protocols">
+          <widget name="web_ribbon" text="Archived" bg_color="text-bg-danger" invisible="x_active"/>
+          <field name="x_active" invisible="1"/>
+          <field class="oe_avatar" widget="image" name="x_studio_image"/>
+          <div class="oe_title">
+            <h1>
+              <field name="x_name" required="1" placeholder="Name..."/>
+            </h1>
+          </div>
+          <group name="studio_group_a6cb61">
+            <group name="studio_group_a6cb61_left">
+              <field name="x_studio_date"/>
+              <field name="x_studio_date_start" string="Dates" widget="daterange" options="{'end_date_field': 'x_studio_date_stop'}"/>
+              <field name="x_studio_date_stop" invisible="1"/>
+            </group>
+            <group name="studio_group_a6cb61_right">
+              <field name="x_studio_tag_ids" widget="many2many_tags" options="{'color_field': 'x_color'}"/>
+            </group>
+          </group>
+          <group>
+            <field name="x_studio_notes" placeholder="Type down your notes here..." nolabel="1" colspan="2"/>
+          </group>
+          <notebook>
+            <page string="Details" name="lines">
+              <field name="x_protocols_line_ids_a6d26"/>
+            </page>
+          </notebook>
+        </sheet>
+        <chatter/>
+      </form>
+    </field>
+    <field name="model">x_protocols</field>
+    <field name="name">Default form view for x_protocols</field>
+    <field name="type">form</field>
+  </record>
+  <record id="default_search_view__a83e31d8-0c0b-40f4-b531-c0000b03298d" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <search>
+        <field name="x_name"/>
+        <field name="x_studio_tag_ids"/>
+        <separator/>
+        <filter date="x_studio_date" name="studio_filter_date" string="Date"/>
+        <filter date="x_studio_date_start" name="studio_filter_date_start" string="Start Date"/>
+        <filter date="x_studio_date_stop" name="studio_filter_date_stop" string="End Date"/>
+        <separator/>
+        <filter string="Archived" name="archived_x_protocols" domain="[['x_active', '=', False]]"/>
+        <separator/>
+      </search>
+    </field>
+    <field name="model">x_protocols</field>
+    <field name="name">Default search view for x_protocols</field>
+    <field name="type">search</field>
+  </record>
+  <record id="default_calendar_vie_8d587b31-3db6-42d5-abdd-c7ab057ca605" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <calendar date_start="x_studio_date" create_name_field="x_name"/>
+    </field>
+    <field name="model">x_protocols</field>
+    <field name="name">Default calendar view for x_protocols</field>
+    <field name="type">calendar</field>
+  </record>
+  <record id="default_gantt_view_f_ee686f27-35d0-449c-8d2b-d738ad219f29" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <gantt date_start="x_studio_date_start" date_stop="x_studio_date_stop"/>
+    </field>
+    <field name="model">x_protocols</field>
+    <field name="name">Default gantt view for x_protocols</field>
+    <field name="type">gantt</field>
+  </record>
+  <record id="default_list_view_fo_13b8bad8-5111-484b-a5b0-918da60d8942" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <list editable="bottom" default_order="x_studio_sequence asc,id desc">
+        <field name="x_studio_sequence" widget="handle"/>
+        <field name="x_name"/>
+      </list>
+    </field>
+    <field name="model">x_protocols_line_514e0</field>
+    <field name="name">Default list view for x_protocols_line_514e0</field>
+    <field name="type">list</field>
+  </record>
+  <record id="default_form_view_fo_4c2cf8b2-1f85-4bf0-a165-d606ab7f6425" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <form>
+        <header/>
+        <sheet string="protocols_line">
+          <div class="oe_title">
+            <h1>
+              <field name="x_name" required="1" placeholder="Name..."/>
+            </h1>
+          </div>
+          <group name="studio_group_78e875">
+            <group name="studio_group_78e875_left"/>
+            <group name="studio_group_78e875_right"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+    <field name="model">x_protocols_line_514e0</field>
+    <field name="name">Default form view for x_protocols_line_514e0</field>
+    <field name="type">form</field>
+  </record>
+  <record id="default_search_view__b0325e64-cccf-43ee-a7f7-ee04ff7bc173" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <search>
+        <field name="x_name"/>
+      </search>
+    </field>
+    <field name="model">x_protocols_line_514e0</field>
+    <field name="name">Default search view for x_protocols_line_514e0</field>
+    <field name="type">search</field>
+  </record>
+  <record id="default_list_view_fo_04e20254-a9a5-4d65-a85d-ab17bbdc902b" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <list editable="bottom" default_order="id desc">
+        <field name="x_name"/>
+        <field name="x_color" widget="color_picker"/>
+      </list>
+    </field>
+    <field name="model">x_protocols_tag</field>
+    <field name="name">Default list view for x_protocols_tag</field>
+    <field name="type">list</field>
+  </record>
+  <record id="default_form_view_fo_2901e3cd-f5f1-4e96-926b-94f19cc067f3" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <form>
+        <header/>
+        <sheet string="Protocols Tags">
+          <div class="oe_title">
+            <h1>
+              <field name="x_name" required="1" placeholder="Name..."/>
+            </h1>
+          </div>
+          <group name="studio_group_7dc9a2">
+            <group name="studio_group_7dc9a2_left"/>
+            <group name="studio_group_7dc9a2_right"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+    <field name="model">x_protocols_tag</field>
+    <field name="name">Default form view for x_protocols_tag</field>
+    <field name="type">form</field>
+  </record>
+  <record id="default_search_view__9b5c9731-1260-4524-9916-fd7cd28a9593" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <search>
+        <field name="x_name"/>
+      </search>
+    </field>
+    <field name="model">x_protocols_tag</field>
+    <field name="name">Default search view for x_protocols_tag</field>
+    <field name="type">search</field>
+  </record>
+  <record id="odoo_studio_default__3a43826c-5eb8-4a1f-a1fb-65a9319a9ef2" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="/form//field[@name='x_studio_image']" position="attributes">
+          <attribute name="invisible">True</attribute>
+        </xpath>
+        <xpath expr="/form//field[@name='x_studio_date']" position="replace">
+          <field name="x_studio_period" widget="daterange" options="{&quot;start_date_field&quot;:&quot;x_studio_date_start&quot;,&quot;end_date_field&quot;:&quot;x_studio_date_stop&quot;,&quot;show_time&quot;:false}" string="Dates" force_save="1" readonly="True"/>
+        </xpath>
+        <xpath expr="/form//field[@name='x_studio_date_stop']" position="after">
+          <field name="x_studio_remaining_days" widget="remaining_days" string="Remaining days" force_save="1" readonly="True"/>
+        </xpath>
+        <xpath expr="/form//field[@name='x_studio_date_start']" position="attributes">
+          <attribute name="groups">project.group_project_manager,planning.group_planning_manager,!project.group_project_user,!planning.group_planning_user</attribute>
+          <attribute name="options">{}</attribute>
+          <attribute name="string"/>
+          <attribute name="widget"/>
+        </xpath>
+        <xpath expr="/form//field[@name='x_studio_date_stop']" position="attributes">
+          <attribute name="groups">!project.group_project_user,!planning.group_planning_user</attribute>
+          <attribute name="invisible"/>
+          <attribute name="options">{}</attribute>
+        </xpath>
+        <xpath expr="/form//field[@name='x_studio_tag_ids']" position="before">
+          <field name="x_studio_type" placeholder="SMP, Regular..."/>
+        </xpath>
+        <xpath expr="/form//field[@name='x_studio_tag_ids']" position="after">
+          <field name="x_studio_species" widget="many2many_tags" options="{&quot;color_field&quot;:&quot;id&quot;,&quot;edit_tags&quot;:true}">
+            <list default_order="x_studio_sequence asc,id desc">
+              <field name="x_studio_sequence" widget="handle"/>
+              <field name="x_name" string="Name"/>
+              <field name="x_studio_tag_ids" widget="many2many_tags" options="{'color_field': 'x_color'}"/>
+            </list>
+          </field>
+        </xpath>
+        <xpath expr="/form//field[@name='x_studio_notes']" position="before">
+          <field name="x_studio_description"/>
+        </xpath>
+        <xpath expr="/form//page[@name='lines']" position="attributes">
+          <attribute name="string">Protocol Visits</attribute>
+        </xpath>
+        <xpath expr="/form//field[@name='x_protocols_line_ids_a6d26']" position="inside">
+          <form>
+            <header/>
+            <sheet string="protocols_line" name="studio_sheet_41521a">
+              <div class="oe_title" name="studio_div_fcaab5">
+                <h1>
+                  <field name="x_name" required="1" placeholder="Name..." string="Visit" widget="char"/>
+                </h1>
+              </div>
+              <group name="studio_group_78e875">
+                <group name="studio_group_78e875_left">
+                  <field name="x_studio_name"/>
+                </group>
+                <group name="studio_group_78e875_right">
+          </group>
+              </group>
+              <group name="studio_group_7r1_1jhqv1iau">
+                <group name="studio_group_7r1_left">
+                  <field name="x_studio_time_of_the_visit"/>
+                  <field name="x_studio_minimum_days_from_previous_visit"/>
+                </group>
+                <group name="studio_group_7r1_right">
+                  <field name="x_studio_weather_conditions"/>
+                </group>
+              </group>
+            </sheet>
+          </form>
+          <list default_order="x_studio_sequence asc,id desc">
+            <field name="x_studio_sequence" widget="handle"/>
+            <field name="x_name" widget="char" options="{&quot;placeholder_field&quot;:&quot;x_studio_name&quot;}"/>
+            <field optional="show" name="x_studio_species_in_visit" widget="many2many_tags" options="{&quot;no_create&quot;:true,&quot;color_field&quot;:&quot;id&quot;}"/>
+          </list>
+        </xpath>
+        <xpath expr="/form//field[@name='x_protocols_line_ids_a6d26']" position="attributes">
+          <attribute name="string">Visits</attribute>
+        </xpath>
+      </data>
+    </field>
+    <field name="inherit_id" ref="default_form_view_fo_7c381d93-436b-4c1b-9780-791515142fbc"/>
+    <field name="mode">extension</field>
+    <field name="model">x_protocols</field>
+    <field name="name">Odoo Studio: Default form view for x_protocols customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+  <record id="odoo_studio_default__e74cd49f-b83b-40b9-889c-bb226b348a77" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="/form//group[@name='studio_group_78e875']" position="after">
+          <group name="studio_group_9c_1jhqumsbt">
+            <group name="studio_group_9c_left">
+              <field name="x_studio_time_of_the_visit"/>
+              <field name="x_studio_minimum_days_from_previous_visit"/>
+              <field name="x_studio_weather_conditions"/>
+            </group>
+          </group>
+          <notebook name="studio_notebook_1b9_1jhr2qmnt">
+            <page string="Species" name="studio_page_1b9">
+              <group name="studio_group_1b9">
+                <group name="studio_group_1b9_right">
+                  <field name="x_studio_species" widget="many2many_tags"/>
+                </group>
+              </group>
+            </page>
+          </notebook>
+        </xpath>
+        <xpath expr="/form//group[@name='studio_group_78e875_right']" position="replace"/>
+        <xpath expr="/form//group[@name='studio_group_78e875_left']" position="inside">
+          <group name="studio_group_startperiod_left">
+            <field name="x_studio_start_day"/>
+            <field name="x_studio_end_day"/>
+          </group>
+          <group name="studio_group_startperiod_right">
+            <field name="x_studio_start_month"/>
+            <field name="x_studio_end_month"/>
+          </group>
+        </xpath>
+      </data>
+    </field>
+    <field name="inherit_id" ref="default_form_view_fo_4c2cf8b2-1f85-4bf0-a165-d606ab7f6425"/>
+    <field name="mode">extension</field>
+    <field name="model">x_protocols_line_514e0</field>
+    <field name="name">Odoo Studio: Default form view for x_protocols_line_514e0 customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+  <record id="odoo_studio_default__8157b016-e3cd-40c5-ab0b-1b80c80a015d" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="/list//field[@name='x_name']" position="after">
+          <field optional="show" name="x_studio_protocol" options="{'create_name_field': 'x_name'}"/>
+        </xpath>
+        <xpath expr="/list" position="attributes">
+          <attribute name="editable"/>
+        </xpath>
+        <xpath expr="/list//field[@name='x_name']" position="attributes">
+          <attribute name="widget">char</attribute>
+        </xpath>
+      </data>
+    </field>
+    <field name="inherit_id" ref="default_list_view_fo_13b8bad8-5111-484b-a5b0-918da60d8942"/>
+    <field name="mode">extension</field>
+    <field name="model">x_protocols_line_514e0</field>
+    <field name="name">Odoo Studio: Default list view for x_protocols_line_514e0 customization</field>
+    <field name="priority">99</field>
+    <field name="type">list</field>
+  </record>
+  <record id="default_list_view_fo_1493d0c8-7b4f-4919-957a-17773565cbc7" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <list default_order="x_studio_sequence asc,id desc">
+        <field name="x_studio_sequence" widget="handle"/>
+        <field name="x_name"/>
+        <field name="x_studio_tag_ids" widget="many2many_tags" options="{'color_field': 'x_color'}"/>
+      </list>
+    </field>
+    <field name="model">x_species</field>
+    <field name="name">Default list view for x_species</field>
+    <field name="type">list</field>
+  </record>
+  <record id="default_form_view_fo_e340108d-0975-4963-90f3-6a1b916b5486" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <form>
+        <header/>
+        <sheet string="Species">
+          <widget name="web_ribbon" text="Archived" bg_color="text-bg-danger" invisible="x_active"/>
+          <field name="x_active" invisible="1"/>
+          <field class="oe_avatar" widget="image" name="x_studio_image"/>
+          <div class="oe_title">
+            <h1>
+              <field name="x_name" required="1" placeholder="Name..."/>
+            </h1>
+          </div>
+          <group name="studio_group_0b0380">
+            <group name="studio_group_0b0380_left">
+              <field name="x_studio_tag_ids" widget="many2many_tags" options="{'color_field': 'x_color'}"/>
+            </group>
+            <group name="studio_group_0b0380_right"/>
+          </group>
+          <group>
+            <field name="x_studio_notes" placeholder="Type down your notes here..." nolabel="1" colspan="2"/>
+          </group>
+          <notebook>
+            <page string="Details" name="lines">
+              <field name="x_species_line_ids_7a67e"/>
+            </page>
+          </notebook>
+        </sheet>
+        <chatter/>
+      </form>
+    </field>
+    <field name="model">x_species</field>
+    <field name="name">Default form view for x_species</field>
+    <field name="type">form</field>
+  </record>
+  <record id="default_search_view__8f34ac42-c6b5-4552-bc86-551e58c7d825" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <search>
+        <field name="x_name"/>
+        <field name="x_studio_tag_ids"/>
+        <separator/>
+        <filter string="Archived" name="archived_x_species" domain="[['x_active', '=', False]]"/>
+        <separator/>
+      </search>
+    </field>
+    <field name="model">x_species</field>
+    <field name="name">Default search view for x_species</field>
+    <field name="type">search</field>
+  </record>
+  <record id="default_list_view_fo_165a124c-5d6d-4f81-b11b-6363084f930d" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <list editable="bottom" default_order="x_studio_sequence asc,id desc">
+        <field name="x_studio_sequence" widget="handle"/>
+        <field name="x_name"/>
+      </list>
+    </field>
+    <field name="model">x_species_line_a977c</field>
+    <field name="name">Default list view for x_species_line_a977c</field>
+    <field name="type">list</field>
+  </record>
+  <record id="default_form_view_fo_9334fdd9-3338-4149-b4bd-e293ee81d2e8" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <form>
+        <header/>
+        <sheet string="species_line">
+          <div class="oe_title">
+            <h1>
+              <field name="x_name" required="1" placeholder="Name..."/>
+            </h1>
+          </div>
+          <group name="studio_group_f12e3c">
+            <group name="studio_group_f12e3c_left"/>
+            <group name="studio_group_f12e3c_right"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+    <field name="model">x_species_line_a977c</field>
+    <field name="name">Default form view for x_species_line_a977c</field>
+    <field name="type">form</field>
+  </record>
+  <record id="default_search_view__c8fc84f6-778f-4e02-b152-b4d2780c6b4a" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <search>
+        <field name="x_name"/>
+      </search>
+    </field>
+    <field name="model">x_species_line_a977c</field>
+    <field name="name">Default search view for x_species_line_a977c</field>
+    <field name="type">search</field>
+  </record>
+  <record id="default_list_view_fo_1f9d48cd-3a33-418b-892d-4ac2b1d68417" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <list editable="bottom" default_order="id desc">
+        <field name="x_name"/>
+        <field name="x_color" widget="color_picker"/>
+      </list>
+    </field>
+    <field name="model">x_species_tag</field>
+    <field name="name">Default list view for x_species_tag</field>
+    <field name="type">list</field>
+  </record>
+  <record id="default_form_view_fo_2b5e783b-67a9-4b92-a24a-e402ec9c6e98" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <form>
+        <header/>
+        <sheet string="Species Tags">
+          <div class="oe_title">
+            <h1>
+              <field name="x_name" required="1" placeholder="Name..."/>
+            </h1>
+          </div>
+          <group name="studio_group_5c22e5">
+            <group name="studio_group_5c22e5_left"/>
+            <group name="studio_group_5c22e5_right"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+    <field name="model">x_species_tag</field>
+    <field name="name">Default form view for x_species_tag</field>
+    <field name="type">form</field>
+  </record>
+  <record id="default_search_view__c470632b-d167-4d64-a271-5accd83d890c" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <search>
+        <field name="x_name"/>
+      </search>
+    </field>
+    <field name="model">x_species_tag</field>
+    <field name="name">Default search view for x_species_tag</field>
+    <field name="type">search</field>
+  </record>
+  <record id="odoo_studio_default__be972dd8-b933-4016-90f4-d73bada24fd8" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="/form//field[@name='x_species_line_ids_7a67e']" position="replace">
+          <field name="x_studio_protocols">
+            <list default_order="x_studio_sequence asc,id desc">
+              <field name="x_studio_sequence" widget="handle"/>
+              <field name="x_name" string="Protocol name"/>
+              <field name="x_studio_tag_ids" widget="many2many_tags" options="{'color_field': 'x_color'}"/>
+            </list>
+          </field>
+        </xpath>
+        <xpath expr="/form//page[@name='lines']" position="attributes">
+          <attribute name="string">Protocols</attribute>
+        </xpath>
+      </data>
+    </field>
+    <field name="inherit_id" ref="default_form_view_fo_e340108d-0975-4963-90f3-6a1b916b5486"/>
+    <field name="mode">extension</field>
+    <field name="model">x_species</field>
+    <field name="name">Odoo Studio: Default form view for x_species customization</field>
+    <field name="priority">99</field>
     <field name="type">form</field>
   </record>
 </odoo>
