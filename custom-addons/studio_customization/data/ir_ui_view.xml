@@ -12,7 +12,9 @@
               <field name="x_studio_midnight_shifts"/>
               <field name="x_studio_combine_evening_and_morning_shifts"/>
             </group>
-            <group name="studio_group_94h_right"/>
+            <group name="studio_group_94h_right">
+              <field name="x_studio_maximum_number_of_shifts_reached_this_week" force_save="1" readonly="True" invisible="False"/>
+            </group>
           </group>
         </xpath>
         <xpath expr="/form//field[@name='parent_id']" position="after">
@@ -244,14 +246,585 @@
     <field name="arch" type="xml">
       <data>
         <xpath expr="/form/sheet/group/group/field[@name='label_tasks']" position="after">
-          <field name="x_studio_project_leader" domain="[(&quot;employee_id.planning_role_ids&quot;, &quot;in&quot;, [1])]"/>
-          <field name="x_studio_type_1"/>
+          <field name="x_studio_project_leader" domain="[(&quot;employee_id.planning_role_ids&quot;, &quot;in&quot;, [1])]" required="True"/>
+          <field name="x_studio_type_1" required="True"/>
         </xpath>
         <xpath expr="/form//field[@name='tag_ids']" position="after">
           <field name="x_studio_parent_project"/>
+          <field name="x_studio_species_monitored" widget="many2many_tags" options="{&quot;no_create&quot;:true,&quot;edit_tags&quot;:true,&quot;color_field&quot;:&quot;id&quot;}" required="False"/>
+          <field name="x_studio_species_protocols_involved" widget="many2many_tags" options="{&quot;no_create&quot;:true,&quot;edit_tags&quot;:true,&quot;color_field&quot;:&quot;id&quot;}"/>
         </xpath>
         <xpath expr="/form//field[@name='date_start']" position="after">
-          <field name="x_studio_locations"/>
+          <field name="x_studio_locations" required="True"/>
+        </xpath>
+        <xpath expr="/form//page[@name='settings']" position="after">
+          <page string="Shifts" name="studio_page_2vh_1jhrb54f5">
+            <group name="studio_group_2vh">
+              <field name="x_studio_planned" widget="one2many">
+                <list string="Shift List" multi_edit="1" sample="1" editable="bottom" js_class="planning_tree" open_form_view="True">
+                  <header>
+                    <button name="action_planning_publish_and_send" class="btn btn-secondary mx-1" string="Publish &amp; Send" type="object" groups="planning.group_planning_manager" invisible="context.get('my_planning_action')"/>
+                  </header>
+                  <field name="resource_color" column_invisible="1"/>
+                  <field name="start_datetime" string="Planned Date" widget="planned_date_range_with_allocated_hours" options="{'end_date_field': 'end_datetime'}" width="425px"/>
+                  <field name="end_datetime" column_invisible="True"/>
+                  <field name="allocated_percentage" avg="Allocated Percentage" optional="hide" decoration-danger="allocated_percentage &gt; 100" readonly="1" invisible="resource_type == 'material'"/>
+                  <field name="effective_hours" sum="Effective Hours" widget="float_time" optional="hide" invisible="effective_hours == 0" groups="hr_timesheet.group_hr_timesheet_user"/>
+                  <field name="resource_id" widget="many2one_avatar_resource" optional="show" readonly="not start_datetime or not end_datetime" placeholder="Open Shift" context="{'from_planning': True, 'search_view_ref': 'planning.resource_resource_search_view_roles',                             'search_default_role_ids': role_id,                             'form_view_ref': 'planning.resource_resource_with_employee_form_view_inherit',                             'list_view_ref': 'planning.resource_resource_tree_view_inherit'}"/>
+                  <field name="resource_type" column_invisible="True"/>
+                  <field name="role_id" optional="show" context="{'search_default_resource_ids': resource_id}" placeholder="e.g. Bartender"/>
+                  <field name="project_id" optional="show" options="{'no_open': True}"/>
+                  <field name="company_id" groups="base.group_multi_company" optional="hide" readonly="1"/>
+                  <field name="company_id" column_invisible="True"/>
+                  <field name="name" optional="hide"/>
+                  <field name="state" decoration-success="state == 'published'" widget="badge" optional="hide" groups="planning.group_planning_manager" readonly="1"/>
+                  <field name="recurrency_id" column_invisible="True"/>
+                  <field name="is_users_role" column_invisible="1"/>
+                  <field name="allow_self_unassign" column_invisible="1"/>
+                  <field name="is_past" column_invisible="1"/>
+                  <field name="is_unassign_deadline_passed" column_invisible="1"/>
+                  <field name="resource_id" column_invisible="1"/>
+                  <field name="request_to_switch" column_invisible="1"/>
+                  <field name="user_id" column_invisible="1"/>
+                  <button name="action_self_unassign" type="object" title="I Am Unavailable" string="I Am Unavailable" class="btn btn-link float-end" invisible="not context.get('my_planning_action') or user_id != uid or not allow_self_unassign or is_past or is_unassign_deadline_passed or resource_type == 'material'" groups="!planning.group_planning_manager"/>
+                  <button name="action_self_assign" type="object" title="I Take It" string="I Take It" class="btn btn-link float-end" invisible="not context.get('my_planning_action') or is_past or not start_datetime or not end_datetime or resource_id and not request_to_switch or user_id == uid and (allow_self_unassign or request_to_switch)" groups="!planning.group_planning_manager"/>
+                  <button name="action_cancel_switch" class="btn btn-link float-end" type="object" string="Cancel Switch" groups="!planning.group_planning_manager" invisible="not context.get('my_planning_action') or not start_datetime or not end_datetime or not request_to_switch or allow_self_unassign or user_id != uid and request_to_switch"/>
+                  <button name="action_switch_shift" class="btn btn-link  float-end" type="object" string="Ask To Switch" groups="!planning.group_planning_manager" invisible="not context.get('my_planning_action') or user_id != uid or is_past or request_to_switch or allow_self_unassign"/>
+                </list>
+              </field>
+            </group>
+          </page>
+          <page name="studio_page_3ah_1jht88fpj" string="Tasks">
+            <group name="studio_group_3ah">
+              <field name="x_studio_tasks" string="Tasks">
+                <form string="Task" class="o_form_project_tasks" js_class="project_task_form">
+                  <field name="recurrence_id" invisible="1"/>
+                  <field name="allow_task_dependencies" invisible="1"/>
+                  <field name="rating_last_value" invisible="1"/>
+                  <field name="rating_count" invisible="1"/>
+                  <field name="allow_milestones" invisible="1"/>
+                  <field name="parent_id" invisible="1"/>
+                  <field name="company_id" invisible="1"/>
+                  <field name="is_closed" invisible="1"/>
+                  <field name="depend_on_count" invisible="1"/>
+                  <field name="closed_depend_on_count" invisible="1"/>
+                  <field name="html_field_history_metadata" invisible="1"/>
+                  <field name="is_template" invisible="1"/>
+                  <field name="is_rotting" invisible="1"/>
+                  <field name="rotting_days" invisible="1"/>
+                  <header>
+                    <field name="company_id" invisible="1"/>
+                    <field name="display_timesheet_timer" invisible="1"/>
+                    <button class="btn-primary" name="action_timer_start" type="object" string="Start" data-hotkey="z" invisible="not display_timesheet_timer or timer_start or total_hours_spent or has_template_ancestor or has_project_template" groups="hr_timesheet.group_hr_timesheet_user"/>
+                    <button class="btn-secondary" name="action_timer_start" type="object" string="Start" data-hotkey="z" invisible="not display_timesheet_timer or timer_start or not total_hours_spent or has_template_ancestor or has_project_template" groups="hr_timesheet.group_hr_timesheet_user"/>
+                    <button class="btn-primary o_fsm_stop" name="action_timer_stop" type="object" string="Stop" data-hotkey="z" invisible="not display_timesheet_timer or not timer_start or has_template_ancestor or has_project_template" groups="hr_timesheet.group_hr_timesheet_user"/>
+                    <field name="timesheet_unit_amount" invisible="1"/>
+                    <field name="timer_start" class="align-self-center me-auto ms-2 h2" widget="timer_start_field" options="{'unit_amount_field': 'timesheet_unit_amount'}" invisible="not display_timesheet_timer" groups="hr_timesheet.group_hr_timesheet_user"/>
+                    <field name="stage_id" widget="rotting_statusbar_duration" options="{'clickable': '1', 'fold_field': 'fold'}" invisible="not project_id and not stage_id"/>
+                    <field name="state" widget="statusbar" options="{'clickable': '1', 'fold_field': 'fold'}" invisible="1"/>
+                    <field name="personal_stage_type_id" widget="statusbar" options="{'clickable': '1', 'fold_field': 'fold'}" invisible="project_id" domain="[('user_id', '=', uid)]" string="Personal Stage"/>
+                  </header>
+                  <!-- Used in inherited views to display the eventual warnings -->
+                  <t name="warning_section">
+                    <div role="alert" class="alert alert-warning d-flex flex-wrap gap-3" invisible="not planning_overlap" name="studio_div_3ee59f">
+                      <div class="d-flex align-items-center" name="studio_div_6b5af1">
+                        <i class="fa fa-random me-2" role="img" title="Planning overlap"/>
+                        <field name="planning_overlap" widget="html" nolabel="1" class="m-0"/>
+                      </div>
+                      <a name="action_fsm_view_overlapping_tasks" type="object" class="alert-link ms-auto" invisible="not planning_overlap">
+                        Check it out <i class="oi oi-chevron-right ms-2"/>
+                </a>
+                    </div>
+                    <div role="alert" class="alert alert-warning d-flex align-items-center" invisible="not dependency_warning" name="studio_div_81778d">
+                      <i class="fa fa-exclamation-circle me-2" role="img" title="Dependency warning"/>
+                      <field name="dependency_warning" widget="html" class="m-0"/>
+                    </div>
+                    <div class="alert alert-warning text-center mb-2" role="alert" invisible="analytic_account_active or not allow_timesheets or is_template or has_project_template" groups="hr_timesheet.group_hr_timesheet_user" name="studio_div_b7cc8c">
+                        You cannot log timesheets on this project since it is linked to an inactive analytic account.<br/> Please change this account, or reactivate the current one to timesheet on the project.
+                    </div>
+                  </t>
+                  <sheet string="Task" name="studio_sheet_37858a">
+                    <div class="oe_button_box" name="button_box" groups="base.group_user">
+                      <!-- Dummy tag for organizing buttons, using position='replace' when inheriting -->
+                      <span id="button_products" invisible="1"/>
+                      <span id="button_worksheet" invisible="1"/>
+                      <!-- Dummy tag used to organize buttons, englobing the 3 buttons modifies the width of the button -->
+                      <span id="start_rating_buttons" invisible="1"/>
+                      <field name="rating_avg" invisible="1"/>
+                      <field name="rating_active" invisible="1"/>
+                      <button name="action_open_ratings" type="object" invisible="rating_count == 0 or not rating_active or has_template_ancestor or has_project_template" class="oe_stat_button">
+                        <i class="fa fa-fw o_button_icon fa-smile-o text-success" invisible="rating_avg &lt; 3.66" title="Happy"/>
+                        <i class="fa fa-fw o_button_icon fa-meh-o text-warning" invisible="rating_avg &lt; 2.33 or rating_avg &gt;= 3.66" title="Neutral"/>
+                        <i class="fa fa-fw o_button_icon fa-frown-o text-danger" invisible="rating_avg &gt;= 2.33" title="Unhappy"/>
+                        <div class="o_field_widget o_stat_info" name="studio_div_4f8af9">
+                          <span class="o_stat_value">
+                            <field name="rating_avg_text" nolabel="1"/>
+                          </span>
+                          <span class="o_stat_text">Last Rating</span>
+                        </div>
+                      </button>
+                      <!-- Dummy tag used to organize buttons -->
+                      <span id="end_rating_buttons" invisible="1"/>
+                      <button name="action_open_parent_task" type="object" class="oe_stat_button" icon="fa-check" invisible="not parent_id">
+                        <div class="o_stat_info" name="studio_div_581bf4">
+                          <span class="o_stat_text">Parent Task</span>
+                        </div>
+                      </button>
+                      <button name="action_recurring_tasks" type="object" invisible="not active or not recurrence_id or not allow_recurring_tasks" class="oe_stat_button" icon="fa-repeat" groups="project.group_project_recurring_tasks">
+                        <field name="recurring_count" widget="statinfo" string="Recurring Tasks"/>
+                      </button>
+                      <button name="365" type="action" class="oe_stat_button" icon="fa-check" invisible="not id or subtask_count == 0" context="{                                 'default_project_id': project_id,                                 'default_user_ids': user_ids,                                 'default_milestone_id': milestone_id,                                 'subtask_action': True,                                 'default_is_template': is_template,                             }">
+                        <div class="o_field_widget o_stat_info" name="studio_div_712db6">
+                          <span class="o_stat_text">Sub-tasks</span>
+                          <span class="o_stat_value"><field name="closed_subtask_count"/> / <field name="subtask_count"/>
+                                    (<field name="subtask_completion_percentage" widget="percentage" options="{'digits': [1, 0]}"/>)
+                                </span>
+                        </div>
+                      </button>
+                      <button name="action_dependent_tasks" type="object" invisible="dependent_tasks_count == 0 or not allow_task_dependencies" class="oe_stat_button" icon="fa-check" groups="project.group_project_task_dependencies">
+                        <field name="dependent_tasks_count" widget="statinfo" string="Blocked Tasks"/>
+                      </button>
+                      <!-- Dummy tag used to organize buttons -->
+                      <span id="end_button_box" invisible="1"/>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active or is_template"/>
+                    <widget name="web_ribbon" title="Template" bg_color="text-bg-info" invisible="not is_template"/>
+                    <div class="d-flex justify-content-between align-items-center" name="studio_div_23ee59">
+                      <h1 class="d-flex w-100">
+                        <field name="name" options="{'line_breaks': False}" widget="text" class="o_task_name text-truncate w-md-75 w-100 pe-2" placeholder="Task Title..."/>
+                      </h1>
+                      <div class="d-flex justify-content-end align-items-center px-1" invisible="not active or is_template or has_project_template" name="studio_div_12df84">
+                        <field name="priority" class="h3 pe-2" widget="priority_switch"/>
+                      </div>
+                      <div class="d-flex justify-content-end o_state_container" invisible="not active or is_template or has_project_template" name="studio_div_366686">
+                        <field name="state" widget="project_task_state_selection" class="o_task_state_widget"/>
+                      </div>
+                      <div class="d-flex justify-content-start align-items-center w-100 w-md-50 w-lg-25" invisible="active and not (is_template or has_project_template)" name="studio_div_a419a9">
+                        <field name="priority" class="h3 pe-2" widget="priority_switch"/>
+                        <field name="state" widget="project_task_state_selection" class="o_task_state_widget"/>
+                      </div>
+                    </div>
+                    <group name="studio_group_e4ddcb">
+                      <group name="studio_group_dc572b">
+                        <field name="project_id" domain="[('active', '=', True), '|', ('company_id', '=', False), ('company_id', '=?', company_id)]" required="parent_id or child_ids or is_template" widget="project"/>
+                        <field name="milestone_id" placeholder="e.g. Product Launch" context="{'default_project_id': project_id}" invisible="not project_id or not allow_milestones"/>
+                        <field name="user_ids" class="o_task_user_field" options="{'no_open': True}" widget="many2many_avatar_user"/>
+                        <field name="x_studio_protocol" domain="[('x_studio_projects', 'in', [project_id])]" options="{&quot;no_open&quot;:true,&quot;no_create&quot;:true}"/>
+                        <field name="x_studio_protocol_visit_single" domain="[('x_studio_protocol' ,'=', x_studio_protocol)]" options="{&quot;create_name_field&quot;:&quot;x_name&quot;,&quot;no_create&quot;:true}"/>
+                        <field name="role_ids" invisible="not has_project_template or is_template" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}" placeholder="Assign at project creation"/>
+                      </group>
+                      <group name="studio_group_89510d">
+                        <field name="active" invisible="1"/>
+                        <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}" context="{'project_id': project_id}"/>
+                        <field name="partner_id" nolabel="0" widget="res_partner_many2one" class="o_task_customer_field" invisible="not project_id or has_template_ancestor or has_project_template"/>
+                        <label for="date_deadline" invisible="planned_date_begin"/>
+                        <label for="date_deadline" string="Planned Date" invisible="not planned_date_begin"/>
+                        <div id="date_deadline_and_recurring_task" class="d-inline-flex w-100" name="studio_div_371357">
+                          <field name="date_deadline" nolabel="1" decoration-danger="date_deadline and date_deadline &lt; current_date and state not in ['1_done', '1_canceled']" widget="daterange" options="{'start_date_field': 'planned_date_begin'}"/>
+                          <field name="planned_date_begin" invisible="1"/>
+                          <field name="recurring_task" nolabel="1" class="ms-0" style="width: fit-content;" widget="boolean_icon" options="{'icon': 'fa-repeat'}" invisible="not active or parent_id or not allow_recurring_tasks" groups="project.group_project_recurring_tasks"/>
+                        </div>
+                        <label for="repeat_interval" groups="project.group_project_recurring_tasks" invisible="not recurring_task or not allow_recurring_tasks"/>
+                        <div invisible="not recurring_task or not allow_recurring_tasks" class="d-flex" groups="project.group_project_recurring_tasks" name="repeat_intervals">
+                          <field name="repeat_interval" required="recurring_task" class="me-2" style="max-width: 2rem !important;"/>
+                          <field name="repeat_unit" required="recurring_task" class="me-2" style="max-width: 4rem !important;"/>
+                          <field name="repeat_type" required="recurring_task" class="me-2" style="max-width: 15rem !important;"/>
+                          <field name="repeat_until" invisible="repeat_type != 'until'" required="repeat_type == 'until'" class="me-2"/>
+                        </div>
+                        <!-- Field needed to trigger its compute in project_enterprise, but will be replaced in an override defined in hr_timesheet module -->
+                        <field name="encode_uom_in_days" invisible="1"/>
+                        <field name="subtask_count" invisible="1"/>
+                        <label for="allocated_hours" invisible="not allow_timesheets" groups="hr_timesheet.group_hr_timesheet_user"/>
+                        <div id="allocated_hours_container" class="text-nowrap" invisible="not allow_timesheets" groups="hr_timesheet.group_hr_timesheet_user" name="studio_div_f9f34e">
+                          <field name="allocated_hours" class="oe_inline o_field_float_time o_task_planned_hours" widget="timesheet_uom_no_toggle"/>
+                          <span invisible="subtask_count == 0">
+                            (incl. <field name="subtask_allocated_hours" nolabel="1" widget="timesheet_uom_no_toggle" class="oe_inline"/> on
+                            <span class="fw-bold text-dark"> Sub-tasks</span>)
+                        </span>
+                          <span invisible="is_template or has_project_template">
+                            (<field name="progress" invisible="not project_id" class="oe_inline" nolabel="1" decoration-danger="progress &gt; 1.005" digits="[1, 0]" widget="percentage"/>)
+                        </span>
+                        </div>
+                      </group>
+                    </group>
+                    <field name="task_properties" columns="2"/>
+                    <notebook name="studio_notebook_bd4094">
+                      <page name="description_page" string="Description">
+                        <field name="description" type="html" options="{'collaborative': true, 'resizable': false}" placeholder="Add details about this task..."/>
+                      </page>
+                      <field name="allow_timesheets" invisible="1"/>
+                      <t groups="hr_timesheet.group_hr_timesheet_user">
+                        <field name="analytic_account_active" invisible="1"/>
+                      </t>
+                      <page string="Timesheets" name="page_timesheets" id="timesheets_tab" invisible="not allow_timesheets or has_template_ancestor or has_project_template or (not id and context.get('hide_timesheet_ids'))" groups="hr_timesheet.group_hr_timesheet_user">
+                        <field name="timesheet_ids" mode="list,kanban" readonly="not analytic_account_active" context="{'default_project_id': project_id, 'default_name': '', 'form_view_ref': 'hr_timesheet.timesheet_view_form_user'}" widget="timesheets_one2many">
+                          <list editable="top" string="Timesheet Activities" decoration-muted="readonly_timesheet == True">
+                            <field name="readonly_timesheet" column_invisible="True"/>
+                            <field name="date" readonly="readonly_timesheet or is_timer_running"/>
+                            <field name="user_id" column_invisible="True"/>
+                            <field name="employee_id" widget="many2one_avatar_employee" context="{'active_test': True}" required="1" readonly="readonly_timesheet or is_timer_running"/>
+                            <field name="name" required="0" readonly="readonly_timesheet"/>
+                            <field name="unit_amount" string="Time Spent" widget="timesheet_uom_timer" decoration-danger="unit_amount &gt; 24 or unit_amount &lt; 0" readonly="id and (readonly_timesheet or is_timer_running)"/>
+                            <field name="project_id" column_invisible="True"/>
+                            <field name="task_id" column_invisible="True"/>
+                            <field name="company_id" column_invisible="True"/>
+                            <field name="is_timer_running" column_invisible="1"/>
+                            <field name="validated" column_invisible="1"/>
+                          </list>
+                          <kanban class="o_kanban_mobile">
+                            <templates>
+                              <t t-name="card">
+                                <div class="row" name="studio_div_cffaab">
+                                  <div class="col-6 d-flex" name="studio_div_3990f3">
+                                    <field name="employee_id" class="me-1" widget="many2one_avatar_employee" context="{'active_test': True}" readonly="readonly_timesheet"/>
+                                    <field name="employee_id" class="ps-1 fw-bold"/>
+                                  </div>
+                                  <field name="date" class="col-6 text-end fw-bold"/>
+                                </div>
+                                <div class="row" name="studio_div_ed3370">
+                                  <field name="name" class="col-6 text-muted" required="0" readonly="readonly_timesheet"/>
+                                  <field name="unit_amount" widget="float_time" class="col-6 text-end"/>
+                                </div>
+                              </t>
+                            </templates>
+                          </kanban>
+                          <form string="Timesheet Activities">
+                            <sheet name="studio_sheet_2bb491">
+                              <group name="studio_group_5941fe">
+                                <field name="readonly_timesheet" invisible="1"/>
+                                <field name="date" readonly="readonly_timesheet"/>
+                                <field name="user_id" invisible="1" readonly="readonly_timesheet"/>
+                                <field name="employee_id" widget="many2one_avatar_employee" context="{'active_test': True}" required="1" readonly="readonly_timesheet"/>
+                                <field name="name" required="0" readonly="readonly_timesheet"/>
+                                <field name="unit_amount" string="Time Spent" widget="float_time" decoration-danger="unit_amount &gt; 24" readonly="readonly_timesheet"/>
+                                <field name="project_id" invisible="1"/>
+                                <field name="task_id" invisible="1"/>
+                                <field name="company_id" invisible="1"/>
+                              </group>
+                            </sheet>
+                          </form>
+                        </field>
+                        <group invisible="not analytic_account_active" name="studio_group_85b46d">
+                          <group class="oe_subtotal_footer" name="project_hours">
+                            <span class="o_td_label float-start">
+                              <label class="fw-bold" for="effective_hours" string="Time Spent"/>
+                            </span>
+                            <field name="effective_hours" widget="timesheet_uom" nolabel="1"/>
+                            <button name="action_view_subtask_timesheet" type="object" class="ps-0 border-0 oe_inline oe_link mb-2 o_td_label float-start" invisible="subtask_effective_hours == 0.0">
+                              <span class="text-nowrap">Time Spent on Sub-tasks:</span>
+                            </button>
+                            <field name="subtask_effective_hours" class="mt-2" widget="timesheet_uom" invisible="subtask_effective_hours == 0.0" nolabel="1"/>
+                            <span invisible="subtask_effective_hours == 0.0" class="o_td_label float-start my-1">
+                              <label class="fw-bold" for="total_hours_spent" invisible="subtask_effective_hours == 0.0 or encode_uom_in_days"/>
+                              <label class="fw-bold" for="total_hours_spent" invisible="subtask_effective_hours == 0.0 or not encode_uom_in_days"/>
+                            </span>
+                            <field name="total_hours_spent" widget="timesheet_uom" class="oe_subtotal_footer_separator" nolabel="1" invisible="subtask_effective_hours == 0.0"/>
+                            <span class="o_td_label float-start my-1" invisible="allocated_hours == 0.0">
+                              <label class="fw-bold" for="remaining_hours" invisible="remaining_hours &lt; 0"/>
+                              <label class="fw-bold text-danger" for="remaining_hours" invisible="remaining_hours &gt;= 0"/>
+                            </span>
+                            <field name="remaining_hours" widget="timesheet_uom" class="oe_subtotal_footer_separator" invisible="allocated_hours == 0.0" nolabel="1" decoration-danger="remaining_hours &lt; 0"/>
+                          </group>
+                        </group>
+                      </page>
+                      <page name="sub_tasks_page" string="Sub-tasks" invisible="not project_id">
+                        <field name="child_ids" mode="list,kanban" context="{                                         'default_project_id': project_id,                                         'default_user_ids': user_ids,                                         'default_parent_id': id,                                         'default_partner_id': partner_id,                                         'default_milestone_id': allow_milestones and milestone_id,                                         'kanban_view_ref': 'project.project_sub_task_view_kanban_mobile',                                         'closed_X2M_count': closed_subtask_count,                                         'default_is_template': is_template,                                         'default_tag_ids': tag_ids,                                    }" widget="subtasks_one2many">
+                          <list editable="bottom" decoration-muted="state in ['1_done','1_canceled']" open_form_view="True">
+                            <field name="active" column_invisible="True"/>
+                            <field name="is_template" column_invisible="True"/>
+                            <field name="allow_milestones" column_invisible="True"/>
+                            <field name="display_in_project" column_invisible="True" force_save="1"/>
+                            <field name="sequence" widget="handle"/>
+                            <field name="id" optional="hide" options="{'enable_formatting': False}"/>
+                            <field name="parent_id" column_invisible="True"/>
+                            <field name="state" widget="project_task_state_selection" nolabel="1" width="20px"/>
+                            <field name="name" widget="name_with_subtask_count"/>
+                            <field name="subtask_count" column_invisible="True"/>
+                            <field name="closed_subtask_count" column_invisible="True"/>
+                            <field name="project_id" string="Project" optional="hide" required="1" options="{'no_open': 1}" widget="project"/>
+                            <field name="milestone_id" optional="hide" context="{'default_project_id': project_id}" column_invisible="not parent.allow_milestones" invisible="not allow_milestones"/>
+                            <field name="partner_id" optional="hide" widget="res_partner_many2one" invisible="not project_id" column_invisible="parent.has_template_ancestor or parent.has_project_template"/>
+                            <field name="user_ids" widget="many2many_avatar_user" optional="show"/>
+                            <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+                            <field name="allocated_hours" widget="timesheet_uom_no_toggle" sum="Total Allocated Time" optional="hide" groups="hr_timesheet.group_hr_timesheet_user"/>
+                            <field name="effective_hours" widget="timesheet_uom" sum="Time Spent" optional="hide" groups="hr_timesheet.group_hr_timesheet_user" column_invisible="context.get('template_project')"/>
+                            <field name="subtask_effective_hours" widget="timesheet_uom" sum="Sub-tasks Time Spent" optional="hide" groups="hr_timesheet.group_hr_timesheet_user" column_invisible="context.get('template_project')"/>
+                            <field name="total_hours_spent" widget="timesheet_uom" sum="Total Time Spent" optional="hide" groups="hr_timesheet.group_hr_timesheet_user" column_invisible="context.get('template_project')"/>
+                            <field name="remaining_hours" widget="timesheet_uom" sum="Time Remaining" optional="hide" decoration-danger="progress &gt;= 1" decoration-warning="progress &gt;= 0.8 and progress &lt; 1" groups="hr_timesheet.group_hr_timesheet_user" column_invisible="context.get('template_project')"/>
+                            <field name="progress" widget="project_task_progressbar" optional="hide" options="{'overflow_class': 'bg-danger'}" groups="hr_timesheet.group_hr_timesheet_user" column_invisible="context.get('template_project')"/>
+                            <field name="company_id" column_invisible="True"/>
+                            <field name="date_deadline" invisible="state in ['1_done', '1_canceled']" optional="hide" decoration-danger="date_deadline and date_deadline &lt; current_date" widget="daterange" options="{'start_date_field': 'planned_date_begin'}"/>
+                            <field name="planned_date_begin" column_invisible="True"/>
+                            <field name="priority" widget="priority" optional="hide" width="70px"/>
+                            <field name="activity_ids" string="Next Activity" widget="list_activity" optional="hide"/>
+                            <field name="my_activity_date_deadline" string="My Deadline" widget="remaining_days" options="{'allow_order': '1'}" optional="hide"/>
+                            <field name="rating_last_text" string="Rating" decoration-danger="rating_last_text == 'ko'" decoration-warning="rating_last_text == 'ok'" decoration-success="rating_last_text == 'top'" class="fw-bold" widget="badge" optional="hide" invisible="rating_last_text == 'none'" column_invisible="True"/>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" optional="hide"/>
+                            <field name="create_date" optional="hide"/>
+                            <field name="stage_id" optional="hide" context="{'default_project_id': project_id}"/>
+                          </list>
+                        </field>
+                      </page>
+                      <page name="task_dependencies" string="Blocked By" invisible="not allow_task_dependencies" groups="project.group_project_task_dependencies">
+                        <field name="depend_on_ids" nolabel="1" mode="list,kanban" context="{                                         'default_project_id': project_id,                                         'search_view_ref' : 'project.view_task_search_form',                                         'search_default_project_id': project_id,                                         'list_view_ref': 'project.open_view_all_tasks_list_view',                                         'search_default_open_tasks': 1,                                         'kanban_view_ref': 'project.project_sub_task_view_kanban_mobile',                                         'closed_X2M_count': closed_depend_on_count,                                         'default_is_template': is_template,                                    }" widget="notebook_task_one2many">
+                          <list editable="bottom" decoration-muted="state in ['1_done','1_canceled']" open_form_view="True">
+                            <field name="allow_milestones" column_invisible="True"/>
+                            <field name="parent_id" column_invisible="True"/>
+                            <field name="subtask_count" column_invisible="True"/>
+                            <field name="closed_subtask_count" column_invisible="True"/>
+                            <field name="id" optional="hide" options="{'enable_formatting': False}"/>
+                            <field name="state" widget="project_task_state_selection" nolabel="1" width="20px"/>
+                            <field name="name" widget="name_with_subtask_count"/>
+                            <field name="project_id" optional="hide" options="{'no_open': 1}"/>
+                            <field name="milestone_id" optional="hide" context="{'default_project_id': project_id}" column_invisible="not parent.allow_milestones" invisible="not allow_milestones"/>
+                            <field name="partner_id" optional="hide" widget="res_partner_many2one" invisible="not project_id" column_invisible="parent.has_template_ancestor or parent.has_project_template"/>
+                            <field name="parent_id" optional="hide" groups="base.group_no_one"/>
+                            <field name="user_ids" widget="many2many_avatar_user" optional="show"/>
+                            <field name="company_id" optional="hide" groups="base.group_multi_company"/>
+                            <field name="progress" column_invisible="True" groups="hr_timesheet.group_hr_timesheet_user"/>
+                            <field name="allocated_hours" widget="timesheet_uom_no_toggle" sum="Total Allocated Time" optional="hide" groups="hr_timesheet.group_hr_timesheet_user"/>
+                            <field name="effective_hours" widget="timesheet_uom" sum="Effective Hours" optional="hide" groups="hr_timesheet.group_hr_timesheet_user" column_invisible="context.get('template_project')"/>
+                            <field name="subtask_effective_hours" widget="timesheet_uom" optional="hide" groups="hr_timesheet.group_hr_timesheet_user" column_invisible="context.get('template_project')"/>
+                            <field name="total_hours_spent" widget="timesheet_uom" optional="hide" groups="hr_timesheet.group_hr_timesheet_user" column_invisible="context.get('template_project')"/>
+                            <field name="remaining_hours" widget="timesheet_uom" sum="Time Remaining" optional="hide" decoration-danger="progress &gt;= 1" decoration-warning="progress &gt;= 0.8 and progress &lt; 1" groups="hr_timesheet.group_hr_timesheet_user" column_invisible="context.get('template_project')"/>
+                            <field name="progress" widget="project_task_progressbar" optional="hide" options="{'overflow_class': 'bg-danger'}" groups="hr_timesheet.group_hr_timesheet_user" column_invisible="context.get('template_project')"/>
+                            <field name="company_id" column_invisible="True"/>
+                            <field name="date_deadline" invisible="state in ['1_done', '1_canceled']" optional="hide" decoration-danger="date_deadline and date_deadline &lt; current_date" widget="daterange" options="{'start_date_field': 'planned_date_begin'}"/>
+                            <field name="planned_date_begin" column_invisible="True"/>
+                            <field name="priority" widget="priority" optional="hide" width="70px"/>
+                            <field name="activity_ids" string="Next Activity" widget="list_activity" optional="hide"/>
+                            <field name="my_activity_date_deadline" string="My Deadline" widget="remaining_days" options="{'allow_order': '1'}" optional="hide"/>
+                            <field name="rating_last_text" string="Rating" decoration-danger="rating_last_text == 'ko'" decoration-warning="rating_last_text == 'ok'" decoration-success="rating_last_text == 'top'" class="fw-bold" widget="badge" optional="hide" invisible="rating_last_text == 'none'" column_invisible="True"/>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" optional="hide"/>
+                            <field name="create_date" optional="hide"/>
+                            <field name="stage_id" optional="hide"/>
+                          </list>
+                        </field>
+                      </page>
+                      <page name="extra_info" string="Extra Info" groups="base.group_no_one">
+                        <group name="studio_group_25bd52">
+                          <group name="studio_group_0d1d3b">
+                            <field name="parent_id" invisible="not project_id" groups="base.group_no_one" context="{'search_view_ref' : 'project.view_task_search_form', 'search_default_project_id': project_id, 'default_project_id': project_id}"/>
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" placeholder="Visible to all"/>
+                            <field name="sequence" groups="base.group_no_one"/>
+                            <field name="email_cc" groups="base.group_no_one" invisible="is_template or has_project_template"/>
+                          </group>
+                          <group invisible="is_template or has_project_template" name="studio_group_dfd0c5">
+                            <field name="date_assign" groups="base.group_no_one"/>
+                            <field name="date_last_stage_update" groups="base.group_no_one"/>
+                          </group>
+                          <group string="Working Time to Assign" invisible="working_hours_open == 0.0" name="studio_group_0abdf6">
+                            <field name="working_hours_open" widget="float_time" string="Hours"/>
+                            <field name="working_days_open" string="Days"/>
+                          </group>
+                          <group string="Working Time to Close" invisible="working_hours_close == 0.0" name="studio_group_16c339">
+                            <field name="working_hours_close" widget="float_time" string="Hours"/>
+                            <field name="working_days_close" string="Days"/>
+                          </group>
+                        </group>
+                      </page>
+                      <page string="Shifts" name="studio_page_8sc_1jhoks57u">
+                        <group name="studio_group_8sc">
+                          <field name="x_studio_one2many_field_610_1jhol42jk" force_save="0" readonly="False" string="Assigned shifts">
+                            <list string="Shift List" multi_edit="1" sample="1" js_class="planning_tree" open_form_view="True">
+                              <header>
+                                <button name="action_planning_publish_and_send" class="btn btn-secondary mx-1" string="Publish &amp; Send" type="object" groups="planning.group_planning_manager" invisible="context.get('my_planning_action')"/>
+                              </header>
+                              <field name="resource_color" column_invisible="1"/>
+                              <field name="start_datetime" string="Planned Date" widget="planned_date_range_with_allocated_hours" options="{'end_date_field': 'end_datetime'}" width="425px"/>
+                              <field name="end_datetime" column_invisible="True"/>
+                              <field name="allocated_percentage" avg="Allocated Percentage" optional="hide" decoration-danger="allocated_percentage &gt; 100" readonly="1" invisible="resource_type == 'material'"/>
+                              <field name="effective_hours" sum="Effective Hours" widget="float_time" optional="hide" invisible="effective_hours == 0" groups="hr_timesheet.group_hr_timesheet_user"/>
+                              <field name="resource_id" widget="many2one_avatar_resource" optional="show" readonly="not start_datetime or not end_datetime" placeholder="Open Shift" context="{'from_planning': True, 'search_view_ref': 'planning.resource_resource_search_view_roles',                             'search_default_role_ids': role_id,                             'form_view_ref': 'planning.resource_resource_with_employee_form_view_inherit',                             'list_view_ref': 'planning.resource_resource_tree_view_inherit'}"/>
+                              <field name="resource_type" column_invisible="True"/>
+                              <field name="role_id" optional="show" context="{'search_default_resource_ids': resource_id}" placeholder="e.g. Bartender"/>
+                              <field name="project_id" optional="show" options="{'no_open': True}"/>
+                              <field name="company_id" groups="base.group_multi_company" optional="hide" readonly="1"/>
+                              <field name="company_id" column_invisible="True"/>
+                              <field name="name" optional="hide"/>
+                              <field name="state" decoration-success="state == 'published'" widget="badge" optional="hide" groups="planning.group_planning_manager" readonly="1"/>
+                              <field name="recurrency_id" column_invisible="True"/>
+                              <field name="is_users_role" column_invisible="1"/>
+                              <field name="allow_self_unassign" column_invisible="1"/>
+                              <field name="is_past" column_invisible="1"/>
+                              <field name="is_unassign_deadline_passed" column_invisible="1"/>
+                              <field name="resource_id" column_invisible="1"/>
+                              <field name="request_to_switch" column_invisible="1"/>
+                              <field name="user_id" column_invisible="1"/>
+                              <button name="action_self_unassign" type="object" title="I Am Unavailable" string="I Am Unavailable" class="btn btn-link float-end" invisible="not context.get('my_planning_action') or user_id != uid or not allow_self_unassign or is_past or is_unassign_deadline_passed or resource_type == 'material'" groups="!planning.group_planning_manager"/>
+                              <button name="action_self_assign" type="object" title="I Take It" string="I Take It" class="btn btn-link float-end" invisible="not context.get('my_planning_action') or is_past or not start_datetime or not end_datetime or resource_id and not request_to_switch or user_id == uid and (allow_self_unassign or request_to_switch)" groups="!planning.group_planning_manager"/>
+                              <button name="action_cancel_switch" class="btn btn-link float-end" type="object" string="Cancel Switch" groups="!planning.group_planning_manager" invisible="not context.get('my_planning_action') or not start_datetime or not end_datetime or not request_to_switch or allow_self_unassign or user_id != uid and request_to_switch"/>
+                              <button name="action_switch_shift" class="btn btn-link  float-end" type="object" string="Ask To Switch" groups="!planning.group_planning_manager" invisible="not context.get('my_planning_action') or user_id != uid or is_past or request_to_switch or allow_self_unassign"/>
+                            </list>
+                            <form js_class="planning_form">
+                              <header>
+                                <button string="Publish &amp; Send" type="object" name="action_send" class="btn btn-primary" close="1" groups="planning.group_planning_manager" data-hotkey="q" invisible="context.get('my_planning_action') or (state == 'published' or resource_type == 'material')"/>
+                                <button name="action_self_assign" class="btn btn-primary" type="object" string="I Take It" groups="!planning.group_planning_manager" close="1" invisible="not context.get('my_planning_action') or not is_users_role or is_past or not start_datetime or not end_datetime or resource_id and not request_to_switch or user_id == uid and (allow_self_unassign or request_to_switch)"/>
+                                <button name="action_self_assign" class="btn btn-secondary" type="object" string="I Take It" groups="!planning.group_planning_manager" close="1" invisible="not context.get('my_planning_action') or is_users_role or is_past or not start_datetime or not end_datetime or resource_id and not request_to_switch or user_id == uid and (allow_self_unassign or request_to_switch)"/>
+                                <button name="action_switch_shift" class="btn btn-secondary" type="object" string="Ask To Switch" groups="!planning.group_planning_manager" invisible="user_id != uid or is_past or request_to_switch or allow_self_unassign"/>
+                                <button name="action_cancel_switch" class="btn btn-secondary" type="object" string="Cancel Switch" groups="!planning.group_planning_manager" invisible="not start_datetime or not end_datetime or not request_to_switch or allow_self_unassign or user_id != uid and request_to_switch" close="1"/>
+                                <button name="action_self_unassign" class="btn btn-secondary" type="object" string="I Am Unavailable" invisible="not context.get('my_planning_action') or (user_id != uid or not allow_self_unassign or is_past or is_unassign_deadline_passed or resource_type == 'material')"/>
+                                <button string="Send" type="object" name="action_send" class="btn btn-secondary" close="1" groups="planning.group_planning_manager" data-hotkey="v" invisible="context.get('my_planning_action') or (state == 'draft' or resource_type == 'material')"/>
+                                <button string="Reset to Draft" type="object" name="action_unpublish" class="btn btn-secondary" close="1" groups="planning.group_planning_manager" invisible="state == 'draft' or resource_type == 'material'" data-hotkey="q"/>
+                                <button string="Auto Plan" type="object" name="auto_plan_id" class="btn btn-secondary" groups="planning.group_planning_manager" data-hotkey="p" invisible="context.get('my_planning_action') or resource_id or not start_datetime or not end_datetime"/>
+                                <field name="state" widget="statusbar" groups="planning.group_planning_manager" invisible="context.get('my_planning_action')"/>
+                              </header>
+                              <field name="is_past" invisible="1"/>
+                              <field name="is_unassign_deadline_passed" invisible="1"/>
+                              <field name="work_email" invisible="1"/>
+                              <field name="previous_template_id" invisible="1"/>
+                              <field name="template_reset" invisible="1"/>
+                              <field name="employee_id" invisible="1"/>
+                              <field name="user_id" invisible="1"/>
+                              <field name="resource_type" invisible="1"/>
+                              <field name="is_users_role" invisible="1"/>
+                              <field name="request_to_switch" invisible="1"/>
+                              <field name="overlap_slot_count" invisible="1"/>
+                              <field name="repeat" invisible="1"/>
+                              <field name="color" invisible="1"/>
+                              <div class="alert alert-info oe_edit_only d-lg-flex align-items-center" role="status" invisible="not recurrency_id or not repeat" name="studio_div_d692ff">
+                                <div class="my-2" name="studio_div_863b95">
+                                  <field name="recurrence_update" widget="radio" class="mb-0 d-sm-block d-lg-none" options="{'horizontal': false}"/>
+                                  <field name="recurrence_update" widget="radio" class="mb-0 d-lg-block d-none" options="{'horizontal': true}"/>
+                                </div>
+                              </div>
+                              <div role="alert" class="alert alert-warning text-center py-2 mb-2" invisible="overlap_slot_count == 0 and (not request_to_switch or allow_self_unassign)" name="studio_div_a5a234">
+                                <field name="conflicting_slot_ids" widget="conflicting_slot_ids" invisible="not conflicting_slot_ids.length"/>
+                                <p class="align-middle mb-0" invisible="not request_to_switch or allow_self_unassign">
+                                  <span>The employee assigned would like to switch shifts with someone else.</span>
+                                </p>
+                              </div>
+                              <sheet string="Shift" name="studio_sheet_d0ca99">
+                                <div class="oe_button_box" name="button_box">
+                                  <!-- Used by other modules-->
+                                  <!-- Clickable -->
+                                  <button type="object" name="action_open_timesheets" icon="fa-clock-o" groups="hr_timesheet.group_hr_timesheet_user" invisible="not can_open_timesheets or not project_id or not allow_timesheets or not employee_id">
+                                    <div class="o_stat_info" name="studio_div_1702ce">
+                                      <span class="o_stat_value">
+                                        <field name="effective_hours" widget="timesheet_uom"/>
+                                        <span invisible="encode_uom_in_days"> Hours</span>
+                                        <span invisible="not encode_uom_in_days"> Days</span>
+                                      </span>
+                                      <span class="o_stat_text">Recorded</span>
+                                    </div>
+                                  </button>
+                                  <!-- Non Clickable -->
+                                  <button icon="fa-clock-o" disabled="1" class="pe-none" groups="hr_timesheet.group_hr_timesheet_user" invisible="can_open_timesheets or not project_id or not allow_timesheets or not employee_id">
+                                    <div class="o_stat_info" name="studio_div_6fe022">
+                                      <span class="o_stat_value">
+                                        <field name="effective_hours" widget="timesheet_uom"/>
+                                        <span invisible="encode_uom_in_days"> Hours</span>
+                                        <span invisible="not encode_uom_in_days"> Days</span>
+                                      </span>
+                                      <span class="o_stat_text">Recorded</span>
+                                    </div>
+                                  </button>
+                                </div>
+                                <field name="allow_self_unassign" invisible="1"/>
+                                <field name="template_id" domain="[(&quot;x_studio_label&quot;, &quot;!=&quot;, False)]" widget="selection_badge" options="{'horizontal': true}" groups="planning.group_planning_manager" invisible="not template_autocomplete_ids and not template_id"/>
+                                <field name="template_autocomplete_ids" invisible="1"/>
+                                <field name="recurrency_id" invisible="1"/>
+                                <group name="studio_group_fde9da">
+                                  <group name="studio_group_f87953">
+                                    <field name="resource_id" context="{'search_view_ref': 'planning.resource_resource_search_view_roles', 'search_default_role_ids': role_id, 'from_planning': True, 'show_job_title': True, 'list_view_ref': 'planning.resource_resource_tree_view_inherit', 'form_view_ref': 'planning.resource_resource_with_employee_form_view_inherit'}" readonly="not start_datetime or not end_datetime" widget="many2one_avatar_resource" placeholder="Open Shift"/>
+                                    <field name="role_id" context="{'search_default_resource_ids': resource_id}" placeholder="e.g. Bartender"/>
+                                    <field name="project_id" groups="!project.group_project_user" options="{'no_open': True}"/>
+                                    <field name="project_id" groups="project.group_project_user"/>
+                                    <field name="x_studio_task" domain="[('project_id', '=', project_id)]" context="{'search_default_task_ids': project_id}"/>
+                                    <field name="company_id" invisible="1"/>
+                                  </group>
+                                  <!-- slot_info_right group is used in another module -->
+                                  <group name="slot_info_right">
+                                    <label for="start_datetime"/>
+                                    <div class="d-flex" name="studio_div_9a1ac7">
+                                      <field name="start_datetime" string="Date" widget="daterange" options="{'end_date_field': 'end_datetime'}"/>
+                                      <field name="end_datetime" invisible="1"/>
+                                      <field name="repeat" nolabel="1" style="width: fit-content;font-size:10px;" widget="boolean_icon" options="{'icon': 'fa-repeat'}" groups="planning.group_planning_manager"/>
+                                    </div>
+                                    <label for="repeat_interval" invisible="not repeat"/>
+                                    <div invisible="not repeat" class="d-flex" name="studio_div_824819">
+                                      <field name="repeat_interval" class="me-2" style="max-width: 2rem !important;"/>
+                                      <field name="repeat_unit" class="me-2" style="max-width: 4rem !important;"/>
+                                      <field name="repeat_type" required="repeat" nolabel="1" class="me-2" style="max-width: 15rem !important;"/>
+                                      <field name="repeat_until" nolabel="1" invisible="repeat_type != 'until'" required="repeat_type == 'until' and repeat" class="me-2"/>
+                                      <field name="repeat_number" class="me-2" invisible="repeat_type != 'x_times'" required="repeat_type == 'x_times' and repeat" style="max-width: 2rem !important;"/>
+                                    </div>
+                                    <label for="allocated_hours"/>
+                                    <div class="o_row" name="studio_div_044cd8">
+                                      <field name="allocated_hours" widget="float_time" class="oe_inline" required="resource_type == 'material'"/>
+                                      <span invisible="resource_type == 'material'">
+                                    (<field name="allocated_percentage" class="o_field_percentage oe_inline" decoration-danger="allocated_percentage &gt; 100"/> %)
+                                </span>
+                                    </div>
+                                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                                    <field name="allow_timesheets" invisible="1"/>
+                                    <field name="allocation_type" invisible="1"/>
+                                    <field name="timesheet_ids" invisible="1"/>
+                                    <field name="can_open_timesheets" invisible="1"/>
+                                    <field name="encode_uom_in_days" invisible="1"/>
+                                  </group>
+                                </group>
+                                <field name="slot_properties" columns="2"/>
+                                <field name="allow_template_creation" invisible="1"/>
+                                <field name="name" nolabel="1" placeholder="Additional note sent to the employee"/>
+                              </sheet>
+                            </form>
+                          </field>
+                        </group>
+                      </page>
+                    </notebook>
+                  </sheet>
+                </form>
+                <list string="Tasks" sample="1" default_order="priority desc, sequence, state, date_deadline asc, id desc" multi_edit="1" js_class="project_enterprise_task_list" default_group_by="stage_id">
+                  <field name="sequence" readonly="1" column_invisible="True"/>
+                  <field name="allow_milestones" column_invisible="True"/>
+                  <field name="subtask_count" column_invisible="True"/>
+                  <field name="closed_subtask_count" column_invisible="True"/>
+                  <field name="id" optional="hide" options="{'enable_formatting': False}"/>
+                  <field optional="show" name="x_studio_warnings" invisible="x_studio_enough_people"/>
+                  <field name="name" string="Title" widget="name_with_subtask_count"/>
+                  <field name="project_id" widget="project" optional="show" options="{'no_open': 1}" readonly="1" column_invisible="context.get('default_project_id')"/>
+                  <field name="milestone_id" invisible="not allow_milestones" context="{'default_project_id': project_id}" groups="project.group_project_milestone" optional="hide" column_invisible="not context.get('allow_milestones', True)"/>
+                  <field name="partner_id" optional="hide" widget="res_partner_many2one" invisible="not project_id" options="{'no_open': True}" column_invisible="context.get('template_project')"/>
+                  <field name="parent_id" optional="hide" invisible="not project_id" context="{'search_view_ref': 'project.view_task_search_form', 'search_default_project_id': project_id, 'default_project_id': project_id}" groups="base.group_no_one"/>
+                  <field name="user_ids" optional="show" widget="many2many_avatar_user"/>
+                  <field name="company_id" groups="base.group_multi_company" optional="hide" column_invisible="context.get('default_project_id')" options="{'no_create': True}"/>
+                  <field name="company_id" column_invisible="True"/>
+                  <field name="date_deadline" optional="hide" widget="daterange" invisible="not project_id" options="{'start_date_field': 'planned_date_begin'}" decoration-danger="date_deadline &lt; current_date and state not in ['1_done', '1_canceled']"/>
+                  <field name="planned_date_begin" column_invisible="True"/>
+                  <field name="progress" column_invisible="True"/>
+                  <field name="effective_hours" column_invisible="True"/>
+                  <field name="allocated_hours" widget="timesheet_uom_no_toggle" sum="Total Allocated Time" optional="hide" groups="hr_timesheet.group_hr_timesheet_user" column_invisible="not context.get('allow_timesheets', True)"/>
+                  <field name="effective_hours" widget="timesheet_uom" sum="Effective Hours" optional="show" invisible="effective_hours == 0" groups="hr_timesheet.group_hr_timesheet_user" column_invisible="not context.get('allow_timesheets', True) or context.get('template_project')"/>
+                  <field name="subtask_effective_hours" widget="timesheet_uom" sum="Time Spent on Sub-Tasks" optional="hide" groups="hr_timesheet.group_hr_timesheet_user" column_invisible="not context.get('allow_timesheets', True) or context.get('template_project')"/>
+                  <field name="total_hours_spent" widget="timesheet_uom" sum="Total Time Spent" optional="hide" groups="hr_timesheet.group_hr_timesheet_user" column_invisible="not context.get('allow_timesheets', True) or context.get('template_project')"/>
+                  <field name="remaining_hours" widget="timesheet_uom" sum="Time Remaining on SO" optional="hide" decoration-danger="progress &gt;= 1" decoration-warning="progress &gt;= 0.8 and progress &lt; 1" invisible="allocated_hours == 0" groups="hr_timesheet.group_hr_timesheet_user" column_invisible="not context.get('allow_timesheets', True) or context.get('template_project')"/>
+                  <field name="progress" widget="project_task_progressbar" avg="Average of Progress" optional="show" groups="hr_timesheet.group_hr_timesheet_user" invisible="allocated_hours == 0" options="{'overflow_class': 'bg-danger'}" column_invisible="not context.get('allow_timesheets', True) or context.get('template_project')"/>
+                  <field name="priority" widget="priority" optional="show" width="70px"/>
+                  <field name="activity_ids" string="Next Activity" widget="list_activity" optional="show"/>
+                  <field name="my_activity_date_deadline" string="My Deadline" widget="remaining_days" optional="hide"/>
+                  <field name="rating_active" column_invisible="True"/>
+                  <field name="rating_last_text" string="Rating" decoration-danger="rating_last_text == 'ko'" decoration-warning="rating_last_text == 'ok'" decoration-success="rating_last_text == 'top'" invisible="not rating_active or rating_last_text == 'none'" class="fw-bold" widget="badge" optional="hide" column_invisible="context.get('template_project')"/>
+                  <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" optional="show" context="{'project_id': project_id}"/>
+                  <field name="create_date" optional="hide"/>
+                  <field name="date_last_stage_update" optional="hide" column_invisible="context.get('template_project')"/>
+                  <field name="state" widget="project_task_state_selection" nolabel="1" width="20px" options="{'is_toggle_mode': false}"/>
+                  <field name="stage_id_color" column_invisible="1"/>
+                  <field name="is_rotting" column_invisible="True"/>
+                  <field name="rotting_days" column_invisible="True"/>
+                  <field name="stage_id" column_invisible="context.get('set_visible', False)" optional="show" widget="badge_rotting" options="{'no_open': True}"/>
+                  <field name="personal_stage_type_id" string="Personal Stage" optional="hide" column_invisible="context.get('template_project')"/>
+                  <field name="task_properties"/>
+                  <field name="recurrence_id" column_invisible="True"/>
+                </list>
+              </field>
+            </group>
+          </page>
+          <page string="Children Projects" name="studio_page_1dh_1ji01mf1t">
+            <group name="studio_group_1dh">
+              <field name="x_studio_children"/>
+            </group>
+          </page>
         </xpath>
       </data>
     </field>
@@ -298,11 +871,25 @@
   <record id="odoo_studio_planning_82ec0fba-15eb-476e-be77-1aae06d6ddb4" model="ir.ui.view" context="{'studio': True}">
     <field name="arch" type="xml">
       <data>
+        <xpath expr="/form//field[@name='state']" position="after">
+          <button string="Request shift" type="action" groups="base.group_user,!planning.group_planning_manager" class="btn btn-primary" name="studio_customization.request_assignment_7a79e11f-811d-41cc-b72b-7346e4636a2f" invisible="not is_users_role or is_past or not start_datetime or not end_datetime or resource_id and not request_to_switch"/>
+        </xpath>
+        <xpath expr="/form/header/button[@name='action_self_assign']" position="attributes">
+          <attribute name="effect">False</attribute>
+          <attribute name="invisible">True</attribute>
+        </xpath>
+        <xpath expr="/form/header/button[@name='action_self_assign'][2]" position="attributes">
+          <attribute name="invisible">True</attribute>
+        </xpath>
         <xpath expr="/form//field[@name='template_id']" position="attributes">
           <attribute name="domain">[("x_studio_label", "!=", False)]</attribute>
+          <attribute name="invisible">False</attribute>
         </xpath>
         <xpath expr="/form/sheet/group/group/field[@name='project_id'][2]" position="after">
           <field name="x_studio_task" domain="[('project_id', '=', project_id)]" context="{'search_default_task_ids': project_id}"/>
+        </xpath>
+        <xpath expr="/form//field[@name='resource_id']" position="attributes">
+          <attribute name="domain">[("employee_id.x_studio_maximum_number_of_shifts_reached_this_week", "=", False)]</attribute>
         </xpath>
       </data>
     </field>
@@ -316,127 +903,183 @@
   <record id="odoo_studio_project__ddfed0aa-9f97-4570-ae5d-b581f537be76" model="ir.ui.view" context="{'studio': True}">
     <field name="arch" type="xml">
       <data>
+        <xpath expr="/form//div[@name='button_box']" position="before">
+          <group name="studio_group_5if_1jhtqbnnr" invisible="x_studio_enough_people" string="Warnings">
+            <div style="display:flex; align-items:center; margin-bottom:8px;" name="studio_div_822282">
+              <img src="/web/image/148" style="height: 150px; margin-right: 8px;"/>
+            </div>
+          </group>
+        </xpath>
+        <xpath expr="/form/sheet/group[2]/group/field[@name='project_id']" position="before">
+          <field name="name" required="True"/>
+        </xpath>
+        <xpath expr="/form/sheet/group[2]/group/field[@name='user_ids']" position="after">
+          <field name="x_studio_protocol" domain="[('x_studio_projects', 'in', [project_id])]" options="{&quot;no_open&quot;:true,&quot;no_create&quot;:true}"/>
+          <field name="x_studio_protocol_visit_single" domain="[('x_studio_protocol' ,'=', x_studio_protocol)]" options="{&quot;create_name_field&quot;:&quot;x_name&quot;,&quot;no_create&quot;:true}"/>
+        </xpath>
+        <xpath expr="/form//div[@id='allocated_hours_container']" position="after">
+          <field name="x_studio_people_needed"/>
+          <field name="x_studio_enough_people" invisible="True"/>
+        </xpath>
         <xpath expr="/form//page[@name='extra_info']" position="after">
           <page string="Shifts" name="studio_page_8sc_1jhoks57u">
             <group name="studio_group_8sc">
-              <field name="x_studio_one2many_field_610_1jhol42jk" force_save="1" readonly="True" string="Assigned shifts"/>
+              <field name="x_studio_one2many_field_610_1jhol42jk" force_save="0" readonly="False" string="Assigned shifts">
+                <list string="Shift List" multi_edit="1" sample="1" js_class="planning_tree" open_form_view="True">
+                  <header>
+                    <button name="action_planning_publish_and_send" class="btn btn-secondary mx-1" string="Publish &amp; Send" type="object" groups="planning.group_planning_manager" invisible="context.get('my_planning_action')"/>
+                  </header>
+                  <field name="resource_color" column_invisible="1"/>
+                  <field name="start_datetime" string="Planned Date" widget="planned_date_range_with_allocated_hours" options="{'end_date_field': 'end_datetime'}" width="425px"/>
+                  <field name="end_datetime" column_invisible="True"/>
+                  <field name="allocated_percentage" avg="Allocated Percentage" optional="hide" decoration-danger="allocated_percentage &gt; 100" readonly="1" invisible="resource_type == 'material'"/>
+                  <field name="effective_hours" sum="Effective Hours" widget="float_time" optional="hide" invisible="effective_hours == 0" groups="hr_timesheet.group_hr_timesheet_user"/>
+                  <field name="resource_id" widget="many2one_avatar_resource" optional="show" readonly="not start_datetime or not end_datetime" placeholder="Open Shift" context="{'from_planning': True, 'search_view_ref': 'planning.resource_resource_search_view_roles',                             'search_default_role_ids': role_id,                             'form_view_ref': 'planning.resource_resource_with_employee_form_view_inherit',                             'list_view_ref': 'planning.resource_resource_tree_view_inherit'}"/>
+                  <field name="resource_type" column_invisible="True"/>
+                  <field name="role_id" optional="show" context="{'search_default_resource_ids': resource_id}" placeholder="e.g. Bartender"/>
+                  <field name="project_id" optional="show" options="{'no_open': True}"/>
+                  <field name="company_id" groups="base.group_multi_company" optional="hide" readonly="1"/>
+                  <field name="company_id" column_invisible="True"/>
+                  <field name="state" decoration-success="state == 'published'" widget="badge" optional="hide" groups="planning.group_planning_manager" readonly="1"/>
+                  <field name="recurrency_id" column_invisible="True"/>
+                  <field name="is_users_role" column_invisible="1"/>
+                  <field name="allow_self_unassign" column_invisible="1"/>
+                  <field name="is_past" column_invisible="1"/>
+                  <field name="is_unassign_deadline_passed" column_invisible="1"/>
+                  <field name="resource_id" column_invisible="1"/>
+                  <field name="request_to_switch" column_invisible="1"/>
+                  <field name="user_id" column_invisible="1"/>
+                  <button name="action_self_unassign" type="object" title="I Am Unavailable" string="I Am Unavailable" class="btn btn-link float-end" invisible="not context.get('my_planning_action') or user_id != uid or not allow_self_unassign or is_past or is_unassign_deadline_passed or resource_type == 'material'" groups="!planning.group_planning_manager"/>
+                  <button name="action_self_assign" type="object" title="I Take It" string="I Take It" class="btn btn-link float-end" invisible="not context.get('my_planning_action') or is_past or not start_datetime or not end_datetime or resource_id and not request_to_switch or user_id == uid and (allow_self_unassign or request_to_switch)" groups="!planning.group_planning_manager"/>
+                  <button name="action_cancel_switch" class="btn btn-link float-end" type="object" string="Cancel Switch" groups="!planning.group_planning_manager" invisible="not context.get('my_planning_action') or not start_datetime or not end_datetime or not request_to_switch or allow_self_unassign or user_id != uid and request_to_switch"/>
+                  <button name="action_switch_shift" class="btn btn-link  float-end" type="object" string="Ask To Switch" groups="!planning.group_planning_manager" invisible="not context.get('my_planning_action') or user_id != uid or is_past or request_to_switch or allow_self_unassign"/>
+                </list>
+                <form js_class="planning_form">
+                  <header>
+                    <button string="Publish &amp; Send" type="object" name="action_send" class="btn btn-primary" close="1" groups="planning.group_planning_manager" data-hotkey="q" invisible="context.get('my_planning_action') or (state == 'published' or resource_type == 'material')"/>
+                    <button name="action_self_assign" class="btn btn-primary" type="object" string="I Take It" groups="!planning.group_planning_manager" close="1" invisible="not context.get('my_planning_action') or not is_users_role or is_past or not start_datetime or not end_datetime or resource_id and not request_to_switch or user_id == uid and (allow_self_unassign or request_to_switch)"/>
+                    <button name="action_self_assign" class="btn btn-secondary" type="object" string="I Take It" groups="!planning.group_planning_manager" close="1" invisible="not context.get('my_planning_action') or is_users_role or is_past or not start_datetime or not end_datetime or resource_id and not request_to_switch or user_id == uid and (allow_self_unassign or request_to_switch)"/>
+                    <button name="action_switch_shift" class="btn btn-secondary" type="object" string="Ask To Switch" groups="!planning.group_planning_manager" invisible="user_id != uid or is_past or request_to_switch or allow_self_unassign"/>
+                    <button name="action_cancel_switch" class="btn btn-secondary" type="object" string="Cancel Switch" groups="!planning.group_planning_manager" invisible="not start_datetime or not end_datetime or not request_to_switch or allow_self_unassign or user_id != uid and request_to_switch" close="1"/>
+                    <button name="action_self_unassign" class="btn btn-secondary" type="object" string="I Am Unavailable" invisible="not context.get('my_planning_action') or (user_id != uid or not allow_self_unassign or is_past or is_unassign_deadline_passed or resource_type == 'material')"/>
+                    <button string="Send" type="object" name="action_send" class="btn btn-secondary" close="1" groups="planning.group_planning_manager" data-hotkey="v" invisible="context.get('my_planning_action') or (state == 'draft' or resource_type == 'material')"/>
+                    <button string="Reset to Draft" type="object" name="action_unpublish" class="btn btn-secondary" close="1" groups="planning.group_planning_manager" invisible="state == 'draft' or resource_type == 'material'" data-hotkey="q"/>
+                    <button string="Auto Plan" type="object" name="auto_plan_id" class="btn btn-secondary" groups="planning.group_planning_manager" data-hotkey="p" invisible="context.get('my_planning_action') or resource_id or not start_datetime or not end_datetime"/>
+                    <field name="state" widget="statusbar" groups="planning.group_planning_manager" invisible="context.get('my_planning_action')"/>
+                  </header>
+                  <field name="is_past" invisible="1"/>
+                  <field name="is_unassign_deadline_passed" invisible="1"/>
+                  <field name="work_email" invisible="1"/>
+                  <field name="previous_template_id" invisible="1"/>
+                  <field name="template_reset" invisible="1"/>
+                  <field name="employee_id" invisible="1"/>
+                  <field name="user_id" invisible="1"/>
+                  <field name="resource_type" invisible="1"/>
+                  <field name="is_users_role" invisible="1"/>
+                  <field name="request_to_switch" invisible="1"/>
+                  <field name="overlap_slot_count" invisible="1"/>
+                  <field name="repeat" invisible="1"/>
+                  <field name="color" invisible="1"/>
+                  <div class="alert alert-info oe_edit_only d-lg-flex align-items-center" role="status" invisible="not recurrency_id or not repeat" name="studio_div_d692ff">
+                    <div class="my-2" name="studio_div_863b95">
+                      <field name="recurrence_update" widget="radio" class="mb-0 d-sm-block d-lg-none" options="{'horizontal': false}"/>
+                      <field name="recurrence_update" widget="radio" class="mb-0 d-lg-block d-none" options="{'horizontal': true}"/>
+                    </div>
+                  </div>
+                  <div role="alert" class="alert alert-warning text-center py-2 mb-2" invisible="overlap_slot_count == 0 and (not request_to_switch or allow_self_unassign)" name="studio_div_a5a234">
+                    <field name="conflicting_slot_ids" widget="conflicting_slot_ids" invisible="not conflicting_slot_ids.length"/>
+                    <p class="align-middle mb-0" invisible="not request_to_switch or allow_self_unassign">
+                      <span>The employee assigned would like to switch shifts with someone else.</span>
+                    </p>
+                  </div>
+                  <sheet string="Shift" name="studio_sheet_d0ca99">
+                    <div class="oe_button_box" name="button_box">
+                      <!-- Used by other modules-->
+                      <!-- Clickable -->
+                      <button type="object" name="action_open_timesheets" icon="fa-clock-o" groups="hr_timesheet.group_hr_timesheet_user" invisible="not can_open_timesheets or not project_id or not allow_timesheets or not employee_id">
+                        <div class="o_stat_info" name="studio_div_1702ce">
+                          <span class="o_stat_value">
+                            <field name="effective_hours" widget="timesheet_uom"/>
+                            <span invisible="encode_uom_in_days"> Hours</span>
+                            <span invisible="not encode_uom_in_days"> Days</span>
+                          </span>
+                          <span class="o_stat_text">Recorded</span>
+                        </div>
+                      </button>
+                      <!-- Non Clickable -->
+                      <button icon="fa-clock-o" disabled="1" class="pe-none" groups="hr_timesheet.group_hr_timesheet_user" invisible="can_open_timesheets or not project_id or not allow_timesheets or not employee_id">
+                        <div class="o_stat_info" name="studio_div_6fe022">
+                          <span class="o_stat_value">
+                            <field name="effective_hours" widget="timesheet_uom"/>
+                            <span invisible="encode_uom_in_days"> Hours</span>
+                            <span invisible="not encode_uom_in_days"> Days</span>
+                          </span>
+                          <span class="o_stat_text">Recorded</span>
+                        </div>
+                      </button>
+                    </div>
+                    <field name="allow_self_unassign" invisible="1"/>
+                    <field name="template_id" domain="[(&quot;x_studio_label&quot;, &quot;!=&quot;, False)]" widget="selection_badge" options="{'horizontal': true}" groups="planning.group_planning_manager" invisible="not template_autocomplete_ids and not template_id"/>
+                    <field name="template_autocomplete_ids" invisible="1"/>
+                    <field name="recurrency_id" invisible="1"/>
+                    <group name="studio_group_fde9da">
+                      <group name="studio_group_f87953">
+                        <field name="resource_id" context="{'search_view_ref': 'planning.resource_resource_search_view_roles', 'search_default_role_ids': role_id, 'from_planning': True, 'show_job_title': True, 'list_view_ref': 'planning.resource_resource_tree_view_inherit', 'form_view_ref': 'planning.resource_resource_with_employee_form_view_inherit'}" readonly="not start_datetime or not end_datetime" widget="many2one_avatar_resource" placeholder="Open Shift"/>
+                        <field name="role_id" context="{'search_default_resource_ids': resource_id}" placeholder="e.g. Bartender"/>
+                        <field name="project_id" groups="!project.group_project_user" options="{'no_open': True}"/>
+                        <field name="project_id" groups="project.group_project_user"/>
+                        <field name="x_studio_task" domain="[('project_id', '=', project_id)]" context="{'search_default_task_ids': project_id}"/>
+                        <field name="company_id" invisible="1"/>
+                      </group>
+                      <!-- slot_info_right group is used in another module -->
+                      <group name="slot_info_right">
+                        <label for="start_datetime"/>
+                        <div class="d-flex" name="studio_div_9a1ac7">
+                          <field name="start_datetime" string="Date" widget="daterange" options="{'end_date_field': 'end_datetime'}"/>
+                          <field name="end_datetime" invisible="1"/>
+                          <field name="repeat" nolabel="1" style="width: fit-content;font-size:10px;" widget="boolean_icon" options="{'icon': 'fa-repeat'}" groups="planning.group_planning_manager"/>
+                        </div>
+                        <label for="repeat_interval" invisible="not repeat"/>
+                        <div invisible="not repeat" class="d-flex" name="studio_div_824819">
+                          <field name="repeat_interval" class="me-2" style="max-width: 2rem !important;"/>
+                          <field name="repeat_unit" class="me-2" style="max-width: 4rem !important;"/>
+                          <field name="repeat_type" required="repeat" nolabel="1" class="me-2" style="max-width: 15rem !important;"/>
+                          <field name="repeat_until" nolabel="1" invisible="repeat_type != 'until'" required="repeat_type == 'until' and repeat" class="me-2"/>
+                          <field name="repeat_number" class="me-2" invisible="repeat_type != 'x_times'" required="repeat_type == 'x_times' and repeat" style="max-width: 2rem !important;"/>
+                        </div>
+                        <label for="allocated_hours"/>
+                        <div class="o_row" name="studio_div_044cd8">
+                          <field name="allocated_hours" widget="float_time" class="oe_inline" required="resource_type == 'material'"/>
+                          <span invisible="resource_type == 'material'">
+                                    (<field name="allocated_percentage" class="o_field_percentage oe_inline" decoration-danger="allocated_percentage &gt; 100"/> %)
+                                </span>
+                        </div>
+                        <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                        <field name="allow_timesheets" invisible="1"/>
+                        <field name="allocation_type" invisible="1"/>
+                        <field name="timesheet_ids" invisible="1"/>
+                        <field name="can_open_timesheets" invisible="1"/>
+                        <field name="encode_uom_in_days" invisible="1"/>
+                      </group>
+                    </group>
+                    <field name="slot_properties" columns="2"/>
+                    <field name="allow_template_creation" invisible="1"/>
+                    <field name="name" nolabel="1" placeholder="Additional note sent to the employee"/>
+                  </sheet>
+                </form>
+              </field>
             </group>
           </page>
         </xpath>
-        <xpath expr="/form[1]/sheet[1]/notebook[1]/page[6]/group[1]/field[1]" position="inside">
-          <form js_class="planning_form">
-            <header>
-              <button string="Publish &amp; Send" type="object" name="action_send" class="btn btn-primary" close="1" groups="planning.group_planning_manager" data-hotkey="q" invisible="context.get('my_planning_action') or (state == 'published' or resource_type == 'material')"/>
-              <button name="action_self_assign" class="btn btn-primary" type="object" string="I Take It" groups="!planning.group_planning_manager" close="1" invisible="not context.get('my_planning_action') or not is_users_role or is_past or not start_datetime or not end_datetime or resource_id and not request_to_switch or user_id == uid and (allow_self_unassign or request_to_switch)"/>
-              <button name="action_self_assign" class="btn btn-secondary" type="object" string="I Take It" groups="!planning.group_planning_manager" close="1" invisible="not context.get('my_planning_action') or is_users_role or is_past or not start_datetime or not end_datetime or resource_id and not request_to_switch or user_id == uid and (allow_self_unassign or request_to_switch)"/>
-              <button name="action_switch_shift" class="btn btn-secondary" type="object" string="Ask To Switch" groups="!planning.group_planning_manager" invisible="user_id != uid or is_past or request_to_switch or allow_self_unassign"/>
-              <button name="action_cancel_switch" class="btn btn-secondary" type="object" string="Cancel Switch" groups="!planning.group_planning_manager" invisible="not start_datetime or not end_datetime or not request_to_switch or allow_self_unassign or user_id != uid and request_to_switch" close="1"/>
-              <button name="action_self_unassign" class="btn btn-secondary" type="object" string="I Am Unavailable" invisible="not context.get('my_planning_action') or (user_id != uid or not allow_self_unassign or is_past or is_unassign_deadline_passed or resource_type == 'material')"/>
-              <button string="Send" type="object" name="action_send" class="btn btn-secondary" close="1" groups="planning.group_planning_manager" data-hotkey="v" invisible="context.get('my_planning_action') or (state == 'draft' or resource_type == 'material')"/>
-              <button string="Reset to Draft" type="object" name="action_unpublish" class="btn btn-secondary" close="1" groups="planning.group_planning_manager" invisible="state == 'draft' or resource_type == 'material'" data-hotkey="q"/>
-              <button string="Auto Plan" type="object" name="auto_plan_id" class="btn btn-secondary" groups="planning.group_planning_manager" data-hotkey="p" invisible="context.get('my_planning_action') or resource_id or not start_datetime or not end_datetime"/>
-              <field name="state" widget="statusbar" groups="planning.group_planning_manager" invisible="context.get('my_planning_action')"/>
-            </header>
-            <field name="is_past" invisible="1"/>
-            <field name="is_unassign_deadline_passed" invisible="1"/>
-            <field name="work_email" invisible="1"/>
-            <field name="previous_template_id" invisible="1"/>
-            <field name="template_reset" invisible="1"/>
-            <field name="employee_id" invisible="1"/>
-            <field name="user_id" invisible="1"/>
-            <field name="resource_type" invisible="1"/>
-            <field name="is_users_role" invisible="1"/>
-            <field name="request_to_switch" invisible="1"/>
-            <field name="overlap_slot_count" invisible="1"/>
-            <field name="repeat" invisible="1"/>
-            <field name="color" invisible="1"/>
-            <div class="alert alert-info oe_edit_only d-lg-flex align-items-center" role="status" invisible="not recurrency_id or not repeat">
-              <div class="my-2">
-                <field name="recurrence_update" widget="radio" class="mb-0 d-sm-block d-lg-none" options="{'horizontal': false}"/>
-                <field name="recurrence_update" widget="radio" class="mb-0 d-lg-block d-none" options="{'horizontal': true}"/>
-              </div>
-            </div>
-            <div role="alert" class="alert alert-warning text-center py-2 mb-2" invisible="overlap_slot_count == 0 and (not request_to_switch or allow_self_unassign)">
-              <field name="conflicting_slot_ids" widget="conflicting_slot_ids" invisible="not conflicting_slot_ids.length"/>
-              <p class="align-middle mb-0" invisible="not request_to_switch or allow_self_unassign">
-                <span>The employee assigned would like to switch shifts with someone else.</span>
-              </p>
-            </div>
-            <sheet string="Shift">
-              <div class="oe_button_box" name="button_box">
-                <!-- Used by other modules-->
-                <!-- Clickable -->
-                <button type="object" name="action_open_timesheets" icon="fa-clock-o" groups="hr_timesheet.group_hr_timesheet_user" invisible="not can_open_timesheets or not project_id or not allow_timesheets or not employee_id">
-                  <div class="o_stat_info">
-                    <span class="o_stat_value">
-                      <field name="effective_hours" widget="timesheet_uom"/>
-                      <span invisible="encode_uom_in_days"> Hours</span>
-                      <span invisible="not encode_uom_in_days"> Days</span>
-                    </span>
-                    <span class="o_stat_text">Recorded</span>
-                  </div>
-                </button>
-                <!-- Non Clickable -->
-                <button icon="fa-clock-o" disabled="1" class="pe-none" groups="hr_timesheet.group_hr_timesheet_user" invisible="can_open_timesheets or not project_id or not allow_timesheets or not employee_id">
-                  <div class="o_stat_info">
-                    <span class="o_stat_value">
-                      <field name="effective_hours" widget="timesheet_uom"/>
-                      <span invisible="encode_uom_in_days"> Hours</span>
-                      <span invisible="not encode_uom_in_days"> Days</span>
-                    </span>
-                    <span class="o_stat_text">Recorded</span>
-                  </div>
-                </button>
-              </div>
-              <field name="allow_self_unassign" invisible="1"/>
-              <field name="template_id" domain="[(&quot;x_studio_label&quot;, &quot;!=&quot;, False)]" widget="selection_badge" options="{'horizontal': true}" groups="planning.group_planning_manager" invisible="not template_autocomplete_ids and not template_id"/>
-              <field name="template_autocomplete_ids" invisible="1"/>
-              <field name="recurrency_id" invisible="1"/>
-              <group>
-                <group>
-                  <field name="resource_id" context="{'search_view_ref': 'planning.resource_resource_search_view_roles', 'search_default_role_ids': role_id, 'from_planning': True, 'show_job_title': True, 'list_view_ref': 'planning.resource_resource_tree_view_inherit', 'form_view_ref': 'planning.resource_resource_with_employee_form_view_inherit'}" readonly="not start_datetime or not end_datetime" widget="many2one_avatar_resource" placeholder="Open Shift"/>
-                  <field name="role_id" context="{'search_default_resource_ids': resource_id}" placeholder="e.g. Bartender"/>
-                  <field name="project_id" groups="!project.group_project_user" options="{'no_open': True}"/>
-                  <field name="project_id" groups="project.group_project_user"/>
-                  <field name="x_studio_task" domain="[('project_id', '=', project_id)]" context="{'search_default_task_ids': project_id}"/>
-                  <field name="company_id" invisible="1"/>
-                </group>
-                <!-- slot_info_right group is used in another module -->
-                <group name="slot_info_right">
-                  <label for="start_datetime"/>
-                  <div class="d-flex">
-                    <field name="start_datetime" string="Date" widget="daterange" options="{'end_date_field': 'end_datetime'}"/>
-                    <field name="end_datetime" invisible="1"/>
-                    <field name="repeat" nolabel="1" style="width: fit-content;font-size:10px;" widget="boolean_icon" options="{'icon': 'fa-repeat'}" groups="planning.group_planning_manager"/>
-                  </div>
-                  <label for="repeat_interval" invisible="not repeat"/>
-                  <div invisible="not repeat" class="d-flex">
-                    <field name="repeat_interval" class="me-2" style="max-width: 2rem !important;"/>
-                    <field name="repeat_unit" class="me-2" style="max-width: 4rem !important;"/>
-                    <field name="repeat_type" required="repeat" nolabel="1" class="me-2" style="max-width: 15rem !important;"/>
-                    <field name="repeat_until" nolabel="1" invisible="repeat_type != 'until'" required="repeat_type == 'until' and repeat" class="me-2"/>
-                    <field name="repeat_number" class="me-2" invisible="repeat_type != 'x_times'" required="repeat_type == 'x_times' and repeat" style="max-width: 2rem !important;"/>
-                  </div>
-                  <label for="allocated_hours"/>
-                  <div class="o_row">
-                    <field name="allocated_hours" widget="float_time" class="oe_inline" required="resource_type == 'material'"/>
-                    <span invisible="resource_type == 'material'">
-                                    (<field name="allocated_percentage" class="o_field_percentage oe_inline" decoration-danger="allocated_percentage &gt; 100"/> %)
-                                </span>
-                  </div>
-                  <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
-                  <field name="allow_timesheets" invisible="1"/>
-                  <field name="allocation_type" invisible="1"/>
-                  <field name="timesheet_ids" invisible="1"/>
-                  <field name="can_open_timesheets" invisible="1"/>
-                  <field name="encode_uom_in_days" invisible="1"/>
-                </group>
-              </group>
-              <field name="slot_properties" columns="2"/>
-              <field name="allow_template_creation" invisible="1"/>
-              <field name="name" nolabel="1" placeholder="Additional note sent to the employee"/>
-            </sheet>
-          </form>
+        <xpath expr="/form/sheet/notebook/page[@name='studio_page_8sc_1jhoks57u']/group[@name='studio_group_8sc']/field[@name='x_studio_one2many_field_610_1jhol42jk']/list/field[@name='company_id'][2]" position="after">
+          <xpath expr="/form/sheet/div[2]/h1/field[@name='name']" position="move"/>
+        </xpath>
+        <xpath expr="/form/sheet/notebook/page[@name='studio_page_8sc_1jhoks57u']/group[@name='studio_group_8sc']/field[@name='x_studio_one2many_field_610_1jhol42jk']/list//field[@name='name']" position="attributes">
+          <attribute name="class"/>
+          <attribute name="optional">hide</attribute>
+          <attribute name="options"/>
+          <attribute name="placeholder"/>
+          <attribute name="widget"/>
         </xpath>
       </data>
     </field>
@@ -708,28 +1351,24 @@
         <xpath expr="/form//group[@name='studio_group_78e875']" position="after">
           <group name="studio_group_9c_1jhqumsbt">
             <group name="studio_group_9c_left">
-              <field name="x_studio_time_of_the_visit"/>
-              <field name="x_studio_minimum_days_from_previous_visit"/>
+              <field name="x_studio_species" widget="many2many_tags" options="{&quot;edit_tags&quot;:true,&quot;color_field&quot;:&quot;id&quot;}"/>
+              <field name="x_protocols_id" string="In protocol"/>
+            </group>
+            <group name="studio_group_9c_right">
               <field name="x_studio_weather_conditions"/>
             </group>
           </group>
-          <notebook name="studio_notebook_1b9_1jhr2qmnt">
-            <page string="Species" name="studio_page_1b9">
-              <group name="studio_group_1b9">
-                <group name="studio_group_1b9_right">
-                  <field name="x_studio_species" widget="many2many_tags"/>
-                </group>
-              </group>
-            </page>
-          </notebook>
         </xpath>
-        <xpath expr="/form//group[@name='studio_group_78e875_right']" position="replace"/>
+        <xpath expr="/form//group[@name='studio_group_78e875_right']" position="inside">
+          <field name="x_studio_time_of_the_visit"/>
+          <field name="x_studio_minimum_days_from_previous_visit"/>
+        </xpath>
         <xpath expr="/form//group[@name='studio_group_78e875_left']" position="inside">
-          <group name="studio_group_startperiod_left">
+          <group name="studio_group_startperiod_left" style="width: 25%">
             <field name="x_studio_start_day"/>
             <field name="x_studio_end_day"/>
           </group>
-          <group name="studio_group_startperiod_right">
+          <group name="studio_group_startperiod_right" style="width: 75%">
             <field name="x_studio_start_month"/>
             <field name="x_studio_end_month"/>
           </group>
@@ -932,5 +1571,57 @@
     <field name="name">Odoo Studio: Default form view for x_species customization</field>
     <field name="priority">99</field>
     <field name="type">form</field>
+  </record>
+  <record id="odoo_studio_ir_ui_me_76162791-69c9-4c6f-b60c-4814997ec56a" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="/list//field[@name='complete_name']" position="after">
+          <field optional="show" name="x_studio_related_field_81h_1jhr974bq"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="inherit_id" ref="base.edit_menu"/>
+    <field name="mode">extension</field>
+    <field name="model">ir.ui.menu</field>
+    <field name="name">Odoo Studio: ir.ui.menu list customization</field>
+    <field name="priority">99</field>
+    <field name="type">list</field>
+  </record>
+  <record id="odoo_studio_approval_82c26468-c3c8-4857-ba75-371b72e5b9ce" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="/form/sheet/group/group[@name='request_details']/field[@name='company_id']" position="after">
+          <field name="x_studio_type"/>
+        </xpath>
+        <xpath expr="/form//page[@name='approvers']" position="after">
+          <page string="Request shifts" name="studio_page_9j3_1ji54f7hk" invisible="category_id not in [9]">
+            <group name="studio_group_9j3">
+              <field name="x_studio_shifts" options="{&quot;no_create&quot;:true}"/>
+            </group>
+          </page>
+        </xpath>
+      </data>
+    </field>
+    <field name="inherit_id" ref="approvals.approval_request_view_form"/>
+    <field name="mode">extension</field>
+    <field name="model">approval.request</field>
+    <field name="name">Odoo Studio: approval.request.view.form customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+  <record id="odoo_studio_planning_4375996b-bda5-4ad3-9a6b-ced40fb4ab80" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="/gantt" position="attributes">
+          <attribute name="display_mode">dense</attribute>
+        </xpath>
+      </data>
+    </field>
+    <field name="inherit_id" ref="planning.planning_view_gantt"/>
+    <field name="mode">extension</field>
+    <field name="model">planning.slot</field>
+    <field name="name">Odoo Studio: planning.slot.gantt customization</field>
+    <field name="priority">1000</field>
+    <field name="type">gantt</field>
   </record>
 </odoo>

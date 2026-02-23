@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="request_assignment_7a79e11f-811d-41cc-b72b-7346e4636a2f" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" ref="planning.model_planning_slot"/>
+    <field name="code"><![CDATA[# Model: planning.slot
+# This server action runs on records in `record` or `records`
+
+ApprovalCategory = env['approval.category'].sudo()
+ApprovalRequest = env['approval.request'].sudo()
+
+approval_type = ApprovalCategory.search([('name', '=', 'Shifts')], limit=1)
+if not approval_type:
+    raise UserError("Approval type 'Shifts' not found.")
+
+for shift in records:
+    
+    approver_lines = []
+    for appr in approval_type.approver_ids:
+        if appr.user_id:
+            approver_lines.append((0, 0, {
+                'user_id': appr.user_id.id,
+                'required': appr.required,
+            }))
+    
+    
+    request=ApprovalRequest.create({
+        'category_id': approval_type.id,
+        'request_owner_id': env.user.id,
+        'x_studio_shifts': shift.id,
+        'x_studio_type': 'take_open_shift',
+        'name': f"Shift request for {shift.name or shift.display_name}",
+        'approver_ids': approver_lines
+    })
+    
+    
+    # Auto-submit the request, as if the user clicked "Submit"
+    request.action_confirm()]]></field>
+    <field name="model_id" ref="planning.model_planning_slot"/>
+    <field name="state">code</field>
+    <field name="group_ids" eval="[(6, 0, [ref('base.group_user')])]"/>
+    <field name="name">Request assignment</field>
+    <field name="value"><![CDATA[Shift assignment request]]></field>
+  </record>
+</odoo>

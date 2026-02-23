@@ -590,7 +590,7 @@
   <record id="protocols_line_5d4766f5-0427-423e-a901-adce1e4ca99a" model="ir.model.fields" context="{'studio': True}">
     <field name="ttype">many2one</field>
     <field name="copied" eval="True"/>
-    <field name="field_description">X Protocols</field>
+    <field name="field_description">In protocol</field>
     <field name="model">x_protocols_line_514e0</field>
     <field name="model_id" ref="protocols_line_c7496bbc-8d49-4182-8c18-6104e74df43b"/>
     <field name="name">x_protocols_id</field>
@@ -953,5 +953,244 @@
     <field name="relation">x_species</field>
     <field name="relation_table">x_x_protocols_line_514e0_x_species_rel_1</field>
     <field name="store" eval="False"/>
+  </record>
+  <record id="sequence_copy_menu_a0030080-6be4-4885-950c-0db24d7d2678" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">integer</field>
+    <field name="related">sequence</field>
+    <field name="field_description">Sequence (Copy)</field>
+    <field name="model">ir.ui.menu</field>
+    <field name="model_id" ref="base.model_ir_ui_menu"/>
+    <field name="name">x_studio_related_field_81h_1jhr974bq</field>
+    <field name="on_delete" eval="False"/>
+    <field name="readonly" eval="True"/>
+    <field name="store" eval="False"/>
+  </record>
+  <record id="new_many2one_project_07c7f40d-c3ca-4be2-b8fd-07e85e1730b5" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2one</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Shifts Planned</field>
+    <field name="model">project.project</field>
+    <field name="model_id" ref="project.model_project_project"/>
+    <field name="name">x_studio_shifts_planned</field>
+    <field name="relation">planning.slot</field>
+  </record>
+  <record id="new_one2many_project_c4ac3d2f-3ec0-4b2b-b525-fa9ea9d66dc7" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">one2many</field>
+    <field name="field_description">Planned</field>
+    <field name="model">project.project</field>
+    <field name="model_id" ref="project.model_project_project"/>
+    <field name="name">x_studio_planned</field>
+    <field name="on_delete" eval="False"/>
+    <field name="relation">planning.slot</field>
+    <field name="relation_field">project_id</field>
+  </record>
+  <record id="new_many2many_task_8491fa75-a9ac-4fc6-90f1-ca6aed0ec470" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2many</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Protocol Visits</field>
+    <field name="model">project.task</field>
+    <field name="model_id" ref="project.model_project_task"/>
+    <field name="name">x_studio_protocol_visits</field>
+    <field name="on_delete" eval="False"/>
+    <field name="relation">x_protocols_line_514e0</field>
+    <field name="relation_table">x_project_task_x_protocols_line_514e0_rel</field>
+  </record>
+  <record id="new_one2many_project_b3f6e5ba-d105-46b2-84ae-8cb4edbc46d2" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">one2many</field>
+    <field name="field_description">Tasks</field>
+    <field name="model">project.project</field>
+    <field name="model_id" ref="project.model_project_project"/>
+    <field name="name">x_studio_tasks</field>
+    <field name="on_delete" eval="False"/>
+    <field name="relation">project.task</field>
+    <field name="relation_field">project_id</field>
+  </record>
+  <record id="new_many2many_projec_1d847a1b-2de1-49bd-ba96-9f9ea15ad8a9" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2many</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">New Many2Many</field>
+    <field name="model">project.project</field>
+    <field name="model_id" ref="project.model_project_project"/>
+    <field name="name">x_studio_many2many_field_85o_1jhta6jfm</field>
+    <field name="on_delete" eval="False"/>
+    <field name="relation">x_species</field>
+    <field name="relation_table">x_project_project_x_species_rel</field>
+  </record>
+  <record id="new_many2many_projec_33ceee32-d3c6-4452-96fc-4d8188785efb" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2many</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Species Monitored</field>
+    <field name="model">project.project</field>
+    <field name="model_id" ref="project.model_project_project"/>
+    <field name="name">x_studio_species_monitored</field>
+    <field name="on_delete" eval="False"/>
+    <field name="relation">x_species</field>
+    <field name="relation_table">x_project_project_x_species_rel_1</field>
+  </record>
+  <record id="new_many2many_projec_960f9bb3-0deb-4726-908e-21741474dcb5" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2many</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Species Protocols Involved</field>
+    <field name="model">project.project</field>
+    <field name="model_id" ref="project.model_project_project"/>
+    <field name="name">x_studio_species_protocols_involved</field>
+    <field name="on_delete" eval="False"/>
+    <field name="relation">x_protocols</field>
+    <field name="relation_table">x_project_project_x_protocols_rel</field>
+  </record>
+  <record id="new_many2many_task_6db4cd95-c649-48e2-9a2f-436ccd6b1f23" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2many</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Protocol visit</field>
+    <field name="model">project.task</field>
+    <field name="model_id" ref="project.model_project_task"/>
+    <field name="name">x_studio_protocol_visit</field>
+    <field name="on_delete" eval="False"/>
+    <field name="relation">x_protocols</field>
+    <field name="relation_table">x_project_task_x_protocols_rel</field>
+  </record>
+  <record id="new_many2one_task_6f9e279d-27d2-4201-b496-19f0c12f2856" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2one</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Protocol</field>
+    <field name="model">project.task</field>
+    <field name="model_id" ref="project.model_project_task"/>
+    <field name="name">x_studio_protocol</field>
+    <field name="relation">x_protocols</field>
+  </record>
+  <record id="new_many2one_task_e24537ad-965f-41c5-8062-9b3a6af352aa" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2one</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Protocol</field>
+    <field name="model">project.task</field>
+    <field name="model_id" ref="project.model_project_task"/>
+    <field name="name">x_studio_protocol_1</field>
+    <field name="relation">project.project</field>
+  </record>
+  <record id="new_many2one_task_e8dc8db8-6fcd-4539-b7d6-06c784609902" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2one</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Protocol visit</field>
+    <field name="model">project.task</field>
+    <field name="model_id" ref="project.model_project_task"/>
+    <field name="name">x_studio_protocol_visit_single</field>
+    <field name="relation">x_protocols_line_514e0</field>
+  </record>
+  <record id="new_integer_task_7610ddd9-b77c-4cd2-bba8-17c13138bd3e" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">integer</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">People Needed</field>
+    <field name="model">project.task</field>
+    <field name="model_id" ref="project.model_project_task"/>
+    <field name="name">x_studio_people_needed</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="new_integer_task_06ed8c89-7942-46a5-b223-eb77d6de116b" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">integer</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">People</field>
+    <field name="model">project.task</field>
+    <field name="model_id" ref="project.model_project_task"/>
+    <field name="name">x_studio_people</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="new_checkbox_task_4c2f3ff2-87cc-4422-b11d-7295b71d485c" model="ir.model.fields" context="{'studio': True}">
+    <field name="compute"><![CDATA[for record in self:
+    record['x_studio_enough_people'] = len(record.user_ids) >= record.x_studio_people_needed]]></field>
+    <field name="ttype">boolean</field>
+    <field name="depends">user_ids,x_studio_people_needed</field>
+    <field name="field_description">Enough people</field>
+    <field name="model">project.task</field>
+    <field name="model_id" ref="project.model_project_task"/>
+    <field name="name">x_studio_enough_people</field>
+    <field name="on_delete" eval="False"/>
+    <field name="readonly" eval="True"/>
+  </record>
+  <record id="new_priority_task_b2c59381-0b33-4c28-85f7-8db9b41fccfa" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">selection</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">New Priority</field>
+    <field name="model">project.task</field>
+    <field name="model_id" ref="project.model_project_task"/>
+    <field name="name">x_studio_selection_field_5k4_1jhtq7eni</field>
+    <field name="on_delete" eval="False"/>
+    <field name="selection">[('0', 'Normal'), ('1', 'Low'), ('2', 'High'), ('3', 'Very High')]</field>
+  </record>
+  <record id="new_html_task_7df39e55-1a9e-4a39-aaa2-9295f2102be8" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">html</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">New HTML</field>
+    <field name="model">project.task</field>
+    <field name="model_id" ref="project.model_project_task"/>
+    <field name="name">x_studio_html_field_3v_1jhtqcd7p</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="new_image_task_eeeb32e8-a010-4bcf-a2e9-8942730a0929" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">binary</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Warnings</field>
+    <field name="model">project.task</field>
+    <field name="model_id" ref="project.model_project_task"/>
+    <field name="name">x_studio_warning_not_enough_people</field>
+    <field name="on_delete" eval="False"/>
+    <field name="readonly" eval="True"/>
+  </record>
+  <record id="new_text_task_fb779021-a5ac-4c69-aa4d-1b5e3d2ef66d" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">char</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Task Name</field>
+    <field name="model">project.task</field>
+    <field name="model_id" ref="project.model_project_task"/>
+    <field name="name">x_studio_task_name</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="warnings_copy_task_1f993e30-cd6f-49b4-a7d1-93ec38d520db" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">binary</field>
+    <field name="related">x_studio_warning_not_enough_people</field>
+    <field name="field_description">Warnings</field>
+    <field name="model">project.task</field>
+    <field name="model_id" ref="project.model_project_task"/>
+    <field name="name">x_studio_warnings</field>
+    <field name="on_delete" eval="False"/>
+    <field name="readonly" eval="True"/>
+    <field name="store" eval="False"/>
+  </record>
+  <record id="new_one2many_project_484f0dec-f80c-4ba2-9bbc-ffbecd311ee9" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">one2many</field>
+    <field name="field_description">Children</field>
+    <field name="model">project.project</field>
+    <field name="model_id" ref="project.model_project_project"/>
+    <field name="name">x_studio_children</field>
+    <field name="on_delete" eval="False"/>
+    <field name="relation">project.project</field>
+    <field name="relation_field">x_studio_parent_project</field>
+  </record>
+  <record id="new_checkbox_employe_c468de37-bcfb-4a83-bdf5-1edc1730e091" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">boolean</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Maximum number of  shifts reached this week</field>
+    <field name="model">hr.employee</field>
+    <field name="model_id" ref="hr.model_hr_employee"/>
+    <field name="name">x_studio_maximum_number_of_shifts_reached_this_week</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+  <record id="new_many2one_approva_4288cc13-d4aa-4e51-9efd-c7f186d7e9b5" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2one</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Shifts</field>
+    <field name="model">approval.request</field>
+    <field name="model_id" ref="approvals.model_approval_request"/>
+    <field name="name">x_studio_shifts</field>
+    <field name="relation">planning.slot</field>
+  </record>
+  <record id="new_selection_approv_3a0a078d-7b56-4817-94b5-949907490bb5" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">selection</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">type</field>
+    <field name="model">approval.request</field>
+    <field name="model_id" ref="approvals.model_approval_request"/>
+    <field name="name">x_studio_type</field>
+    <field name="on_delete" eval="False"/>
+    <field name="selection">[('take_open_shift', 'Take open shift')]</field>
   </record>
 </odoo>

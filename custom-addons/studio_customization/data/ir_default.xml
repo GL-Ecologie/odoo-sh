@@ -40,4 +40,16 @@
     <field name="field_id" ref="sequence_species_774caa14-dbba-46f1-b264-f2372024b40c"/>
     <field name="json_value">10</field>
   </record>
+  <record id="new_integer_task_b8db400d-62ab-430f-aab1-d6caf6d01837" model="ir.default" context="{'studio': True}">
+    <field name="field_id" ref="new_integer_task_7610ddd9-b77c-4cd2-bba8-17c13138bd3e"/>
+    <field name="json_value">"0"</field>
+  </record>
+  <record id="new_integer_task_c2c6ea64-1d3f-43a4-9437-2b1b94938e3d" model="ir.default" context="{'studio': True}">
+    <field name="field_id" ref="new_integer_task_06ed8c89-7942-46a5-b223-eb77d6de116b"/>
+    <field name="json_value">"0"</field>
+  </record>
+  <record id="enough_people_task_89cf5a2a-fa97-43c3-97f5-b266d1e819c2" model="ir.default" context="{'studio': True}">
+    <field name="field_id" ref="new_checkbox_task_4c2f3ff2-87cc-4422-b11d-7295b71d485c"/>
+    <field name="json_value">false</field>
+  </record>
 </odoo>

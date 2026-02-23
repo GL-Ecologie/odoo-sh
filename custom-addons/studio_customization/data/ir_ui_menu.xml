@@ -2,12 +2,14 @@
 <odoo>
   <record id="locations_20bc2253-3105-4798-8b3a-402bbff2b64a" model="ir.ui.menu" context="{'studio': True}">
     <field name="name">Locations</field>
+    <field name="sequence">48</field>
     <field name="web_icon">fa fa-map-marker,#00CEB3,#FFFFFF</field>
   </record>
   <record id="locations_properties_228e291c-51c3-4ad7-98a8-48e89bc1d859" model="ir.ui.menu" context="{'studio': True}">
     <field name="action" ref="properties_dd07782d-e5a5-45fc-a2f6-35bfa3ef004b"/>
     <field name="name">Locations</field>
     <field name="parent_id" ref="locations_20bc2253-3105-4798-8b3a-402bbff2b64a"/>
+    <field name="sequence">63</field>
   </record>
   <record id="locations_configurat_0b7f1dcf-af17-49e4-9df1-cedbe5d18454" model="ir.ui.menu" context="{'studio': True}">
     <field name="name">Configuration</field>
@@ -18,43 +20,45 @@
     <field name="action" ref="properties_tags_4bc6eb7f-3548-412d-bf96-ad9d3d1269d8"/>
     <field name="name">Locations Tags</field>
     <field name="parent_id" ref="locations_configurat_0b7f1dcf-af17-49e4-9df1-cedbe5d18454"/>
+    <field name="sequence">68</field>
   </record>
   <record id="protocols_97036ad7-397b-4ad6-892b-5944ec1f2f71" model="ir.ui.menu" context="{'studio': True}">
     <field name="name">Protocols</field>
+    <field name="sequence" eval="False"/>
     <field name="web_icon">fa fa-list-ol,#0079BF,#FFFFFF</field>
   </record>
   <record id="protocols_protocols_3b3957da-bd14-4de9-af14-f668c9ed6e31" model="ir.ui.menu" context="{'studio': True}">
     <field name="action" ref="protocols_98ed6b4c-5390-4796-a751-fdb28018f2a3"/>
     <field name="name">Protocols</field>
     <field name="parent_id" ref="protocols_97036ad7-397b-4ad6-892b-5944ec1f2f71"/>
-    <field name="sequence">1</field>
+    <field name="sequence">8</field>
   </record>
   <record id="protocols_configurat_11ddd9df-46c3-4633-94a3-727c96da7f1c" model="ir.ui.menu" context="{'studio': True}">
     <field name="name">Configuration</field>
     <field name="parent_id" ref="protocols_97036ad7-397b-4ad6-892b-5944ec1f2f71"/>
-    <field name="sequence">3</field>
+    <field name="sequence">100</field>
   </record>
   <record id="protocols_configurat_1433ba0a-9921-400e-8a79-f12887b47add" model="ir.ui.menu" context="{'studio': True}">
     <field name="action" ref="protocols_tags_7ca43b92-2e2a-4f15-a415-63febb5f1754"/>
     <field name="name">Protocols Tags</field>
     <field name="parent_id" ref="protocols_configurat_11ddd9df-46c3-4633-94a3-727c96da7f1c"/>
-    <field name="sequence">2</field>
+    <field name="sequence">54</field>
   </record>
   <record id="protocols_protocols__71baebf3-58ae-484d-8017-d031917e11c5" model="ir.ui.menu" context="{'studio': True}">
     <field name="action" ref="protocols_visits_50d22540-1288-4252-8d40-ecdc55b0aaf6"/>
     <field name="name">Protocols Visits</field>
-    <field name="parent_id" ref="protocols_configurat_11ddd9df-46c3-4633-94a3-727c96da7f1c"/>
-    <field name="sequence">3</field>
+    <field name="parent_id" ref="protocols_97036ad7-397b-4ad6-892b-5944ec1f2f71"/>
   </record>
   <record id="protocols_species_9f3a296a-d7a9-4511-b9d2-d52894cdfe42" model="ir.ui.menu" context="{'studio': True}">
     <field name="action" ref="species_25add082-0c42-4d14-a751-5b46803509be"/>
     <field name="name">Species</field>
     <field name="parent_id" ref="protocols_97036ad7-397b-4ad6-892b-5944ec1f2f71"/>
-    <field name="sequence">2</field>
+    <field name="sequence">12</field>
   </record>
   <record id="protocols_configurat_28dd3e9b-a33c-4302-8c52-a88f3af8dfd2" model="ir.ui.menu" context="{'studio': True}">
     <field name="action" ref="species_tags_29feff46-2a06-45ee-8529-bae7853b4729"/>
     <field name="name">Species Tags</field>
     <field name="parent_id" ref="protocols_configurat_11ddd9df-46c3-4633-94a3-727c96da7f1c"/>
+    <field name="sequence">43</field>
   </record>
 </odoo>

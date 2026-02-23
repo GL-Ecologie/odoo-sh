@@ -1,0 +1,8 @@
+The following relational data haven't been exported because they either refer
+to a model that Studio doesn't export, or have no XML id:
+
+Record: protocols_tags_group_70a204c2-0e28-473f-aa49-af6570c55655,
+Model: ir.model.access,
+Field: group_id,
+Type: many2one,
+Value: res.groups(52,) ('Protocol / User')
