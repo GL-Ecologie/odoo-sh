@@ -723,6 +723,17 @@
     <field name="on_delete" eval="False"/>
     <field name="selection">[('SMP', 'SMP'), ('Regular research', 'Regular research'), ('Extra research', 'Extra research')]</field>
   </record>
+  <record id="x_protocols_x_studio_projects_custom_field" model="ir.model.fields">
+    <field name="ttype">many2many</field>
+    <field name="copied" eval="True"/>
+    <field name="store" eval="True"/>
+    <field name="field_description">Projects</field>
+    <field name="model">x_protocols</field>
+    <field name="model_id" ref="protocols_344697e0-300f-451a-bd69-942064618948"/>
+    <field name="name">x_studio_projects</field>
+    <field name="relation">project.project</field>
+    <field name="relation_table">x_project_project_x_protocols_rel</field>
+  </record>
   <record id="new_text_protocols_l_c0e1814c-cf4d-4eb0-8c09-46576fca4d8e" model="ir.model.fields" context="{'studio': True}">
     <field name="ttype">char</field>
     <field name="copied" eval="True"/>
