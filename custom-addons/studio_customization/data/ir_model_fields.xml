@@ -723,7 +723,7 @@
     <field name="on_delete" eval="False"/>
     <field name="selection">[('SMP', 'SMP'), ('Regular research', 'Regular research'), ('Extra research', 'Extra research')]</field>
   </record>
-  <record id="x_protocols_x_studio_projects_custom_field" model="ir.model.fields">
+  <record id="x_protocols_x_studio_projects_customised_field" model="ir.model.fields">
     <field name="ttype">many2many</field>
     <field name="copied" eval="True"/>
     <field name="store" eval="True"/>
