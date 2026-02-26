@@ -3,20 +3,6 @@
   <record id="odoo_studio_hr_emplo_290550c1-7b1b-47ae-ae4d-0b9eb16f71a4" model="ir.ui.view" context="{'studio': True}">
     <field name="arch" type="xml">
       <data>
-        <xpath expr="/form//div[@id='o_hr_work_information_container']" position="after">
-          <group name="studio_group_94h_1jhj9kqoj" string="Shift availability">
-            <group name="studio_group_94h_left">
-              <field name="x_studio_maximum_shifts_per_week"/>
-              <field name="x_studio_morning_shifts"/>
-              <field name="x_studio_evening_shifts"/>
-              <field name="x_studio_midnight_shifts"/>
-              <field name="x_studio_combine_evening_and_morning_shifts"/>
-            </group>
-            <group name="studio_group_94h_right">
-              <field name="x_studio_maximum_number_of_shifts_reached_this_week" force_save="1" readonly="True" invisible="False"/>
-            </group>
-          </group>
-        </xpath>
         <xpath expr="/form//field[@name='parent_id']" position="after">
           <field name="x_studio_smp_eligible"/>
         </xpath>
@@ -888,8 +874,8 @@
         <xpath expr="/form/sheet/group/group/field[@name='project_id'][2]" position="after">
           <field name="x_studio_task" domain="[('project_id', '=', project_id)]" context="{'search_default_task_ids': project_id}"/>
         </xpath>
-        <xpath expr="/form//field[@name='resource_id']" position="attributes">
-          <attribute name="domain">[("employee_id.x_studio_maximum_number_of_shifts_reached_this_week", "=", False)]</attribute>
+        <xpath expr="/form//label[@for='start_datetime']" position="before">
+          <field name="shift_type_id" required="True"/>
         </xpath>
       </data>
     </field>
