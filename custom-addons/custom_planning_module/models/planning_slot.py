@@ -1,9 +1,11 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
+import datetime, logging
 
 class PlanningSlot(models.Model):
     _inherit = "planning.slot"
-    
+
+    _logger = logging.getLogger(__name__)
     _name = 'planning.slot'
     _description = 'Custom planning slot (shift) model'
 
@@ -26,6 +28,74 @@ class PlanningSlot(models.Model):
         store=False,
     )
 
+    resource_ids_domain = fields.Binary(string="Resources domain", help="Dynamic domain used for the resource that can be set on shift", compute="_compute_resource_domain")
+    
+    @api.depends('start_datetime')
+    def _compute_resource_domain(self):
+        """Limit resource_id dropdown to people who have not yet reached
+        their weekly max number of shifts for the week of start_datetime.
+        """
+        self.ensure_one()
+
+        # If we don't have a date yet, don't touch the domain
+        if not self.start_datetime:
+            return {}
+
+        # ⚠️ Adjust this field name to your actual field on resource / employee
+        # Example: a custom integer field on resource.resource or hr.employee
+        MAX_FIELD = 'x_studio_maximum_shifts_per_week'  # <- change if yours is different
+
+        # Compute week start / end (Monday-based)
+        # Assumes start_datetime is already a datetime object in UTC
+
+        start = fields.Datetime.to_datetime(self.start_datetime)
+        # get Monday 00:00 and Sunday 23:59-ish
+        week_start = start - datetime.timedelta(days=start.weekday())
+        week_start = week_start.replace(hour=0, minute=0, second=0, microsecond=0)
+        week_end = week_start + datetime.timedelta(days=7)
+
+        employees = self.env['hr.employee']
+        Slot = self.env['planning.slot']
+
+        shift_candidates = employees.search(
+            [(MAX_FIELD, ">=", 0)]
+        )
+        
+        self._logger.info(f"Resource list: {shift_candidates}")
+        
+        eligible_ids = []
+        base_domain = []
+        for candidate in shift_candidates:
+            res = candidate.resource_id
+            self._logger.info(f"Candidate {candidate.name} wants {candidate[MAX_FIELD]} max shifts per week")
+            max_weekly = getattr(candidate, MAX_FIELD, 0)
+            self._logger.info(f"{candidate.name} - max_weekly: {max_weekly}")
+
+            if not max_weekly or max_weekly == 0:
+                eligible_ids.append(res.id)
+                continue
+
+            # Count this resource's shifts in the same week
+            existing_count = Slot.search_count([
+                ('resource_id', '=', res.id),
+                ('start_datetime', '>=', week_start),
+                ('start_datetime', '<', week_end),
+                ('id', 'not in', self.ids),  # ignore current record
+                ('state', '!=', 'cancel'),  # optional
+            ])
+            self._logger.info(f"Existing count for {candidate.name} is {existing_count}")
+
+            if existing_count < max_weekly:
+                eligible_ids.append(res.id)
+        
+        if not eligible_ids:
+            # No one eligible → domain that matches nobody
+            domain = base_domain + [('id', '=', 0)]
+        else:
+            domain = base_domain + [('id', 'in', eligible_ids)]
+        self._logger.info(f"Final domain: {domain}")
+        self.resource_ids_domain = domain
+
     @api.depends("start_datetime", "end_datetime", "resource_id")
     def _compute_exceeds_weekly_limit(self):
         for slot in self:
@@ -34,11 +104,15 @@ class PlanningSlot(models.Model):
                 continue
 
             max_shifts = slot._get_resource_max_shifts_per_week()
+            self._logger.info(f"Maximum shifts per week for user: {max_shifts}")
             if not max_shifts:
                 continue
 
             week_slots = slot._get_week_slots_for_resource()
-            slot.x_exceeds_weekly_limit = len(week_slots) > max_shifts
+            self._logger.info(f"Current number of shifts this week: {len(week_slots)}")
+
+            slot.x_exceeds_weekly_limit = len(week_slots) <= max_shifts
+            self._logger.info(f"Weekly limit exceeded?: {slot.x_exceeds_weekly_limit}")
 
     # ------------- CONSTRAINT-LIKE LOGIC -------------
 
@@ -68,7 +142,7 @@ class PlanningSlot(models.Model):
             max_shifts = slot._get_resource_max_shifts_per_week()
             if max_shifts:
                 week_slots = slot._get_week_slots_for_resource()
-                if len(week_slots) > max_shifts:
+                if len(week_slots) >= max_shifts:
                     raise ValidationError(_(
                         "You cannot assign %(resource)s to this shift.\n\n"
                         "Reason: this resource would exceed their maximum "
@@ -88,6 +162,8 @@ class PlanningSlot(models.Model):
 
     # ------------- HELPERS (we'll plug into your existing fields later) -------------
 
+    
+
     def _get_week_slots_for_resource(self):
         """Return all slots for the same resource in the same calendar week."""
         self.ensure_one()
@@ -96,16 +172,18 @@ class PlanningSlot(models.Model):
 
         start = fields.Datetime.to_datetime(self.start_datetime)
         # get Monday 00:00 and Sunday 23:59-ish
-        week_start = start - fields.relativedelta(days=start.weekday())
+        week_start = start - datetime.timedelta(days=start.weekday())
         week_start = week_start.replace(hour=0, minute=0, second=0, microsecond=0)
-        week_end = week_start + fields.relativetime(days=7)
+        week_end = week_start + datetime.timedelta(days=7)
 
         domain = [
-            ("id", "!=", self.id),
+            ("id", "not in", self.ids),
             ("resource_id", "=", self.resource_id.id),
             ("start_datetime", ">=", week_start),
             ("start_datetime", "<", week_end),
+            ("state", "!=", "cancelled")
         ]
+        
         return self.search(domain)
 
     def _get_resource_max_shifts_per_week(self):
@@ -117,7 +195,7 @@ class PlanningSlot(models.Model):
         self.ensure_one()
         # TODO: replace with something like:
         # return self.resource_id.employee_id.x_max_shifts_per_week
-        return 5
+        return self.resource_id.employee_id.x_studio_maximum_shifts_per_week
 
     def _resource_accepts_shift_type(self):
         """
