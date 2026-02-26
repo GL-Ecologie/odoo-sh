@@ -2,7 +2,7 @@
 <odoo>
   <data>
     <!-- List view -->
-    <record model="ir.ui.view" id="custom_planning_module_plannig_shift_type.list">
+    <record model="ir.ui.view" id="view_plannig_shift_type_list">
       <field name="name">custom_planning_module list</field>
       <field name="model">planning.shift.type</field>
       <field name="arch" type="xml">
@@ -44,7 +44,7 @@
     <!-- Menu item under Planning configuration -->
     <menuitem id="menu_planning_shift_type"
               name="Shift Types"
-              parent="planning.menu_planning_configuration"
+              parent="planning.planning_menu_settings"
               action="action_planning_shift_type"
               sequence="30"
               groups="planning.group_planning_manager"/>
