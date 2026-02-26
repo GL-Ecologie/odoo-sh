@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
   <data>
-    <!-- Tree view -->
-    <record id="view_planning_shift_type_tree" model="ir.ui.view">
-        <field name="name">planning.shift.type.tree</field>
-        <field name="model">planning.shift.type</field>
-        <field name="arch" type="xml">
-            <tree>
-                <field name="name"/>
-                <field name="code"/>
-            </tree>
-        </field>
+    <!-- List view -->
+    <record model="ir.ui.view" id="custom_planning_module_plannig_shift_type.list">
+      <field name="name">custom_planning_module list</field>
+      <field name="model">planning.shift.type</field>
+      <field name="arch" type="xml">
+        <list>
+          <field name="name"/>
+          <field name="code"/>
+        </list>
+      </field>
     </record>
 
     <!-- Form view -->
@@ -33,7 +33,7 @@
     <record id="action_planning_shift_type" model="ir.actions.act_window">
         <field name="name">Shift Types</field>
         <field name="res_model">planning.shift.type</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">lost,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create and manage your shift types here.
