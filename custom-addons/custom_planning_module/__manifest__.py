@@ -24,7 +24,7 @@
     'data': [
         # 'security/ir.model.access.csv',
         'views/planning_slot_view.xml',
-        #'views/templates.xml',
+        'views/planning_shift_type_views.xml'
     ],
     # only loaded in demonstration mode
     'demo': [

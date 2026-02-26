@@ -10,15 +10,9 @@ class PlanningSlot(models.Model):
     _description = 'Custom planning slot (shift) model'
 
     # OPTIONAL: we can later wire this to an employee/resource pref model
-    x_shift_type = fields.Selection(
-        [
-            ("morning", "Morning"),
-            ("afternoon", "Afternoon"),
-            ("evening", "Evening"),
-            ("night", "Night"),
-        ],
+    shift_type_id = fields.Many2one(
+        'planning.shift.type',
         string="Shift Type",
-        help="Custom shift type used for planning constraints.",
     )
 
     # OPTIONAL helper: just to debug/see when the rule is violated
@@ -66,11 +60,15 @@ class PlanningSlot(models.Model):
         eligible_ids = []
         base_domain = []
         for candidate in shift_candidates:
+#or self.shift_type_id not in candidate.preferred_shift_type_ids:
+            if self.role_id not in candidate.planning_role_ids:
+                continue
+            
             res = candidate.resource_id
             self._logger.info(f"Candidate {candidate.name} wants {candidate[MAX_FIELD]} max shifts per week")
             max_weekly = getattr(candidate, MAX_FIELD, 0)
             self._logger.info(f"{candidate.name} - max_weekly: {max_weekly}")
-
+            
             if not max_weekly or max_weekly == 0:
                 eligible_ids.append(res.id)
                 continue
