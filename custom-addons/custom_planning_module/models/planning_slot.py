@@ -11,7 +11,7 @@ class PlanningSlot(models.Model):
 
     # OPTIONAL: we can later wire this to an employee/resource pref model
     shift_type_id = fields.Many2one(
-        'planning.shift.type',
+        'planning.shift_type',
         string="Shift Type",
     )
 

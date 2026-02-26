@@ -1,7 +1,7 @@
 from odoo import models, fields
 
 class PlanningShiftType(models.Model):
-    _name = 'planning.shift.type'
+    _name = 'planning.shift_type'
     _description = 'Shift Type'
 
     name = fields.Char(required=True)
