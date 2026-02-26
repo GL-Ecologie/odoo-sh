@@ -15,13 +15,6 @@ class PlanningSlot(models.Model):
         string="Shift Type",
     )
 
-    # OPTIONAL helper: just to debug/see when the rule is violated
-    x_exceeds_weekly_limit = fields.Boolean(
-        string="Exceeds Weekly Limit",
-        compute="_compute_exceeds_weekly_limit",
-        store=False,
-    )
-
     resource_ids_domain = fields.Binary(string="Resources domain", help="Dynamic domain used for the resource that can be set on shift", compute="_compute_resource_domain")
     
     @api.depends('start_datetime')
@@ -35,9 +28,7 @@ class PlanningSlot(models.Model):
         if not self.start_datetime:
             return {}
 
-        # ⚠️ Adjust this field name to your actual field on resource / employee
-        # Example: a custom integer field on resource.resource or hr.employee
-        MAX_FIELD = 'x_studio_maximum_shifts_per_week'  # <- change if yours is different
+        MAX_FIELD = 'max_shifts_per_week'  # <- change if yours is different
 
         # Compute week start / end (Monday-based)
         # Assumes start_datetime is already a datetime object in UTC
@@ -93,24 +84,6 @@ class PlanningSlot(models.Model):
             domain = base_domain + [('id', 'in', eligible_ids)]
         self._logger.info(f"Final domain: {domain}")
         self.resource_ids_domain = domain
-
-    @api.depends("start_datetime", "end_datetime", "resource_id")
-    def _compute_exceeds_weekly_limit(self):
-        for slot in self:
-            slot.x_exceeds_weekly_limit = False
-            if not slot.resource_id or not slot.start_datetime:
-                continue
-
-            max_shifts = slot._get_resource_max_shifts_per_week()
-            self._logger.info(f"Maximum shifts per week for user: {max_shifts}")
-            if not max_shifts:
-                continue
-
-            week_slots = slot._get_week_slots_for_resource()
-            self._logger.info(f"Current number of shifts this week: {len(week_slots)}")
-
-            slot.x_exceeds_weekly_limit = len(week_slots) <= max_shifts
-            self._logger.info(f"Weekly limit exceeded?: {slot.x_exceeds_weekly_limit}")
 
     # ------------- CONSTRAINT-LIKE LOGIC -------------
 
@@ -186,27 +159,29 @@ class PlanningSlot(models.Model):
 
     def _get_resource_max_shifts_per_week(self):
         """
-        Placeholder: get max shifts from resource/employee.
-        For now returns a fixed value so we can test the mechanics.
-        Later we’ll replace this with your real preference field.
+        Returns the maximum number of shifts an employee has agreed to work in a week.
         """
         self.ensure_one()
-        # TODO: replace with something like:
-        # return self.resource_id.employee_id.x_max_shifts_per_week
-        return self.resource_id.employee_id.x_studio_maximum_shifts_per_week
+
+        return self.resource_id.employee_id.max_shifts_per_week
 
     def _resource_accepts_shift_type(self):
         """
-        Placeholder: check if the resource has opted into this shift type.
-        Later we’ll map this to whatever model/fields you already have.
+        Returns whether or not the employee accepts this type of shift.
         """
         self.ensure_one()
-        if not self.x_shift_type:
-            return True
 
-        # TODO: replace with real logic, e.g. booleans on employee:
-        # emp = self.resource_id.employee_id
-        # if self.x_shift_type == "morning":
-        #     return emp.x_wants_morning
-        # ...
-        return True
+        shift_accepted = False
+        
+        if not self.x_shift_type or (self._x_shift_type and self.x_shift_type in self.resource_id.employee_id.allowed_shift_type_ids):
+            shift_accepted = True
+
+        return shift_accepted
+
+    def _resource_accepts_evening_morning_shift_combination(self):
+        """
+        Placeholder to implement this logic
+        """
+
+        #TODO: implementation
+        pass
