@@ -16,6 +16,9 @@
             <group name="studio_group_2ac_right"/>
           </group>
         </xpath>
+        <xpath expr="/form//page[@name='personal_information']" position="attributes">
+          <attribute name="groups"/>
+        </xpath>
         <xpath expr="/form/sheet/notebook/page[@name='personal_information']/group/group[4]" position="attributes">
           <attribute name="invisible">True</attribute>
         </xpath>
@@ -24,6 +27,12 @@
         </xpath>
         <xpath expr="/form//group[@name='hr_document_group']" position="attributes">
           <attribute name="invisible">True</attribute>
+        </xpath>
+        <xpath expr="/form//page[@name='hr_settings']" position="attributes">
+          <attribute name="groups"/>
+        </xpath>
+        <xpath expr="/form//group[@name='settings_group']" position="attributes">
+          <attribute name="groups">hr.group_hr_user,__custom__.hr_group_own</attribute>
         </xpath>
       </data>
     </field>
