@@ -17,7 +17,7 @@ class PlanningSlot(models.Model):
 
     resource_ids_domain = fields.Binary(string="Resources domain", help="Dynamic domain used for the resource that can be set on shift", compute="_compute_resource_domain")
     
-    @api.depends('start_datetime')
+    @api.depends('start_datetime', "shift_type_id")
     def _compute_resource_domain(self):
         """Limit resource_id dropdown to people who have not yet reached
         their weekly max number of shifts for the week of start_datetime.
@@ -51,8 +51,9 @@ class PlanningSlot(models.Model):
         eligible_ids = []
         base_domain = []
         for candidate in shift_candidates:
-#or self.shift_type_id not in candidate.preferred_shift_type_ids:
-            if self.role_id not in candidate.planning_role_ids:
+            self._logger.info(f"{candidate.display_name}: {self.shift_type_id not in candidate.allowed_shift_type_ids}\nShifts employee wants:{candidate.allowed_shift_type_ids}")
+            
+            if self.role_id not in candidate.planning_role_ids or self.shift_type_id not in candidate.allowed_shift_type_ids:
                 continue
             
             res = candidate.resource_id
@@ -123,12 +124,12 @@ class PlanningSlot(models.Model):
                     ))
 
             # ---- 2) SHIFT-TYPE PREFERENCE ----
-            if slot.x_shift_type and not slot._resource_accepts_shift_type():
+            if slot.shift_type_id and not slot._resource_accepts_shift_type():
                 raise ValidationError(_(
                     "You cannot assign %(resource)s to this shift.\n\n"
                     "Reason: this resource has not opted into %(stype)s shifts.",
                     resource=slot.resource_id.display_name,
-                    stype=slot.x_shift_type,
+                    stype=slot.shift_type_id.name,
                 ))
 
     # ------------- HELPERS (we'll plug into your existing fields later) -------------
@@ -173,7 +174,7 @@ class PlanningSlot(models.Model):
 
         shift_accepted = False
         
-        if not self.x_shift_type or (self._x_shift_type and self.x_shift_type in self.resource_id.employee_id.allowed_shift_type_ids):
+        if not self.shift_type_id or (self.shift_type_id and self.shift_type_id in self.resource_id.employee_id.allowed_shift_type_ids):
             shift_accepted = True
 
         return shift_accepted

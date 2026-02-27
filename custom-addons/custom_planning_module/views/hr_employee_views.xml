@@ -6,7 +6,7 @@
             <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//page[@name='hr_settings']" position="inside">
-                    <group string="Planning">
+                    <group name="planning" string="Planning">
                         <field name="max_shifts_per_week"/>
                         <field name="allowed_shift_type_ids" widget="many2many_tags"/>
                         <field name="combine_evening_morning_shift"/>
