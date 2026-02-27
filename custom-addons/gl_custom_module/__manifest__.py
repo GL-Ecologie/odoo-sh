@@ -8,7 +8,7 @@
     - Public employees can change some parameters, like max shifts per week, etc.
     - Shift planning takes into account employee's shift preference fields (maximum number of shifts per week, types of shift they want to work, etc.)
     """,
-
+    'license': 'LGPL-3',
     'author': "Julian Ruiz Burgos",
     'website': "https://www.gl-ecologie.nl",
 
