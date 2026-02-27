@@ -15,10 +15,22 @@ class HrEmployee(models.Model):
 
     max_shifts_per_week = fields.Integer(
         string="Max shifts per week",
-        help="How many shifts this employee is willing to work in a week."
+        help="How many shifts this employee is willing to work in a week.",
     )
     
     combine_evening_morning_shift = fields.Boolean(
         string="Combine evening and morning shifts",
-        help="Is employee willing to combine an evening and morning shift in the same day?"
+        help="Is employee willing to combine an evening and morning shift in the same day?",
+    )
+
+    version_id = fields.Many2one(
+        groups="hr.group_hr_user,__custom__.hr_group_own"
+    )
+
+    exceptional_location_id = fields.Many2one(
+        groups="hr.group_hr_user,__custom__.hr_group_own"
+    )
+
+    planning_role_ids = fields.Many2many(
+        groups="hr.group_hr_user,__custom__.hr_group_own"
     )

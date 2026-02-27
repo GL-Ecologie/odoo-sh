@@ -1,21 +1,22 @@
 {
-    'name': "custom_planning_module",
+    'name': "GL-Ecologie Customizations",
 
-    'summary': "Extends base planning module to allow extra shift planinng logic.",
+    'summary': "Extends the Odoo models to incorporate features custom for GL-Ecologie",
 
     'description': """
     This module extends the base planning module with the following features:
+    - Public employees can change some parameters, like max shifts per week, etc.
     - Shift planning takes into account employee's shift preference fields (maximum number of shifts per week, types of shift they want to work, etc.)
     """,
 
     'author': "Julian Ruiz Burgos",
-    'website': "https://www.gl-ecologie.com",
+    'website': "https://www.gl-ecologie.nl",
 
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Customizations',
-    'version': '0.6',
+    'version': '0.7',
 
     # any module necessary for this one to work correctly
     'depends': ['base', 'planning', 'project', 'hr'],
