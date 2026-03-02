@@ -1139,4 +1139,22 @@
     <field name="on_delete" eval="False"/>
     <field name="selection">[('take_open_shift', 'Take open shift')]</field>
   </record>
+  <record id="new_many2one_custom__88a32c87-ea1d-4848-ac8d-ef5261d1cb0e" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2one</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Materials</field>
+    <field name="model">planning.slot</field>
+    <field name="model_id" ref="planning.model_planning_slot"/>
+    <field name="name">x_studio_materials</field>
+    <field name="relation">resource.resource</field>
+  </record>
+  <record id="new_many2one_analyti_f037b84e-0c71-453d-b21a-9a610748f38e" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2one</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Shift</field>
+    <field name="model">account.analytic.line</field>
+    <field name="model_id" ref="analytic.model_account_analytic_line"/>
+    <field name="name">x_studio_shift</field>
+    <field name="relation">planning.slot</field>
+  </record>
 </odoo>
