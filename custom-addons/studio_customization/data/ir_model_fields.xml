@@ -1,14 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-  <record id="new_integer_employee_b98cb189-d772-449b-a43b-63f80334316d" model="ir.model.fields" context="{'studio': True}">
-    <field name="ttype">integer</field>
-    <field name="copied" eval="True"/>
-    <field name="field_description">Maximum shifts per week</field>
-    <field name="model">hr.employee</field>
-    <field name="model_id" ref="hr.model_hr_employee"/>
-    <field name="name">x_studio_maximum_shifts_per_week</field>
-    <field name="on_delete" eval="False"/>
-  </record>
   <record id="new_integer_employee_396bdead-4471-4116-a27a-29ea474ae5d9" model="ir.model.fields" context="{'studio': True}">
     <field name="ttype">integer</field>
     <field name="copied" eval="True"/>
@@ -16,42 +7,6 @@
     <field name="model">hr.employee</field>
     <field name="model_id" ref="hr.model_hr_employee"/>
     <field name="name">x_studio_integer_field_5co_1jhj9ncg4</field>
-    <field name="on_delete" eval="False"/>
-  </record>
-  <record id="new_checkbox_employe_404b152d-b0ed-4324-ae32-0eb6f62611fb" model="ir.model.fields" context="{'studio': True}">
-    <field name="ttype">boolean</field>
-    <field name="copied" eval="True"/>
-    <field name="field_description">Combine evening and morning shifts</field>
-    <field name="model">hr.employee</field>
-    <field name="model_id" ref="hr.model_hr_employee"/>
-    <field name="name">x_studio_combine_evening_and_morning_shifts</field>
-    <field name="on_delete" eval="False"/>
-  </record>
-  <record id="new_checkbox_employe_20e9cb38-2e5a-468b-8928-986a6e06f79d" model="ir.model.fields" context="{'studio': True}">
-    <field name="ttype">boolean</field>
-    <field name="copied" eval="True"/>
-    <field name="field_description">Morning shifts</field>
-    <field name="model">hr.employee</field>
-    <field name="model_id" ref="hr.model_hr_employee"/>
-    <field name="name">x_studio_morning_shifts</field>
-    <field name="on_delete" eval="False"/>
-  </record>
-  <record id="new_checkbox_employe_ba3cd112-af17-448a-8bf3-36dea47fbffe" model="ir.model.fields" context="{'studio': True}">
-    <field name="ttype">boolean</field>
-    <field name="copied" eval="True"/>
-    <field name="field_description">Evening shifts</field>
-    <field name="model">hr.employee</field>
-    <field name="model_id" ref="hr.model_hr_employee"/>
-    <field name="name">x_studio_evening_shifts</field>
-    <field name="on_delete" eval="False"/>
-  </record>
-  <record id="new_checkbox_employe_a62de08e-cc7c-4807-97d9-d649f22a3b98" model="ir.model.fields" context="{'studio': True}">
-    <field name="ttype">boolean</field>
-    <field name="copied" eval="True"/>
-    <field name="field_description">Midnight shifts</field>
-    <field name="model">hr.employee</field>
-    <field name="model_id" ref="hr.model_hr_employee"/>
-    <field name="name">x_studio_midnight_shifts</field>
     <field name="on_delete" eval="False"/>
   </record>
   <record id="new_text_employee_727e0b34-a3d3-4687-a68e-f56a007a958d" model="ir.model.fields" context="{'studio': True}">
@@ -1165,15 +1120,6 @@
     <field name="relation">project.project</field>
     <field name="relation_field">x_studio_parent_project</field>
   </record>
-  <record id="new_checkbox_employe_c468de37-bcfb-4a83-bdf5-1edc1730e091" model="ir.model.fields" context="{'studio': True}">
-    <field name="ttype">boolean</field>
-    <field name="copied" eval="True"/>
-    <field name="field_description">Maximum number of  shifts reached this week</field>
-    <field name="model">hr.employee</field>
-    <field name="model_id" ref="hr.model_hr_employee"/>
-    <field name="name">x_studio_maximum_number_of_shifts_reached_this_week</field>
-    <field name="on_delete" eval="False"/>
-  </record>
   <record id="new_many2one_approva_4288cc13-d4aa-4e51-9efd-c7f186d7e9b5" model="ir.model.fields" context="{'studio': True}">
     <field name="ttype">many2one</field>
     <field name="copied" eval="True"/>
@@ -1192,5 +1138,23 @@
     <field name="name">x_studio_type</field>
     <field name="on_delete" eval="False"/>
     <field name="selection">[('take_open_shift', 'Take open shift')]</field>
+  </record>
+  <record id="new_many2one_custom__88a32c87-ea1d-4848-ac8d-ef5261d1cb0e" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2one</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Materials</field>
+    <field name="model">planning.slot</field>
+    <field name="model_id" ref="planning.model_planning_slot"/>
+    <field name="name">x_studio_materials</field>
+    <field name="relation">resource.resource</field>
+  </record>
+  <record id="new_many2one_analyti_f037b84e-0c71-453d-b21a-9a610748f38e" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2one</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Shift</field>
+    <field name="model">account.analytic.line</field>
+    <field name="model_id" ref="analytic.model_account_analytic_line"/>
+    <field name="name">x_studio_shift</field>
+    <field name="relation">planning.slot</field>
   </record>
 </odoo>

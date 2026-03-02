@@ -41,4 +41,44 @@ for shift in records:
     <field name="name">Request assignment</field>
     <field name="value"><![CDATA[Shift assignment request]]></field>
   </record>
+  <record id="execute_code_f1295dd9-dc13-452f-b1be-b225032205c2" model="ir.actions.server" context="{'studio': True}">
+    <field name="code"><![CDATA[Shift = env['planning.slot']          # adjust model if needed
+Employee = env['hr.employee']
+
+#for record in records:
+#    if not record.start_datetime:
+#        continue
+#
+#    date = record.start_datetime.date()
+#    week_start = date - datetime.timedelta(days=date.weekday())
+#    week_end = week_start + datetime.timedelta(days=7)
+#
+#    # Get all employees that have a max limit
+#    employees = Employee.search([('x_studio_maximum_shifts_per_week', '>', 0)])
+#
+#    # Count shifts per employee in that same week
+#    data = Shift.read_group(
+#        [
+#            ('start_datetime', '>=', week_start),
+#            ('start_datetime', '<', week_end),
+#            ('resource_id', 'in', employees.ids),
+#            ('id', '!=', record.id),
+#            ('state', '!=', 'cancelled'),   # adjust if you have states
+#        ],
+#        ['resource_id'],
+#        ['resource_id'],
+#    )
+#
+#    # Map employee_id -> count
+#    counts = {row['resource_id'][0]: row['resource_id_count'] for row in data}
+#
+#    # Update the boolean on each employee
+#    for emp in employees:
+#        used = counts.get(emp.id, 0)
+#        emp['x_studio_maximum_number_of_shifts_reached_this_week'] = used >= emp.x_studio_maximum_shifts_per_week]]></field>
+    <field name="model_id" ref="planning.model_planning_slot"/>
+    <field name="state">code</field>
+    <field name="name">Execute Code</field>
+    <field name="usage">base_automation</field>
+  </record>
 </odoo>

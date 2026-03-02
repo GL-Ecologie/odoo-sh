@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <!-- List view -->
+    <record model="ir.ui.view" id="view_plannig_shift_type_list">
+      <field name="name">custom_planning_module list</field>
+      <field name="model">planning.shift_type</field>
+      <field name="arch" type="xml">
+        <list>
+          <field name="name"/>
+          <field name="code"/>
+        </list>
+      </field>
+    </record>
+
+    <!-- Form view -->
+    <record id="view_planning_shift_type_form" model="ir.ui.view">
+        <field name="name">planning.shift.type.form</field>
+        <field name="model">planning.shift_type</field>
+        <field name="arch" type="xml">
+            <form string="Shift Type">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action to open Shift Types -->
+    <record id="action_planning_shift_type" model="ir.actions.act_window">
+        <field name="name">Shift Types</field>
+        <field name="res_model">planning.shift_type</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create and manage your shift types here.
+            </p>
+        </field>
+    </record>
+      
+    <!-- Menu item under Planning configuration -->
+    <menuitem id="menu_planning_shift_type"
+              name="Shift Types"
+              parent="planning.planning_menu_settings"
+              action="action_planning_shift_type"
+              sequence="30"
+              groups="planning.group_planning_manager"/>
+  </data>
+</odoo>
