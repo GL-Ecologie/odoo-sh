@@ -16,18 +16,22 @@
     # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Customizations',
-    'version': '0.9',
+    'version': '1.0',
 
     # any module necessary for this one to work correctly
     'depends': ['base', 'planning', 'project', 'hr'],
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
         'views/planning_slot_views.xml',
         'views/planning_shift_type_views.xml',
         'views/hr_employee_views.xml',
         'views/hr_employee_public_views.xml',
+        'materials_consumable_type_views.xml',
+        'materials_material_category_views.xml',
+        'materials_material_type_views.xml',
+        'materials_material_unit_views.xml',
+        'materials_views.xml',
         'security/ir.model.access.csv'
     ],
     # only loaded in demonstration mode

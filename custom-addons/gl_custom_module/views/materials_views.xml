@@ -1,0 +1,11 @@
+<odoo>
+  <data>
+    <!-- Parent menu "Materials" inside the Planning app -->
+    <record id="menu_materials_root" model="ir.ui.menu">
+      <field name="name">Materials</field>
+      <field name="parent_id" ref="planning_menu_root"/>
+      <field name="sequence">50</field>
+      <field name="action" ref="action_materials_material_unit_assignment"/>
+    </record>
+  </data>
+</odoo>

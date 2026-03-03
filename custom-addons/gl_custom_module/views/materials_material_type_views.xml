@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <!-- List view -->
+    <record model="ir.ui.view" id="view_gl_custom_materials_material_type_list">
+      <field name="name">gl_custom_module_materials_material_type list</field>
+      <field name="model">materials.material_type</field>
+      <field name="arch" type="xml">
+        <list>
+            <field name="name"/>
+            <field name="booked_quantity"/>
+            <field name="available_quantity"/>
+            <field name="material_category_id"/>
+            <field name="consumable_type_id"/>
+            <field name="consumable_quantity"/>
+        </list>
+      </field>
+    </record>
+
+    <!-- Form view -->
+    <record id="view_gl_custom_materials_material_type_form" model="ir.ui.view">
+        <field name="name">materials.material_type_form</field>
+        <field name="model">materials.material_type</field>
+        <field name="arch" type="xml">
+            <form string="Material type">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="booked_quantity"/>
+                        <field name="available_quantity"/>
+                        <field name="material_category_id"/>
+                        <field name="material_unit_ids"/>
+                        <field name="consumable_type_id"/>
+                        <field name="consumable_quantity"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action to open Material Types -->
+    <record id="action_materials_material_type" model="ir.actions.act_window">
+        <field name="name">Material Types<field>
+        <field name="res_model">materials.material_type</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create and manage your material types here.
+            </p>
+        </field>
+    </record>
+      
+    <!-- Menu item under Planning configuration -->
+    <menuitem id="menu_materials_material_type"
+              name="Material Types"
+              parent="menu_materials_root"
+              action="action_materials_material_type"
+              sequence="30"
+              groups="planning.group_planning_manager"/>
+  </data>
+</odoo>

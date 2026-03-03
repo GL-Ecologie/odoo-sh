@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <!-- List views -->
+    <record model="ir.ui.view" id="view_gl_custom_materials_material_unit_list">
+      <field name="name">gl_custom_module_materials_material_unit list</field>
+      <field name="model">materials.material_unit</field>
+      <field name="arch" type="xml">
+        <list>
+            <field name="name"/>
+            <field name="material_type_id"/>
+            <field name="material_status_id"/>
+            <field name="material_unit_assignment_ids"/>
+            <field name="active"/>
+        </list>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_gl_custom_materials_material_unit_status_list">
+      <field name="name">gl_custom_module_materials_material_unit_status list</field>
+      <field name="model">materials.material_unit_status</field>
+      <field name="arch" type="xml">
+        <list>
+            <field name="name"/>
+            <field name="material_unit_ids"/>
+            <field name="notes"/>
+        </list>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_gl_custom_materials_material_unit_assignment_list">
+      <field name="name">gl_custom_module_materials_material_unit_assignment list</field>
+      <field name="model">materials.material_unit_assignment</field>
+      <field name="arch" type="xml">
+        <list>
+            <field name="name"/>
+            <field name="material_unit_id"/>
+            <field name="shift_id"/>
+            <field name="notes"/>
+        </list>
+      </field>
+    </record>
+
+    <!-- Form view -->
+    <record id="view_gl_custom_materials_material_unit_form" model="ir.ui.view">
+        <field name="name">materials.material_unit_form</field>
+        <field name="model">materials.material_unit</field>
+        <field name="arch" type="xml">
+            <form string="Material type">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="material_type_id"/>
+                        <field name="material_status_id"/>
+                        <field name="material_unit_assignment_ids"/>
+                        <field name="rental"/>
+                        <field name="serial_number"/>
+                        <field name="active"/>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gl_custom_materials_material_unit_form" model="ir.ui.view">
+        <field name="name">materials.material_unit_status_form</field>
+        <field name="model">materials.material_unit_status</field>
+        <field name="arch" type="xml">
+            <form string="Material type">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="material_unit_ids"/>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gl_custom_materials_material_unit_assigment_form" model="ir.ui.view">
+        <field name="name">materials.material_unit_assigment_form</field>
+        <field name="model">materials.material_unit_assigment</field>
+        <field name="arch" type="xml">
+            <form string="Material type">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="material_unit_id"/>
+                        <field name="shift_id"/>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- Action to open Material Units -->
+    <record id="action_materials_material_unit" model="ir.actions.act_window">
+        <field name="name">Material Units<field>
+        <field name="res_model">materials.material_unit</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create and manage your material units here.
+            </p>
+        </field>
+    </record>
+
+        <!-- Action to open Material Unit statuses -->
+    <record id="action_materials_material_unit_status" model="ir.actions.act_window">
+        <field name="name">Material Units Statuses<field>
+        <field name="res_model">materials.material_unit_status</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create and manage your material units statuses here.
+            </p>
+        </field>
+    </record>
+      
+        <!-- Action to open Material Unit Assignments -->
+    <record id="action_materials_material_unit_assignment" model="ir.actions.act_window">
+        <field name="name">Material Units Assignments<field>
+        <field name="res_model">materials.material_unit_assignment</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create and manage your material units assignments.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu item under Planning configuration -->
+    <menuitem id="menu_materials_material_unit"
+              name="Material Units"
+              parent="menu_materials_root"
+              action="action_materials_material_unit"
+              sequence="40"
+              groups="planning.group_planning_manager"/>
+      
+    <!-- Menu item under Planning configuration -->
+    <menuitem id="menu_materials_material_unit_status"
+              name="Material Units Statuses"
+              parent="menu_materials_root"
+              action="action_materials_material_unit_status"
+              sequence="50"
+              groups="planning.group_planning_manager"/>
+
+        <!-- Menu item under Planning configuration -->
+    <menuitem id="menu_materials_material_unit_assignment"
+              name="Material Units Assignments"
+              parent="menu_materials_root"
+              action="action_materials_material_unit_assignment"
+              sequence="60"
+              groups="planning.group_planning_manager"/>
+  </data>
+</odoo>
