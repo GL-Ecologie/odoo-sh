@@ -78,9 +78,9 @@
         </field>
     </record>
 
-    <record id="view_gl_custom_materials_material_unit_assigment_form" model="ir.ui.view">
-        <field name="name">materials.material_unit_assigment_form</field>
-        <field name="model">materials.material_unit_assigment</field>
+    <record id="view_gl_custom_materials_material_unit_assignment_form" model="ir.ui.view">
+        <field name="name">materials.material_unit_assignment_form</field>
+        <field name="model">materials.material_unit_assignment</field>
         <field name="arch" type="xml">
             <form string="Material type">
                 <sheet>
