@@ -10,7 +10,6 @@
             <field name="name"/>
             <field name="booked_quantity"/>
             <field name="available_quantity"/>
-            <field name="material_category_id"/>
             <field name="consumable_type_id"/>
             <field name="consumable_quantity"/>
         </list>

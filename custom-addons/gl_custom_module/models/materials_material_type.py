@@ -33,7 +33,7 @@ class MaterialType(models.Model):
 
     consumable_type_id = fields.Many2one(
         "materials.consumable_type",
-        string="Type of consumable (if any) needed"
+        string="Uses consumable"
     )
 
     consumable_quantity = fields.Integer()
@@ -42,14 +42,25 @@ class MaterialType(models.Model):
         string="Notes"
     )
 
-    def __compute_units_already_booked(self):
-        """
-        Calculates how many units of this specific material type are currently booked.
-        """
-        pass
+    @api.depends('material_unit_ids.material_unit_assignment_ids.shift_id.start_datetime')
+    def _compute_units_already_booked(self):
+        today = fields.Datetime.now()
+    
+        for material_type in self:
+            units = material_type.material_unit_ids.filtered(
+                lambda unit: any(
+                    assignment.shift_id
+                    and assignment.shift_id.start_datetime
+                    and assignment.shift_id.start_datetime >= today
+                    for assignment in unit.material_unit_assignment_ids
+                )
+            )
+    
+            self.booked_quantity = len(units)
+        
 
     def _compute_units_available(self):
         """
         Calculate how many units of this specific material type are currently available.
         """
-        pass
+        self.available_quantity = len(self.material_unit_ids) - self.booked_quantity

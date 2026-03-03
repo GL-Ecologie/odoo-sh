@@ -12,7 +12,7 @@ class MaterialCategory(models.Model):
     material_type_ids = fields.One2many( 
         'materials.material_type',
         "material_category_id",
-        string="Materials"
+        string="Material types"
     )
 
     notes = fields.Char(

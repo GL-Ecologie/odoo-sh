@@ -19,8 +19,8 @@ class ConsumableType(models.Model):
 
     needed_stock = fields.Integer(
         string="Stock needed", 
-        help="Dynamic needed stock calculation for this consumable type", 
-        compute="_compute_needed_stock"
+        help="Dynamic needed stock calculation for this consumable type"
+        #compute="_compute_needed_stock"
     )
     
     notes = fields.Char(

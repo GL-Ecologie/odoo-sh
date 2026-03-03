@@ -24,11 +24,15 @@ class MaterialUnit(models.Model):
         string="Shifts assigned to this unit"
     )
     
-    serial_number = fields.Char()
+    serial_number = fields.Char(
+        string="Serial number",
+        help="Serial number of this unit?",
+    )
 
-    rental = fields.Binary()
-
-    active = fields.Binary()
+    rental = fields.Boolean(
+        string="Is rental",
+        help="Is this a rental unit?",
+    )
     
     notes = fields.Char(
         string="Notes"
