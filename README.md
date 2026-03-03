@@ -1,2 +1,2 @@
 # GL Ecologie Odoo.sh
-Initial repository.
+- Custom planning
