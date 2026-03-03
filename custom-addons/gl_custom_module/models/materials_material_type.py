@@ -15,6 +15,7 @@ class MaterialType(models.Model):
 
     material_unit_ids = fields.One2many(
         "materials.material_unit",
+        "material_type_id",
         string="List of material units"
     )
 

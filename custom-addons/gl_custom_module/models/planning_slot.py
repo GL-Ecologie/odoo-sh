@@ -19,6 +19,7 @@ class PlanningSlot(models.Model):
 
     material_unit_assignment_ids = fields.One2many(
         "materials.material_unit_assignment",
+        "shift_id",
         string="Materials for this shift"
     )
     

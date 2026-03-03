@@ -11,6 +11,7 @@ class MaterialUnitStatus(models.Model):
 
     material_unit_ids = fields.One2many(
         "materials.material_unit",
+        "material_status_id",
         string = "Units with this status."
     )
     

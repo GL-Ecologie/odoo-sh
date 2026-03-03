@@ -11,6 +11,7 @@ class ConsumableType(models.Model):
 
     material_type_ids = fields.One2many(
         "materials.material_type",
+        "consumable_type_id",
         string="Materials that use this consumable type."
     )
 

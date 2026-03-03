@@ -20,6 +20,7 @@ class MaterialUnit(models.Model):
 
     material_unit_assignment_ids = fields.One2many(
         "materials.material_unit_assignment",
+        "material_unit_id",
         string="Shifts assigned to this unit"
     )
     
