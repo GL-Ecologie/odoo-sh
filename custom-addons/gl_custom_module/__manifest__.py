@@ -24,7 +24,7 @@
     # always loaded
     'data': [
         # 'security/ir.model.access.csv',
-        'views/planning_slot_view.xml',
+        'views/planning_slot_views.xml',
         'views/planning_shift_type_views.xml',
         'views/hr_employee_views.xml',
         'views/hr_employee_public_views.xml',
