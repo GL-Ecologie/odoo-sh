@@ -33,7 +33,6 @@
       <field name="model">materials.material_unit_assignment</field>
       <field name="arch" type="xml">
         <list>
-            <field name="name"/>
             <field name="material_unit_id"/>
             <field name="shift_id"/>
             <field name="notes"/>
@@ -86,7 +85,6 @@
             <form string="Material type">
                 <sheet>
                     <group>
-                        <field name="name"/>
                         <field name="material_unit_id"/>
                         <field name="shift_id"/>
                         <field name="notes"/>
