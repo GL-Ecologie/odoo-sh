@@ -9,7 +9,7 @@ class ConsumableType(models.Model):
 
     name = fields.Char(required=True)
 
-    material_type_ids = fields.Onetomany(
+    material_type_ids = fields.One2many(
         "materials.material_type",
         string="Materials that use this consumable type."
     )

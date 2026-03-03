@@ -9,7 +9,7 @@ class MaterialUnitStatus(models.Model):
 
     name = fields.Char(required=True)
 
-    material_unit_ids = field.Onetomany(
+    material_unit_ids = field.One2many(
         "materials.material_unit",
         string = "Units with this status."
     )

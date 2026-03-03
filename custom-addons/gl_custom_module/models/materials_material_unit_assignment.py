@@ -8,12 +8,12 @@ class MaterialUnitAssignment(models.Model):
     _description = 'Custom Material Unit Assignment model'
 
     
-    material_unit_id = fields.Manytoone( 
+    material_unit_id = fields.Many2one( 
         'materials.material_unit',
         string="Material Unit"
     )
 
-    shift_id = fields.Manytoone(
+    shift_id = fields.Many2one(
         "planning.slot",
         string="Shift"
     )

@@ -8,12 +8,12 @@ class MaterialType(models.Model):
     _description = 'Custom Material type model'
 
     name = fields.Char(required=True)
-    material_category_id = fields.Manytoone( 
+    material_category_id = fields.Many2one( 
         'materials.material_category',
         string="Material Category"
     )
 
-    material_unit_ids = fields.Onetomany(
+    material_unit_ids = fields.One2many(
         "materials.material_unit",
         string="List of material units"
     )
@@ -30,7 +30,7 @@ class MaterialType(models.Model):
         compute="_compute_units_available"
     )
 
-    consumable_type_id = fields.Manytoone(
+    consumable_type_id = fields.Many2one(
         "materials.consumable_type",
         string="Type of consumable (if any) needed"
     )
