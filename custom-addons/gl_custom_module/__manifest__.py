@@ -27,11 +27,11 @@
         'views/planning_shift_type_views.xml',
         'views/hr_employee_views.xml',
         'views/hr_employee_public_views.xml',
-        'materials_consumable_type_views.xml',
-        'materials_material_category_views.xml',
-        'materials_material_type_views.xml',
-        'materials_material_unit_views.xml',
-        'materials_views.xml',
+        'views/materials_consumable_type_views.xml',
+        'views/materials_material_category_views.xml',
+        'views/materials_material_type_views.xml',
+        'views/materials_material_unit_views.xml',
+        'views/materials_views.xml',
         'security/ir.model.access.csv'
     ],
     # only loaded in demonstration mode
