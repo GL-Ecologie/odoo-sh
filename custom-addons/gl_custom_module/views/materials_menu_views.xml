@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- Parent menu "Materials" inside the Planning app -->
+    <record id="menu_materials_root" model="ir.ui.menu">
+      <field name="name">Materials</field>
+      <field name="parent_id" ref="planning.planning_menu_root"/>
+      <field name="sequence">50</field>
+      <field name="action" ref="action_materials_material_unit_assignment"/>
+    </record>
+
+    
+    <!-- Menu item under Planning configuration -->
+    <menuitem id="menu_materials_material_category"
+              name="Material categories"
+              parent="menu_materials_root"
+              action="action_materials_material_category"
+              sequence="20"
+              groups="planning.group_planning_manager"/>
+     
+    <!-- Menu item under Planning configuration -->
+    <menuitem id="menu_materials_material_type"
+              name="Material Types"
+              parent="menu_materials_root"
+              action="action_materials_material_type"
+              sequence="30"
+              groups="planning.group_planning_manager"/>
+
+        <!-- Menu item under Planning configuration -->
+    <menuitem id="menu_materials_material_unit"
+              name="Material Units"
+              parent="menu_materials_root"
+              action="action_materials_material_unit"
+              sequence="40"
+              groups="planning.group_planning_manager"/>
+      
+    <!-- Menu item under Planning configuration -->
+    <menuitem id="menu_materials_material_unit_status"
+              name="Material Units Statuses"
+              parent="menu_materials_root"
+              action="action_materials_material_unit_status"
+              sequence="50"
+              groups="planning.group_planning_manager"/>
+
+        <!-- Menu item under Planning configuration -->
+    <menuitem id="menu_materials_material_unit_assignment"
+              name="Material Units Assignments"
+              parent="menu_materials_root"
+              action="action_materials_material_unit_assignment"
+              sequence="60"
+              groups="planning.group_planning_manager"/>
+
+         <!-- Menu item under Planning configuration -->
+    <menuitem id="menu_materials_consumable_type"
+              name="Consumable Types"
+              parent="menu_materials_root"
+              action="action_materials_consumable_type"
+              sequence="90"
+              groups="planning.group_planning_manager"/>
+  </data>
+</odoo>
