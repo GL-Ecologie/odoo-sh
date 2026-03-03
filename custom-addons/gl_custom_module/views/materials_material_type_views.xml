@@ -40,7 +40,7 @@
 
     <!-- Action to open Material Types -->
     <record id="action_materials_material_type" model="ir.actions.act_window">
-        <field name="name">Material Types<field>
+        <field name="name">Material Types</field>
         <field name="res_model">materials.material_type</field>
         <field name="view_mode">list,form</field>
         <field name="help" type="html">

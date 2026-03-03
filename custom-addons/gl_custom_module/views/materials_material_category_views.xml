@@ -32,7 +32,7 @@
 
     <!-- Action to open Material categories -->
     <record id="action_materials_material_category" model="ir.actions.act_window">
-        <field name="name">Material categories<field>
+        <field name="name">Material categories</field>
         <field name="res_model">materials.material_category</field>
         <field name="view_mode">list,form</field>
         <field name="help" type="html">

@@ -36,7 +36,7 @@
 
     <!-- Action to open Consumable Types -->
     <record id="action_materials_consumable_type" model="ir.actions.act_window">
-        <field name="name">Consumable Types<field>
+        <field name="name">Consumable Types</field>
         <field name="res_model">materials.consumable_type</field>
         <field name="view_mode">list,form</field>
         <field name="help" type="html">
