@@ -1109,20 +1109,25 @@
         </xpath>
         <xpath expr="/form//field[@name='x_studio_date']" position="replace">
           <field name="x_studio_period" widget="daterange" options="{&quot;start_date_field&quot;:&quot;x_studio_date_start&quot;,&quot;end_date_field&quot;:&quot;x_studio_date_stop&quot;,&quot;show_time&quot;:false}" string="Dates" force_save="1" readonly="True"/>
+          <field name="x_studio_date_start" groups="project.group_project_manager,base.group_system"/>
+          <field name="x_studio_date_stop" groups="project.group_project_manager,base.group_system"/>
         </xpath>
-        <xpath expr="/form//field[@name='x_studio_date_stop']" position="after">
+        <xpath expr="/form/sheet/group[@name='studio_group_a6cb61']/group[@name='studio_group_a6cb61_left']/field[@name='x_studio_date_stop'][2]" position="after">
           <field name="x_studio_remaining_days" widget="remaining_days" string="Remaining days" force_save="1" readonly="True"/>
         </xpath>
-        <xpath expr="/form//field[@name='x_studio_date_start']" position="attributes">
+        <xpath expr="/form/sheet/group[@name='studio_group_a6cb61']/group[@name='studio_group_a6cb61_left']/field[@name='x_studio_date_start'][2]" position="attributes">
           <attribute name="groups">project.group_project_manager,planning.group_planning_manager,!project.group_project_user,!planning.group_planning_user</attribute>
+          <attribute name="invisible">False</attribute>
           <attribute name="options">{}</attribute>
+          <attribute name="required">False</attribute>
           <attribute name="string"/>
           <attribute name="widget"/>
         </xpath>
-        <xpath expr="/form//field[@name='x_studio_date_stop']" position="attributes">
+        <xpath expr="/form/sheet/group[@name='studio_group_a6cb61']/group[@name='studio_group_a6cb61_left']/field[@name='x_studio_date_stop'][2]" position="attributes">
           <attribute name="groups">!project.group_project_user,!planning.group_planning_user</attribute>
-          <attribute name="invisible"/>
+          <attribute name="invisible">False</attribute>
           <attribute name="options">{}</attribute>
+          <attribute name="required">False</attribute>
         </xpath>
         <xpath expr="/form//field[@name='x_studio_tag_ids']" position="before">
           <field name="x_studio_type" placeholder="SMP, Regular..."/>
