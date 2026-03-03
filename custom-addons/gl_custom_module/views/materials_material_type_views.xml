@@ -49,13 +49,6 @@
             </p>
         </field>
     </record>
-      
-    <!-- Menu item under Planning configuration -->
-    <menuitem id="menu_materials_material_type"
-              name="Material Types"
-              parent="menu_materials_root"
-              action="action_materials_material_type"
-              sequence="30"
-              groups="planning.group_planning_manager"/>
+     
   </data>
 </odoo>

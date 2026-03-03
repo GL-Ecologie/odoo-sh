@@ -132,29 +132,5 @@
             </p>
         </field>
     </record>
-
-    <!-- Menu item under Planning configuration -->
-    <menuitem id="menu_materials_material_unit"
-              name="Material Units"
-              parent="menu_materials_root"
-              action="action_materials_material_unit"
-              sequence="40"
-              groups="planning.group_planning_manager"/>
-      
-    <!-- Menu item under Planning configuration -->
-    <menuitem id="menu_materials_material_unit_status"
-              name="Material Units Statuses"
-              parent="menu_materials_root"
-              action="action_materials_material_unit_status"
-              sequence="50"
-              groups="planning.group_planning_manager"/>
-
-        <!-- Menu item under Planning configuration -->
-    <menuitem id="menu_materials_material_unit_assignment"
-              name="Material Units Assignments"
-              parent="menu_materials_root"
-              action="action_materials_material_unit_assignment"
-              sequence="60"
-              groups="planning.group_planning_manager"/>
   </data>
 </odoo>

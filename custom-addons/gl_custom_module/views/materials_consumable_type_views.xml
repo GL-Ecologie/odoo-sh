@@ -45,13 +45,5 @@
             </p>
         </field>
     </record>
-      
-    <!-- Menu item under Planning configuration -->
-    <menuitem id="menu_materials_consumable_type"
-              name="Consumable Types"
-              parent="menu_materials_root"
-              action="action_materials_consumable_type"
-              sequence="90"
-              groups="planning.group_planning_manager"/>
   </data>
 </odoo>
