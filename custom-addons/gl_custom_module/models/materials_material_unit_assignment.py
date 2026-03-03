@@ -19,5 +19,5 @@ class MaterialUnitAssignment(models.Model):
     )
     
     notes = fields.Char(
-        string="Notes
+        string="Notes"
     )

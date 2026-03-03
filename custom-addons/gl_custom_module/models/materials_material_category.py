@@ -15,5 +15,5 @@ class MaterialCategory(models.Model):
     )
 
     notes = fields.Char(
-        string="Notes
+        string="Notes"
     )

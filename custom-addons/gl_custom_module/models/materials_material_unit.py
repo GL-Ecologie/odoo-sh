@@ -30,5 +30,5 @@ class MaterialUnit(models.Model):
     active = fields.Binary()
     
     notes = fields.Char(
-        string="Notes
+        string="Notes"
     )
