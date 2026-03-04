@@ -1,3 +1,15 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_gl_custom_module_shift_type_manager,"GL-Ecologie Custom module Shift type Manager",gl_custom_module.model_planning_shift_type,planning.group_planning_manager,1,1,1,1
 access_gl_custom_module_shift_type_user,"GL-Ecologie Custom module shift type User",gl_custom_module.model_planning_shift_type,base.group_user,1,0,0,0
+access_gl_custom_module_materials_consumable_type_manager,"GL-Ecologie Custom module materials consumable type Manager",gl_custom_module.model_materials_consumable_type,planning.group_planning_manager,1,1,1,1
+access_gl_custom_module_materials_consumable_type_user,"GL-Ecologie Custom module materials consumable type User",gl_custom_module.model_materials_consumable_type,base.group_user,1,0,0,0
+access_gl_custom_module_materials_material_category_manager,"GL-Ecologie Custom module materials material category Manager",gl_custom_module.model_materials_material_category,planning.group_planning_manager,1,1,1,1
+access_gl_custom_module_materials_material_category_user,"GL-Ecologie Custom module materials material category User",gl_custom_module.model_materials_material_category,base.group_user,1,0,0,0
+access_gl_custom_module_materials_material_type_manager,"GL-Ecologie Custom module materials material type Manager",gl_custom_module.model_materials_material_type,planning.group_planning_manager,1,1,1,1
+access_gl_custom_module_materials_material_type_user,"GL-Ecologie Custom module materials material type User",gl_custom_module.model_materials_material_type,base.group_user,1,0,0,0
+access_gl_custom_module_materials_material_unit_manager,"GL-Ecologie Custom module materials material unit Manager",gl_custom_module.model_materials_material_unit,planning.group_planning_manager,1,1,1,1
+access_gl_custom_module_materials_material_unit_user,"GL-Ecologie Custom module materials material unit User",gl_custom_module.model_materials_material_unit,base.group_user,1,0,0,0
+access_gl_custom_module_materials_material_unit_status_manager,"GL-Ecologie Custom module materials material unit status Manager",gl_custom_module.model_materials_material_unit_status,planning.group_planning_manager,1,1,1,1
+access_gl_custom_module_materials_material_unit_status_user,"GL-Ecologie Custom module materials material unit status User",gl_custom_module.model_materials_material_unit_status,base.group_user,1,0,0,0
+access_gl_custom_module_materials_material_unit_assignment_manager,"GL-Ecologie Custom module materials material unit assignment Manager",gl_custom_module.model_materials_material_unit_assignment,planning.group_planning_manager,1,1,1,1
+access_gl_custom_module_materials_material_unit_assignment_user,"GL-Ecologie Custom module materials material unit assignment User",gl_custom_module.model_materials_material_unit_assignment,base.group_user,1,0,0,0

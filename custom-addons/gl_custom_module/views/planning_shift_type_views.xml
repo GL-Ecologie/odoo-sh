@@ -3,7 +3,7 @@
   <data>
     <!-- List view -->
     <record model="ir.ui.view" id="view_plannig_shift_type_list">
-      <field name="name">custom_planning_module list</field>
+      <field name="name">custom_planning_module_shift_type list</field>
       <field name="model">planning.shift_type</field>
       <field name="arch" type="xml">
         <list>

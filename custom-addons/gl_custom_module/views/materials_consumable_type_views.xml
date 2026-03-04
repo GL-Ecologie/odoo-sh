@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <!-- List view -->
+    <record model="ir.ui.view" id="view_gl_custom_materials_consumable_type_list">
+      <field name="name">gl_custom_module_materials_consumable_type list</field>
+      <field name="model">materials.consumable_type</field>
+      <field name="arch" type="xml">
+        <list>
+            <field name="name" string="Name" width="100"/>
+            <field name="current_stock" string="Current stock available" width="manual"  />
+            <field name="needed_stock" string="Needed stock" width="150"/>
+            <field name="material_type_ids"/>
+        </list>
+      </field>
+    </record>
+
+    <!-- Form view -->
+    <record id="view_gl_custom_materials_consumable_type_form" model="ir.ui.view">
+        <field name="name">materials.consumable_type_form</field>
+        <field name="model">materials.consumable_type</field>
+        <field name="arch" type="xml">
+            <form string="Consumable type">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="current_stock"/>
+                        <field name="needed_stock"/>
+                        <field name="material_type_ids"/>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action to open Consumable Types -->
+    <record id="action_materials_consumable_type" model="ir.actions.act_window">
+        <field name="name">Consumable Types</field>
+        <field name="res_model">materials.consumable_type</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create and manage your Consumable types here.
+            </p>
+        </field>
+    </record>
+  </data>
+</odoo>

@@ -2,6 +2,8 @@ from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 import datetime, logging
 
+#TODO: Update material_unit_assignment_ids domain to show only bookable/available materials
+
 class PlanningSlot(models.Model):
     _inherit = "planning.slot"
 
@@ -15,6 +17,12 @@ class PlanningSlot(models.Model):
         string="Shift Type",
     )
 
+    material_unit_assignment_ids = fields.One2many(
+        "materials.material_unit_assignment",
+        "shift_id",
+        string="Materials for this shift"
+    )
+    
     resource_ids_domain = fields.Binary(string="Resources domain", help="Dynamic domain used for the resource that can be set on shift", compute="_compute_resource_domain")
     
     @api.depends('start_datetime', "shift_type_id")
