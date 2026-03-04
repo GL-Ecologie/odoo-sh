@@ -7,9 +7,9 @@
       <field name="model">materials.consumable_type</field>
       <field name="arch" type="xml">
         <list>
-            <field name="name"/>
-            <field name="current_stock"/>
-            <field name="needed_stock"/>
+            <field name="name" string="Name" width="100"/>
+            <field name="current_stock" string="Current stock available" width="manual"  />
+            <field name="needed_stock" string="Needed stock" width="150"/>
             <field name="material_type_ids"/>
         </list>
       </field>

@@ -8,10 +8,10 @@
       <field name="arch" type="xml">
         <list>
             <field name="name"/>
-            <field name="booked_quantity"/>
-            <field name="available_quantity"/>
-            <field name="consumable_type_id"/>
-            <field name="consumable_quantity"/>
+            <field name="booked_quantity" string="Booked"/>
+            <field name="available_quantity" string="Available"/>
+            <field name="consumable_type_id" string="Consumable" />
+            <field name="consumable_quantity" string="Quantity"/>
         </list>
       </field>
     </record>
