@@ -63,4 +63,5 @@ class MaterialType(models.Model):
         """
         Calculate how many units of this specific material type are currently available.
         """
-        self.available_quantity = len(self.material_unit_ids) - self.booked_quantity
+        for material_type in self:
+            material_type.available_quantity = len(material_type.material_unit_ids) - material_type.booked_quantity
