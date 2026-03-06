@@ -31,7 +31,7 @@ class PlanningSlot(models.Model):
     
     resource_ids_domain = fields.Binary(string="Resources domain", help="Dynamic domain used for the resource that can be set on shift", compute="_compute_resource_domain")
     
-    @api.depends('start_datetime', "shift_type_id", "role_id")
+    @api.depends('start_datetime', "shift_type_id", "role_id", "counts_for_max_shift_per_week")
     def _compute_resource_domain(self):
         """Limit resource_id dropdown to people who have not yet reached
         their weekly max number of shifts for the week of start_datetime.
@@ -75,7 +75,7 @@ class PlanningSlot(models.Model):
                 max_weekly = getattr(candidate, MAX_FIELD, 0)
                 self._logger.info(f"{candidate.name} - max_weekly: {max_weekly}")
                 
-                if not max_weekly or max_weekly == 0:
+                if not max_weekly or max_weekly == 0 or not slot.counts_for_max_shift_per_week:
                     eligible_ids.append(res.id)
                     continue
 
@@ -159,12 +159,23 @@ class PlanningSlot(models.Model):
                 ))
 
             # ---- 4) RESOURCE EVENING-MORNING SHIFT COMBINATION ----
-            if _check_evening_morning_shift_conflict(self):
+            if slot._check_evening_morning_shift_conflict():
                 raise ValidationError(_(
                     "You cannot assign %(resource)s to this shift.\n\n"
                     "Reason: this resource doesn't want to combine evening with next morning shifts",
                     resource=slot.resource_id.display_name
                 ))
+
+
+            if slot._check_employee_works_weekends_conflict():
+                raise ValidationError(_(
+                    "You cannot assign %(resource)s to this shift.\n\n"
+                    "Reason: this resource doesn't want to work weekends",
+                    resource=slot.resource_id.display_name
+                ))
+
+
+                
 
     # ------------- HELPERS (we'll plug into your existing fields later) -------------
 
@@ -228,25 +239,42 @@ class PlanningSlot(models.Model):
         """
         Checks whether this shift violates resource (employee) evening-morning shift combination constraint
         """
+        self._logger.info(f"Check evening morning conflict")
         evening_morning_conflict = False
         if self.resource_id and (not self.resource_id.employee_id.combine_evening_morning_shift) and self.shift_type_id and (self.shift_type_id.name.endswith("vening") or self.shift_type_id.name.endswith("orning")):
             start = self.start_datetime.date()
-
+            self._logger.info(f"shift type {self.shift_type_id.name} Start date {start}")
             if self.shift_type_id.name.endswith("vening"):
-                start_date_modifier = -1
+                start_date_modifier = + datetime.timedelta(days=1)
                 check_against_shift_type = "orning"
             else:
-                start_date_modifier = 1
+                start_date_modifier = - datetime.timedelta(days=1)
                 check_against_shift_type = "vening"
-                
+            self._logger.info(f"Date to check against: {start + start_date_modifier}\n Against shift type {check_against_shift_type}")
             domain = [
                 ("id", "!=", self.id),
                 ("resource_id", "=", self.resource_id.id),
-                ("start_datetime", "=", start + start_date_modifier),
-                ("shift_type_id", "like", check_against_shift_type),
+                ("start_datetime", ">=", start + start_date_modifier),
+                ("start_datetime", "<", start + start_date_modifier + datetime.timedelta(days=1)),
+                ("shift_type_id.name", "like", check_against_shift_type),
                 ("state", "!=", "cancelled")
             ]
-            
-            evening_morning_conflict = len(self.search(domain)) > 0
+            self._logger.info(f"Domain: {domain}")
+            conflicting_shifts = self.search(domain)
+            self._logger.info(f"Result: {len(conflicting_shifts)}")
+            evening_morning_conflict = len(conflicting_shifts) > 0
         
         return evening_morning_conflict
+
+    def _check_employee_works_weekends_conflict(self):
+        """
+        Checks whether this employee wants to work during the weekends
+        """
+        weekends_conflict = False
+        is_friday_evening = self.shift_type_id.name.endswith("vening") and fields.Datetime.to_datetime(self.start_datetime).isoweekday() == 5
+        is_monday_morning = (self.shift_type_id.name.endswith("orning") and fields.Datetime.to_datetime(self.start_datetime).isoweekday() == 1)
+        is_weekend = fields.Datetime.to_datetime(self.start_datetime).isoweekday() in [6,7]
+        
+        if self.resource_id and (not self.resource_id.employee_id.available_to_work_weekends) and self.shift_type_id and ( is_friday_evening or is_monday_morning  or is_weekend):
+            weekends_conflict = True
+        return weekends_conflict
