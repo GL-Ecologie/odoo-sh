@@ -17,7 +17,7 @@
                         <field name="material_unit_assignment_ids"/>
                     </group>
                 </xpath>
-                <xpath expr="//field[@name='slot_info_right']" position="inside">
+                <xpath expr="//group[@name='slot_info_right']" position="inside">
                     <field name="counts_for_max_shift_per_week"/>
                 </xpath>
             </field>
