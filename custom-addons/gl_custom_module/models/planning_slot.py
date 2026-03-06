@@ -43,7 +43,7 @@ class PlanningSlot(models.Model):
         Slot = self.env['planning.slot']
         
         # If we don't have a date yet, don't touch the domain
-        shift_candidates = employees.search(
+        shift_candidates = employees.sudo().search(
             [(MAX_FIELD, ">=", 0)]
         )
         
