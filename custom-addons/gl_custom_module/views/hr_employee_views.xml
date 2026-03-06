@@ -9,6 +9,7 @@
                     <group name="planning" string="Planning">
                         <field name="max_shifts_per_week"/>
                         <field name="allowed_shift_type_ids" widget="many2many_tags"/>
+                        <field name="available_to_work_weekends"/>
                         <field name="combine_evening_morning_shift"/>
                     </group>
                 </xpath>

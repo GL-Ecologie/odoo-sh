@@ -17,6 +17,9 @@
                         <field name="material_unit_assignment_ids"/>
                     </group>
                 </xpath>
+                <xpath expr="//field[@name='x_shift_type']" position="after">
+                    <field name="counts_for_max_shift_per_week"/>
+                </xpath>
             </field>
         </record>
 

@@ -17,6 +17,11 @@ class HrEmployee(models.Model):
         string="Max shifts per week",
         help="How many shifts this employee is willing to work in a week.",
     )
+
+    available_to_work_weekends = fields.Boolean(
+        string="Available to work weekends",
+        help="Whether this employee is available for weekend shifts (Friday evening to Monday morning)"
+    )
     
     combine_evening_morning_shift = fields.Boolean(
         string="Combine evening and morning shifts",
