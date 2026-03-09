@@ -71,7 +71,7 @@ class PlanningSlot(models.Model):
             eligible_ids = []
             base_domain = []
             for candidate in shift_candidates:
-                res = candidate.resource_id
+                resource = candidate.resource_id
 
                 slot._logger.info(
                     f"{candidate.display_name}: {slot.shift_type_id not in candidate.allowed_shift_type_ids}\nShifts employee wants:{candidate.allowed_shift_type_ids}"
@@ -80,10 +80,9 @@ class PlanningSlot(models.Model):
                 if slot.role_id not in candidate.planning_role_ids or slot.shift_type_id not in candidate.allowed_shift_type_ids:
                     continue
                 
-                current_assigned_resource = slot.resource_id
-                slot.resource_id = res.id
-                if slot._check_evening_morning_shift_conflict() or slot._check_employee_works_weekends_conflict():
-                    slot.resource_id = current_assigned_resource
+                
+                
+                if slot._check_evening_morning_shift_conflict(candidate=resource) or slot._check_employee_works_weekends_conflict(candidate=resource):
                     continue
 
                 self._logger.info(f"Candidate {candidate.name} wants {candidate[MAX_FIELD]} max shifts per week")
@@ -91,13 +90,13 @@ class PlanningSlot(models.Model):
                 self._logger.info(f"{candidate.name} - max_weekly: {max_weekly}")
 
                 if not max_weekly or max_weekly == 0 or not slot.counts_for_max_shift_per_week:
-                    eligible_ids.append(res.id)
+                    eligible_ids.append(resource.id)
                     continue
 
                 # Count this resource's shifts in the same week
                 existing_count = Slot.search_count(
                     [
-                        ("resource_id", "=", res.id),
+                        ("resource_id", "=", resource.id),
                         ("start_datetime", ">=", week_start),
                         ("start_datetime", "<", week_end),
                         ("id", "!=", slot.id),  # ignore current record
@@ -110,7 +109,7 @@ class PlanningSlot(models.Model):
                 self._logger.info(f"Existing count for {candidate.name} is {existing_count}")
 
                 if existing_count < max_weekly:
-                    eligible_ids.append(res.id)
+                    eligible_ids.append(resource.id)
 
             if not eligible_ids:
                 # No one eligible → domain that matches nobody
@@ -253,15 +252,18 @@ class PlanningSlot(models.Model):
 
         return can_perform_role
 
-    def _check_evening_morning_shift_conflict(self):
+    def _check_evening_morning_shift_conflict(self, candidate=None):
         """
         Checks whether this shift violates resource (employee) evening-morning shift combination constraint
         """
         self._logger.info(f"Check evening morning conflict")
         evening_morning_conflict = False
+
+        resource_being_checked = candidate if candidate else (self.resource_id if self.resource_id else None)
+
         if (
-            self.resource_id
-            and (not self.resource_id.employee_id.combine_evening_morning_shift)
+            (resource_being_checked)
+            and (not resource_being_checked.employee_id.combine_evening_morning_shift)
             and self.shift_type_id
             and (self.shift_type_id.name.endswith("vening") or self.shift_type_id.name.endswith("orning"))
         ):
@@ -276,7 +278,7 @@ class PlanningSlot(models.Model):
             self._logger.info(f"Date to check against: {start + start_date_modifier}\n Against shift type {check_against_shift_type}")
             domain = [
                 ("id", "!=", self.id),
-                ("resource_id", "=", self.resource_id.id),
+                ("resource_id", "=", resource_being_checked.id),
                 ("start_datetime", ">=", start + start_date_modifier),
                 (
                     "start_datetime",
@@ -293,11 +295,14 @@ class PlanningSlot(models.Model):
 
         return evening_morning_conflict
 
-    def _check_employee_works_weekends_conflict(self):
+    def _check_employee_works_weekends_conflict(self, candidate=None):
         """
         Checks whether this employee wants to work during the weekends
         """
         weekends_conflict = False
+
+        resource_being_checked = candidate if candidate else (self.resource_id if self.resource_id else None)
+
         is_friday_evening = (
             self.shift_type_id.name.endswith("vening") and fields.Datetime.to_datetime(self.start_datetime).isoweekday() == 5
         )
@@ -307,8 +312,8 @@ class PlanningSlot(models.Model):
         is_weekend = fields.Datetime.to_datetime(self.start_datetime).isoweekday() in [6, 7]
 
         if (
-            self.resource_id
-            and (not self.resource_id.employee_id.available_to_work_weekends)
+            resource_being_checked
+            and (not resource_being_checked.employee_id.available_to_work_weekends)
             and self.shift_type_id
             and (is_friday_evening or is_monday_morning or is_weekend)
         ):
