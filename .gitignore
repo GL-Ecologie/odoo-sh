@@ -1,0 +1,17 @@
+# Editor settings
+.vscode/
+.idea/
+*.code-workspace
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Logs
+*.log
+
+# Mac / Linux junk
+.DS_Store
+Thumbs.db
+
