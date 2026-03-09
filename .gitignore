@@ -2,11 +2,17 @@
 .vscode/
 .idea/
 *.code-workspace
+.venv
+*.toml
 
 # Python
 __pycache__/
 *.pyc
 *.pyo
+
+
+# Pylint
+*.pylintrc
 
 # Logs
 *.log

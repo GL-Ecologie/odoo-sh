@@ -11,5 +11,3 @@ access_gl_custom_module_materials_material_unit_manager,"GL-Ecologie Custom modu
 access_gl_custom_module_materials_material_unit_user,"GL-Ecologie Custom module materials material unit User",gl_custom_module.model_materials_material_unit,base.group_user,1,0,0,0
 access_gl_custom_module_materials_material_unit_status_manager,"GL-Ecologie Custom module materials material unit status Manager",gl_custom_module.model_materials_material_unit_status,planning.group_planning_manager,1,1,1,1
 access_gl_custom_module_materials_material_unit_status_user,"GL-Ecologie Custom module materials material unit status User",gl_custom_module.model_materials_material_unit_status,base.group_user,1,0,0,0
-access_gl_custom_module_materials_material_unit_assignment_manager,"GL-Ecologie Custom module materials material unit assignment Manager",gl_custom_module.model_materials_material_unit_assignment,planning.group_planning_manager,1,1,1,1
-access_gl_custom_module_materials_material_unit_assignment_user,"GL-Ecologie Custom module materials material unit assignment User",gl_custom_module.model_materials_material_unit_assignment,base.group_user,1,0,0,0

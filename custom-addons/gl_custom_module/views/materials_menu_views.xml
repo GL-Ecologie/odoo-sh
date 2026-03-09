@@ -5,9 +5,8 @@
       <field name="name">Materials</field>
       <field name="parent_id" ref="planning.planning_menu_root"/>
       <field name="sequence">50</field>
-      <field name="action" ref="action_materials_material_unit_assignment"/>
+      <field name="action" ref="action_materials_material_type"/>
     </record>
-
     
     <!-- Menu item under Planning configuration -->
     <menuitem id="menu_materials_material_category"
@@ -39,14 +38,6 @@
               parent="menu_materials_root"
               action="action_materials_material_unit_status"
               sequence="50"
-              groups="planning.group_planning_manager"/>
-
-        <!-- Menu item under Planning configuration -->
-    <menuitem id="menu_materials_material_unit_assignment"
-              name="Material Units Assignments"
-              parent="menu_materials_root"
-              action="action_materials_material_unit_assignment"
-              sequence="60"
               groups="planning.group_planning_manager"/>
 
          <!-- Menu item under Planning configuration -->
