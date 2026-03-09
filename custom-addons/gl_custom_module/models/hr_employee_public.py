@@ -1,7 +1,8 @@
-from odoo import models, fields, api, _
+from odoo import models, fields
 import logging
 
 _logger = logging.getLogger(__name__)
+
 
 class HREmployeePublic(models.Model):
     _inherit = "hr.employee.public"
@@ -18,6 +19,14 @@ class HREmployeePublic(models.Model):
         string="Max shifts per week",
         related="employee_id.max_shifts_per_week",
         readonly=False,
+        related_sudo=True,
+        store=False
+    )
+
+    available_to_work_weekends = fields.Boolean(
+        related="employee_id.available_to_work_weekends",
+        readonly=False,
+        string="Available to work weekends",
         related_sudo=True,
         store=False
     )
@@ -58,13 +67,3 @@ class HREmployeePublic(models.Model):
             pass
 
         return True
-    #@api.onchange('allowed_shift_type_ids', 'max_shifts_per_week','combine_evening_morning_shift')
-    #def _onchange_planning_fields(self):
-    #    _logger.info(f"Public employee changed a custom field. Applying update to related employee")
-    #    
-    #    self.employee_id.allowed_shift_type_ids = self.allowed_shift_type_ids
-    #    self.employee_id.max_shifts_per_week = self.max_shifts_per_week
-    #    self.employee_id.combine_evening_morning_shift = self.combine_evening_morning_shift
-
-
-    

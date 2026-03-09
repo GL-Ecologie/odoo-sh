@@ -13,9 +13,12 @@
                     <attribute name="domain">resource_ids_domain</attribute>
                 </field>
                 <xpath expr="//group[@name='slot_info_right']" position="after">
-                    <group name="Materials needed" colspan="2">
-                        <field name="material_unit_assignment_ids"/>
+                    <group name="Materials needed" colspan="1">
+                        <field name="material_type_ids" widget="many2many_tags"/>
                     </group>
+                </xpath>
+                <xpath expr="//group[@name='slot_info_right']" position="inside">
+                    <field name="counts_for_max_shift_per_week"/>
                 </xpath>
             </field>
         </record>

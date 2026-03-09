@@ -1,9 +1,7 @@
-from odoo import models, fields, api, _
-from odoo.exceptions import ValidationError
-import datetime, logging
+from odoo import models, fields
 
 class MaterialUnit(models.Model):
-    
+  
     _name = 'materials.material_unit'
     _description = 'Custom Material Unit model'
 
@@ -18,12 +16,6 @@ class MaterialUnit(models.Model):
         string="Material status"
     )
 
-    material_unit_assignment_ids = fields.One2many(
-        "materials.material_unit_assignment",
-        "material_unit_id",
-        string="Shifts assigned to this unit"
-    )
-    
     serial_number = fields.Char(
         string="Serial number",
         help="Serial number of this unit?",
@@ -33,7 +25,5 @@ class MaterialUnit(models.Model):
         string="Is rental",
         help="Is this a rental unit?",
     )
-    
-    notes = fields.Char(
-        string="Notes"
-    )
+
+    notes = fields.Char()

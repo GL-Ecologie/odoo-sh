@@ -1,0 +1,23 @@
+# Editor settings
+.vscode/
+.idea/
+*.code-workspace
+.venv
+*.toml
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+
+# Pylint
+*.pylintrc
+
+# Logs
+*.log
+
+# Mac / Linux junk
+.DS_Store
+Thumbs.db
+
