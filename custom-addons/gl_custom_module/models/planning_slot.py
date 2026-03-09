@@ -39,12 +39,6 @@ class PlanningSlot(models.Model):
         compute="_compute_resource_domain",
     )
 
-    resource_still_eligible = fields.Boolean(
-        string="Assigned resource still suitable?",
-        help="Whether the assigned resource is still suitable for this shift.",
-        default=True
-    )
-
     @api.depends("start_datetime", "shift_type_id", "role_id", "counts_for_max_shift_per_week")
     def _compute_resource_domain(self):
         """Limit resource_id dropdown to people who have not yet reached
@@ -124,11 +118,6 @@ class PlanningSlot(models.Model):
                 domain = base_domain + [("id", "in", eligible_ids)]
             self._logger.info(f"Final domain: {domain}")
             slot.resource_ids_domain = domain
-            
-            if slot.resource_id and (slot.resource_id.id not in eligible_ids):
-                slot.resource_still_eligible = False
-            else:
-                slot.resource_still_eligible = True
 
     # ------------- CONSTRAINT-LIKE LOGIC -------------
 
