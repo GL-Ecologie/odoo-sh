@@ -29,13 +29,13 @@ class HrEmployee(models.Model):
     )
 
     version_id = fields.Many2one(
-        groups="hr.group_hr_user,__custom__.hr_group_own"
+        groups="hr.group_hr_user"
     )
 
     exceptional_location_id = fields.Many2one(
-        groups="hr.group_hr_user,__custom__.hr_group_own"
+        groups="hr.group_hr_user"
     )
 
     planning_role_ids = fields.Many2many(
-        groups="hr.group_hr_user,__custom__.hr_group_own"
+        groups="hr.group_hr_user"
     )

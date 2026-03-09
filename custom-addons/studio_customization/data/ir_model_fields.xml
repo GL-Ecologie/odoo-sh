@@ -350,7 +350,7 @@
   <record id="label_copy_shift_tem_3b19e66d-49d3-4cf1-8810-79808c6485bd" model="ir.model.fields" context="{'studio': True}">
     <field name="ttype">char</field>
     <field name="related">x_studio_label</field>
-    <field name="field_description">Name</field>
+    <field name="field_description">Template name</field>
     <field name="model">planning.slot.template</field>
     <field name="model_id" ref="planning.model_planning_slot_template"/>
     <field name="name">x_studio_related_field_37f_1jho6f9t7</field>
@@ -374,15 +374,6 @@
     <field name="model">planning.slot.template</field>
     <field name="model_id" ref="planning.model_planning_slot_template"/>
     <field name="name">x_studio_many2one_field_8pu_1jho88elt</field>
-    <field name="relation">project.task</field>
-  </record>
-  <record id="new_many2one_shift_t_5cee7bfe-5485-49a5-ae17-24457677e918" model="ir.model.fields" context="{'studio': True}">
-    <field name="ttype">many2one</field>
-    <field name="copied" eval="True"/>
-    <field name="field_description">Task</field>
-    <field name="model">planning.slot.template</field>
-    <field name="model_id" ref="planning.model_planning_slot_template"/>
-    <field name="name">x_studio_task_id</field>
     <field name="relation">project.task</field>
   </record>
   <record id="id_copy_shift_templa_a8d94e2b-d3b7-4b57-a0d3-2ffa9b2095c4" model="ir.model.fields" context="{'studio': True}">
@@ -451,7 +442,7 @@
     <field name="field_description">Assigned shifts</field>
     <field name="model">project.task</field>
     <field name="model_id" ref="project.model_project_task"/>
-    <field name="name">x_studio_one2many_field_610_1jhol42jk</field>
+    <field name="name">x_studio_assigned_shifts</field>
     <field name="on_delete" eval="False"/>
     <field name="relation">planning.slot</field>
     <field name="relation_field">x_studio_task</field>
@@ -974,6 +965,17 @@
     <field name="relation">x_protocols</field>
     <field name="relation_table">x_project_project_x_protocols_rel</field>
   </record>
+  <record id="new_many2many_task_6db4cd95-c649-48e2-9a2f-436ccd6b1f23" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2many</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Protocol visits</field>
+    <field name="model">project.task</field>
+    <field name="model_id" ref="project.model_project_task"/>
+    <field name="name">x_studio_protocol_visit</field>
+    <field name="on_delete" eval="False"/>
+    <field name="relation">x_protocols</field>
+    <field name="relation_table">x_project_task_x_protocols_rel</field>
+  </record>
   <record id="new_many2one_task_6f9e279d-27d2-4201-b496-19f0c12f2856" model="ir.model.fields" context="{'studio': True}">
     <field name="ttype">many2one</field>
     <field name="copied" eval="True"/>
@@ -1044,7 +1046,7 @@
   <record id="new_image_task_eeeb32e8-a010-4bcf-a2e9-8942730a0929" model="ir.model.fields" context="{'studio': True}">
     <field name="ttype">binary</field>
     <field name="copied" eval="True"/>
-    <field name="field_description">Warnings</field>
+    <field name="field_description">Warning not enough people</field>
     <field name="model">project.task</field>
     <field name="model_id" ref="project.model_project_task"/>
     <field name="name">x_studio_warning_not_enough_people</field>
@@ -1117,5 +1119,23 @@
     <field name="model_id" ref="analytic.model_account_analytic_line"/>
     <field name="name">x_studio_shift</field>
     <field name="relation">planning.slot</field>
+  </record>
+  <record id="new_many2one_protoco_16600a9d-95fc-4a62-8ad0-db2ae0876e56" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2one</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Related visit</field>
+    <field name="model">x_protocols_line_514e0</field>
+    <field name="model_id" ref="protocols_line_c7496bbc-8d49-4182-8c18-6104e74df43b"/>
+    <field name="name">x_studio_related_visit</field>
+    <field name="relation">x_protocols_line_514e0</field>
+  </record>
+  <record id="new_multiline_text_p_bf3cf3b0-a00f-460c-b7c0-99de56ad5206" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">text</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Goal</field>
+    <field name="model">x_protocols_line_514e0</field>
+    <field name="model_id" ref="protocols_line_c7496bbc-8d49-4182-8c18-6104e74df43b"/>
+    <field name="name">x_studio_goal</field>
+    <field name="on_delete" eval="False"/>
   </record>
 </odoo>
