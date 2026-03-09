@@ -71,14 +71,21 @@ class PlanningSlot(models.Model):
             eligible_ids = []
             base_domain = []
             for candidate in shift_candidates:
+                res = candidate.resource_id
+
                 slot._logger.info(
                     f"{candidate.display_name}: {slot.shift_type_id not in candidate.allowed_shift_type_ids}\nShifts employee wants:{candidate.allowed_shift_type_ids}"
                 )
 
                 if slot.role_id not in candidate.planning_role_ids or slot.shift_type_id not in candidate.allowed_shift_type_ids:
                     continue
+                
+                current_assigned_resource = slot.resource_id
+                slot.resource_id = res.id
+                if slot._check_evening_morning_shift_conflict() or slot._check_employee_works_weekends_conflict():
+                    slot.resource_id = current_assigned_resource
+                    continue
 
-                res = candidate.resource_id
                 self._logger.info(f"Candidate {candidate.name} wants {candidate[MAX_FIELD]} max shifts per week")
                 max_weekly = getattr(candidate, MAX_FIELD, 0)
                 self._logger.info(f"{candidate.name} - max_weekly: {max_weekly}")
@@ -112,9 +119,6 @@ class PlanningSlot(models.Model):
                 domain = base_domain + [("id", "in", eligible_ids)]
             self._logger.info(f"Final domain: {domain}")
             slot.resource_ids_domain = domain
-
-            # if slot.resource_id and slot.resource_id.id not in eligible_ids:
-            #    slot.resource_id = False
 
     # ------------- CONSTRAINT-LIKE LOGIC -------------
 
