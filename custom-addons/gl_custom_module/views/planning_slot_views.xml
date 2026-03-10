@@ -1,28 +1,24 @@
 <odoo>
     <data>
-        <!-- Inherit the planning.slot form to override the domain on resource_id -->
-        <record id="view_planning_slot_form_inherit_custom_domain"
-                model="ir.ui.view">
+        <record id="view_planning_slot_form_inherit_custom_domain" model="ir.ui.view">
             <field name="name">planning.slot.form.custom.domain</field>
             <field name="model">planning.slot</field>
-            <!-- parent is the original form view of planning.slot -->
             <field name="inherit_id" ref="planning.planning_view_form"/>
             <field name="arch" type="xml">
-                <!-- Find the existing resource_id field and override only its domain -->
                 <field name="resource_id" position="attributes">
                     <attribute name="domain">resource_ids_domain</attribute>
                 </field>
+                <xpath expr="//group[@name='slot_info_right']" position="inside">
+                    <field name="resource_ids_domain" invisible="1"/>
+                    <field name="counts_for_max_shift_per_week"/>
+                </xpath>
                 <xpath expr="//group[@name='slot_info_right']" position="after">
-                    <group name="Materials needed" colspan="1">
+                    <group name="materials_needed_group" string="Materials needed" colspan="1">
                         <field name="material_type_ids" widget="many2many_tags"/>
                     </group>
                 </xpath>
-                <xpath expr="//group[@name='slot_info_right']" position="inside">
-                    <field name="counts_for_max_shift_per_week"/>
-                </xpath>
             </field>
         </record>
-
         <record id="view_planning_slot_form_gantt_gl_custom" model="ir.ui.view">
             <field name="name">planning.slot.form.gantt.gl_custom</field>
             <field name="model">planning.slot</field>
@@ -30,7 +26,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//footer/button[@name='action_self_assign']" position="replace">
                     <button string="Request shift" type="action" groups="base.group_user,!planning.group_planning_manager" class="btn btn-primary" name="studio_customization.request_assignment_7a79e11f-811d-41cc-b72b-7346e4636a2f" invisible="not is_users_role or is_past or not start_datetime or not end_datetime or resource_id and not request_to_switch"/>
-                    </xpath>
+                </xpath>
             </field>
         </record>
     </data>

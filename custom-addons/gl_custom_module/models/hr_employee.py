@@ -1,5 +1,5 @@
-from odoo import models, fields
-
+from odoo import models, fields, _
+from odoo.exceptions import UserError
 
 class HrEmployee(models.Model):
     _inherit = "hr.employee"
@@ -12,6 +12,10 @@ class HrEmployee(models.Model):
         string="Allowed shift types",
         help="Which shift types this employee is willing/allowed to work.",
     )
+
+    # Todo: implement constraint logic in PlanningSlot
+    max_morning_shifts_per_week = fields.Integer()
+    max_evening_shifts_per_week = fields.Integer()
 
     max_shifts_per_week = fields.Integer(
         string="Max shifts per week",

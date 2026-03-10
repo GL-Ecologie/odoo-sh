@@ -79,10 +79,12 @@ class PlanningSlot(models.Model):
 
                 if slot.role_id not in candidate.planning_role_ids or slot.shift_type_id not in candidate.allowed_shift_type_ids:
                     continue
-                
-                
-                
-                if slot._check_evening_morning_shift_conflict(candidate=resource) or slot._check_employee_works_weekends_conflict(candidate=resource):
+
+                if (
+                    slot._check_employee_availability_conflict(candidate=resource)
+                    or slot._check_evening_morning_shift_conflict(candidate=resource)
+                    or slot._check_employee_works_weekends_conflict(candidate=resource)
+                ):
                     continue
 
                 self._logger.info(f"Candidate {candidate.name} wants {candidate[MAX_FIELD]} max shifts per week")
@@ -100,7 +102,6 @@ class PlanningSlot(models.Model):
                         ("start_datetime", ">=", week_start),
                         ("start_datetime", "<", week_end),
                         ("id", "!=", slot.id),  # ignore current record
-                        ("state", "!=", "cancel"),
                     ]
                     + [("counts_for_max_shift_per_week", "=", True)]
                     if slot.counts_for_max_shift_per_week
@@ -178,7 +179,7 @@ class PlanningSlot(models.Model):
                     )
                 )
 
-            # ---- 4) RESOURCE EVENING-MORNING SHIFT COMBINATION ----
+            # ---- 4) EMPLOYEE EVENING-MORNING SHIFT COMBINATION RESTRICTION ----
             if slot._check_evening_morning_shift_conflict():
                 raise ValidationError(
                     self.env._(
@@ -188,11 +189,25 @@ class PlanningSlot(models.Model):
                     )
                 )
 
+            # ---- 5) EMPLOYEE WEEKEND AVAILABILITY RESTRICTION ----
             if slot._check_employee_works_weekends_conflict():
                 raise ValidationError(
                     self.env._(
                         "You cannot assign %(resource)s to this shift.\n\n" "Reason: this resource doesn't want to work weekends",
                         resource=slot.resource_id.display_name,
+                    )
+                )
+
+            
+            # ---- 6) EMPLOYEE CALENDAR AVAILABILITY RESTRICTION ----
+            if slot._check_employee_availability_conflict():
+                raise ValidationError(
+                    self.env._(
+                        "You cannot assign %(resource)s to this shift.\n\n"
+                        "Reason: this resource is not marked as available for %(stype)s on %(sdate)s.",
+                        resource=slot.resource_id.display_name,
+                        stype=slot.shift_type_id.name,
+                        sdate=fields.Date.to_string(fields.Date.to_date(slot.start_datetime)),
                     )
                 )
 
@@ -215,7 +230,6 @@ class PlanningSlot(models.Model):
             ("resource_id", "=", self.resource_id.id),
             ("start_datetime", ">=", week_start),
             ("start_datetime", "<", week_end),
-            ("state", "!=", "cancelled"),
         ]
 
         return self.search(domain)
@@ -252,6 +266,37 @@ class PlanningSlot(models.Model):
 
         return can_perform_role
 
+    def _check_employee_availability_conflict(self, candidate=None):
+        """
+        Checks whether this shift conflicts with the employee's explicit availability entry.
+        Returns True if the employee is NOT available for this shift/date.
+        """
+        self.ensure_one()
+
+        resource_being_checked = candidate if candidate else (self.resource_id if self.resource_id else None)
+
+        if not resource_being_checked or not self.start_datetime or not self.shift_type_id:
+            return False
+
+        entry_date = fields.Date.to_date(self.start_datetime)
+
+        availability_entry = self.env["planning.employee_availability_entry"].search(
+            [
+                ("employee_id", "=", resource_being_checked.employee_id.id),
+                ("date", "=", entry_date),
+                ("shift_type_id", "=", self.shift_type_id.id),
+                ("state", "=", "validated"),
+            ],
+            limit=1,
+        )
+
+        # Strict mode:
+        # if there is no explicit entry, employee is treated as unavailable
+        if not availability_entry:
+            return True
+
+        return not availability_entry.available
+
     def _check_evening_morning_shift_conflict(self, candidate=None):
         """
         Checks whether this shift violates resource (employee) evening-morning shift combination constraint
@@ -280,13 +325,8 @@ class PlanningSlot(models.Model):
                 ("id", "!=", self.id),
                 ("resource_id", "=", resource_being_checked.id),
                 ("start_datetime", ">=", start + start_date_modifier),
-                (
-                    "start_datetime",
-                    "<",
-                    start + start_date_modifier + datetime.timedelta(days=1),
-                ),
+                ("start_datetime", "<", start + start_date_modifier + datetime.timedelta(days=1)),
                 ("shift_type_id.name", "like", check_against_shift_type),
-                ("state", "!=", "cancelled"),
             ]
             self._logger.info(f"Domain: {domain}")
             conflicting_shifts = self.search(domain)
