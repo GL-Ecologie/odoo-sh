@@ -26,7 +26,7 @@ class PlanningEmployeeAvailabilityCalendarResource(models.Model):
         if user.has_group("planning.group_planning_manager"):
             target_resources = self.env["hr.employee"].search([("active", "=", True)]).mapped("resource_id").filtered(lambda r: r)
         else:
-            employee = self.env["hr.employee"].search([("user_id", "=", user_id)], limit=1)
+            employee = self.env["hr.employee"].search([("user_id", "=", user_id), ("active", "=", True)], limit=1)
             target_resources = employee.resource_id if employee and employee.resource_id else self.env["resource.resource"]
 
         existing_resource_ids = set(
