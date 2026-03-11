@@ -282,7 +282,7 @@ class PlanningSlot(models.Model):
 
         availability_entry = self.env["planning.employee_availability_entry"].search(
             [
-                ("employee_id", "=", resource_being_checked.employee_id.id),
+                ("resource_id", "=", resource_being_checked.id),
                 ("date", "=", entry_date),
                 ("shift_type_id", "=", self.shift_type_id.id),
                 ("state", "=", "validated"),

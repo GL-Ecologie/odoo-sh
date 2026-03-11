@@ -1,11 +1,11 @@
 <odoo>
     <data>
 
-        <record id="view_gl_custom_planning_employee_availability_tree" model="ir.ui.view">
-            <field name="name">planning.employee_availability_entry_tree</field>
+        <record id="view_gl_custom_planning_employee_availability_list" model="ir.ui.view">
+            <field name="name">planning.employee_availability_entry_list</field>
             <field name="model">planning.employee_availability_entry</field>
             <field name="arch" type="xml">
-                <tree decoration-success="state == 'validated'"
+                <list decoration-success="state == 'validated'"
                       decoration-warning="state == 'to_validate'"
                       decoration-muted="state == 'draft'">
                     <field name="employee_id"/>
@@ -14,7 +14,7 @@
                     <field name="available"/>
                     <field name="state" readonly="1"/>
                     <field name="notes"/>
-                </tree>
+                </list>
             </field>
         </record>
         <record id="view_gl_custom_planning_employee_availability_form" model="ir.ui.view">
@@ -41,11 +41,28 @@
             </field>
         </record>
 
+
+        <record id="view_gl_custom_planning_employee_availability_multi_create_form" model="ir.ui.view">
+            <field name="name">planning.employee_availability_entry_form</field>
+            <field name="model">planning.employee_availability_entry</field>
+            <field name="priority">20</field>
+            <field name="arch" type="xml">
+                <form string="Avaliability entry">
+                    <group>
+                     <field name="shift_type_id" options="{'no_quick_create': True}" required="1"/>
+                     <field name="employee_id" options="{'no_quick_create': True}" required="1"/>
+                     <field name="available" options="{'no_quick_create': True}" required="1"/>
+                     <field name="state" options="{'no_quick_create': True}" required="1"/>
+                 </group>
+                </form>
+            </field>
+        </record>
+
         <record id="view_gl_custom_planning_employee_availability_search" model="ir.ui.view">
             <field name="name">planning.employee_availability_entry_search</field>
             <field name="model">planning.employee_availability_entry</field>
             <field name="arch" type="xml">
-                <search>
+                <search string="Entries">
                     <field name="employee_id"/>
                     <field name="shift_type_id"/>
                     <field name="date"/>
@@ -60,7 +77,7 @@
                     <separator/>
                     <filter name="filter_available" string="Available" domain="[('available', '=', True)]"/>
                     <filter name="filter_unavailable" string="Unavailable" domain="[('available', '=', False)]"/>
-                    <group expand="0" string="Group By">
+                    <group>
                         <filter name="group_by_employee" string="Employee" context="{'group_by': 'employee_id'}"/>
                         <filter name="group_by_shift_type" string="Shift type" context="{'group_by': 'shift_type_id'}"/>
                         <filter name="group_by_date" string="Date" context="{'group_by': 'date'}"/>
@@ -73,12 +90,58 @@
             <field name="name">planning.employee_availability_entry_calendar</field>
             <field name="model">planning.employee_availability_entry</field>
             <field name="arch" type="xml">
-                <calendar string="Employee Availability" date_start="date" color="state" mode="month" event_open_popup="true">
-                    <field name="name"/>
-                    <field name="employee_id"/>
-                    <field name="shift_type_id"/>
-                    <field name="available"/>
+                <calendar string="Availability"
+                        date="date"
+                        color="state"
+                        multi_create_view="planning.view_gl_custom_planning_employee_availability_multi_create_form"
+                        form_view_id="%(view_gl_custom_planning_employee_availability_form)d"
+                        event_open_popup="true"
+                        quick_create="0"
+                        js_class="planning_calendar"
+                        mode="month"
+                        show_unusual_days="True"
+                >
+                    <field name="resource_id"
+                        avatar_field="avatar_128"
+                        widget="many2one_avatar_resource"
+                        filters="1"
+                        write_model="planning.calendar.resource"
+                        write_field="resource_id"
+                        filter_field="checked"
+                        groups="planning.group_planning_user"
+                    />
                     <field name="state"/>
+                    <field name="name"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record id="view_gl_custom_planning_employee_availability_my_calendar" model="ir.ui.view">
+            <field name="name">planning.employee_availability_my_calendar</field>
+            <field name="model">planning.employee_availability_entry</field>
+            <field name="arch" type="xml">
+                <calendar string="Availability"
+                        date="date"
+                        color="state"
+                        multi_create_view="planning.view_gl_custom_planning_employee_availability_multi_create_form"
+                        form_view_id="%(view_gl_custom_planning_employee_availability_form)d"
+                        event_open_popup="true"
+                        quick_create="0"
+                        js_class="planning_calendar"
+                        mode="month"
+                        show_unusual_days="True"
+                >
+                    <field name="resource_id"
+                        avatar_field="avatar_128"
+                        widget="many2one_avatar_resource"
+                        filters="1"
+                        write_model="planning.calendar.resource"
+                        write_field="resource_id"
+                        filter_field="checked"
+                        groups="planning.group_planning_user"
+                    />
+                    <field name="state"/>
+                    <field name="name"/>
                 </calendar>
             </field>
         </record>
@@ -86,9 +149,32 @@
         <record id="action_planning_employee_availability" model="ir.actions.act_window">
             <field name="name">Employee Availability</field>
             <field name="res_model">planning.employee_availability_entry</field>
-            <field name="view_mode">tree,calendar,form</field>
+            <field name="view_mode">list,calendar,form</field>
             <field name="search_view_id" ref="view_gl_custom_planning_employee_availability_search"/>
+            <field name="context">{'search_default_filter_my_entries': 0}</field>
+        </record>
+
+        <record id="action_planning_employee_availability_my_calendar" model="ir.actions.act_window">
+            <field name="name">My availability</field>
+            <field name="res_model">planning.employee_availability_entry</field>
+            <field name="path">my-availability</field>
+            <field name="view_mode">calendar,list,form</field>
+            <field name="mobile_view_mode">calendar</field>
             <field name="context">{'search_default_filter_my_entries': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No availability entries found. Let's create one!
+                </p><p>
+                    Find here your planning availability entries. Indicate your availability and request/aprove it.
+                </p>
+            </field>
+        </record>
+
+        <record id="planning_action_my_calendar_view_calendar" model="ir.actions.act_window.view">
+            <field name="sequence" eval="10"/>
+            <field name="view_mode">calendar</field>
+            <field name="view_id" ref="view_gl_custom_planning_employee_availability_my_calendar"/>
+            <field name="act_window_id" ref="action_planning_employee_availability_my_calendar"/>
         </record>
 
         <record id="menu_employee_availability_root" model="ir.ui.menu">
@@ -97,5 +183,12 @@
             <field name="sequence">20</field>
             <field name="action" ref="action_planning_employee_availability"/>
         </record>
+
+            <menuitem
+                id="planning_menu_my_planning"
+                name="My Planning"
+                sequence="30"
+                parent="menu_employee_availability_root"
+                action="action_planning_employee_availability_my_calendar"/>
     </data>
 </odoo>

@@ -13,9 +13,9 @@ class HrEmployee(models.Model):
         help="Which shift types this employee is willing/allowed to work.",
     )
 
-    # Todo: implement constraint logic in PlanningSlot
-    max_morning_shifts_per_week = fields.Integer()
-    max_evening_shifts_per_week = fields.Integer()
+    # # Todo: implement constraint logic in PlanningSlot
+    # max_morning_shifts_per_week = fields.Integer()
+    # max_evening_shifts_per_week = fields.Integer()
 
     max_shifts_per_week = fields.Integer(
         string="Max shifts per week",

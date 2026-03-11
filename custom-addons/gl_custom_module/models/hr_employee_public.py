@@ -14,7 +14,7 @@ class HREmployeePublic(models.Model):
         related_sudo=True,
         store=False
     )
-    
+   
     max_shifts_per_week = fields.Integer(
         string="Max shifts per week",
         related="employee_id.max_shifts_per_week",
@@ -38,32 +38,3 @@ class HREmployeePublic(models.Model):
         related_sudo=True,
         store=False
     )
-
-    def write(self, vals):
-        """
-        Redirect writes for our custom fields to the real hr.employee record,
-        and DO NOT let the ORM try to update the hr_employee_public SQL view.
-        """
-        emp_field_names = {
-            "allowed_shift_type_ids",
-            "max_shifts_per_week",
-            "combine_evening_morning_shift",
-        }
-
-        # Split vals: what we care about vs everything else
-        emp_vals = {k: v for k, v in vals.items() if k in emp_field_names}
-        other_vals = {k: v for k, v in vals.items() if k not in emp_field_names}
-
-        if emp_vals:
-            # propagate to the real employees, bypassing public restrictions
-            self.mapped("employee_id").write(emp_vals)
-
-        # For safety, just ignore writes to the SQL view itself.
-        # If you *know* some other public fields need to be updatable, we can
-        # handle those explicitly later.
-        if other_vals:
-            # You *could* log this to spot unexpected writes:
-            _logger.info("Ignoring write on hr.employee.public: %s", other_vals)
-            pass
-
-        return True
