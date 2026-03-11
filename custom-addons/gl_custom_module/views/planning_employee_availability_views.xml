@@ -46,7 +46,7 @@
             <field name="name">planning.employee_availability_entry_multi_create_form</field>
             <field name="model">planning.employee_availability_entry</field>
             <field name="arch" type="xml">
-                <form string="Avaliability entry">
+                <form string="Batch creation">
                     <group>
                      <field name="shift_type_id" options="{'no_quick_create': True}" required="1"/>
                      <field name="available" options="{'no_quick_create': True}" required="1"/>
@@ -90,16 +90,19 @@
                 <calendar string="Availability"
                     date_start="date"
                     color="state"
-                    multi_create_view="planning.view_gl_custom_planning_employee_availability_multi_create_form"
+                    multi_create_view="gl_custom_module.view_gl_custom_planning_employee_availability_multi_create_form"
                     form_view_id="%(view_gl_custom_planning_employee_availability_form)d"
                     event_open_popup="true"
                     quick_create="0"
                     mode="month">
                     <field name="resource_id"
+                        avatar_field="avatar_128"
+                        widget="many2one_avatar_resource"
                         filters="1"
                         write_model="planning.employee_availability_calendar_resource"
                         write_field="resource_id"
-                        filter_field="checked"/>
+                        filter_field="checked"
+                        groups="planning.group_planning_user"/>
                     <field name="state"/>
                     <field name="name"/>
                 </calendar>
@@ -113,13 +116,20 @@
                 <calendar string="Availability"
                     date_start="date"
                     color="state"
-                    multi_create_view="planning.view_gl_custom_planning_employee_availability_multi_create_form"
+                    multi_create_view="gl_custom_module.view_gl_custom_planning_employee_availability_multi_create_form"
                     form_view_id="%(view_gl_custom_planning_employee_availability_form)d"
                     event_open_popup="true"
                     quick_create="0"
                     mode="month"
                     >
-                    <field name="resource_id" filters="1"/>
+                    <field name="resource_id"
+                        avatar_field="avatar_128"
+                        widget="many2one_avatar_resource"
+                        filters="1"
+                        write_model="planning.employee_availability_calendar_resource"
+                        write_field="resource_id"
+                        filter_field="checked"
+                        groups="planning.group_planning_user"/>
                     <field name="state"/>
                     <field name="name"/>
                 </calendar>

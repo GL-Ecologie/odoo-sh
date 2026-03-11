@@ -21,29 +21,7 @@ class PlanningEmployeeAvailabilityCalendarResource(models.Model):
     checked = fields.Boolean(default=True)
 
     def get_calendar_filters(self, user_id, field_names):
-        user = self.env["res.users"].browse(user_id)
-        is_manager = user.has_group("planning.group_planning_manager")
-
-        if is_manager:
-            resources = self.env["hr.employee"].search([]).mapped("resource_id")
-        else:
-            employee = self.env["hr.employee"].search([("user_id", "=", user_id)], limit=1)
-            resources = employee.resource_id
-
-        existing_resource_ids = self.search([
-            ("user_id", "=", user_id),
-        ]).mapped("resource_id").ids
-
-        missing_resources = resources.filtered(lambda r: r.id not in existing_resource_ids)
-
-        for resource in missing_resources:
-            self.create({
-                "user_id": user_id,
-                "resource_id": resource.id,
-                "checked": True if not is_manager else False,
-            })
-
-        return self.search_read(
-            domain=[("user_id", "=", user_id)],
-            fields=field_names,
-        )
+        
+        if not self.env['planning.calendar.resource'].search_count([('user_id', '=', user_id), ('resource_id', '=', False)]):
+            self.env['planning.calendar.resource'].create({'resource_id': False, 'user_id': user_id})
+        return self.search_read(domain=[('user_id', '=', user_id)], fields=field_names)
