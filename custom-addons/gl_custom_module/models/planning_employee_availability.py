@@ -173,6 +173,11 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
                 else self.env._("Your availability entry has been validated (%(range)s).", range=date_range)
             )
             user = self.env["res.users"].browse(uid)
+            self.env["mail.thread"].message_notify(
+                    body=message,
+                    subject="Availability entries validated",
+                    partner_ids=user.partner_id,
+                )
             self.env["bus.bus"]._sendone(
                 user.partner_id,
                 "simple_notification",
@@ -209,6 +214,11 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
                 else self.env._("Your availability entry has been reset to draft (%(range)s).", range=date_range)
             )
             user = self.env["res.users"].browse(uid)
+            self.env["mail.thread"].message_notify(
+                    body=message,
+                    subject="Availability entries reseted",
+                    partner_ids=user.partner_id,
+                )
             self.env["bus.bus"]._sendone(
                 user.partner_id,
                 "simple_notification",

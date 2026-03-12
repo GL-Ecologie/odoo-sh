@@ -34,10 +34,12 @@
        t-inherit="web.MultiSelectionButtons"
        t-inherit-mode="primary">
         <button data-tooltip="Delete" position="before">
-            <button class="btn btn-secondary me-1" t-on-click="() => this.props.reactive.onBatchEdit()">Edit</button>
-            <t t-if="this.props.reactive.isManager">
-                <button class="btn btn-primary me-1" t-on-click="() => this.props.reactive.onBatchValidate()">Validate</button>
-                <button class="btn btn-secondary me-1" t-on-click="() => this.props.reactive.onBatchResetToDraft()">Reset to draft</button>
+            <t t-if="this.props.reactive.nbSelected > 0">
+                <button class="btn btn-secondary me-1" t-on-click="() => this.props.reactive.onBatchEdit()">Edit</button>
+                <t t-if="this.props.reactive.isManager">
+                    <button class="btn btn-primary me-1" t-on-click="() => this.props.reactive.onBatchValidate()">Validate</button>
+                    <button class="btn btn-secondary me-1" t-on-click="() => this.props.reactive.onBatchResetToDraft()">Reset to draft</button>
+                </t>
             </t>
         </button>
     </t>
