@@ -91,7 +91,7 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
         entries = self.filtered(lambda r: r.state in ["draft", "validated"])
 
         if not entries:
-            raise UserError(self.env._("There are no draft availability entries to submit for validation."))
+            raise UserError(self.env._("There are no draft or already availability entries to submit for validation."))
 
         entries.write({"state": "validation_requested"})
 

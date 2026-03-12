@@ -30,7 +30,7 @@ class PlanningEmployeeAvailabilityBatchEditWizard(models.TransientModel):
 
         return {
             "type": "ir.actions.act_window",
-            "name": _("Batch Edit Availability"),
+            "name": "Edit batch availability",
             "res_model": "planning.employee_availability_batch_edit_wizard",
             "view_mode": "form",
             "target": "new",

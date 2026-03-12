@@ -7,6 +7,10 @@
                 <list decoration-success="state == 'validated'"
                       decoration-warning="state == 'validation_requested'"
                       decoration-muted="state == 'draft'">
+                    <header>
+                        <button name="action_validate" string="Validate availability" type="object" class="btn-primary" groups="planning.group_planning_manager"/>
+                        <button name="action_reset_to_draft" string="Reset to draft" type="object" class="btn-secondary" groups="planning.group_planning_manager"/>
+                    </header>
                     <field name="resource_id"/>
                     <field name="date"/>
                     <field name="shift_type_id"/>
@@ -171,6 +175,24 @@
             <field name="view_mode">calendar</field>
             <field name="view_id" ref="view_gl_custom_planning_employee_availability_my_calendar"/>
             <field name="act_window_id" ref="action_planning_employee_availability_my_calendar"/>
+        </record>
+
+        <record id="action_planning_employee_availability_batch_validate" model="ir.actions.server">
+            <field name="name">Validate availability</field>
+            <field name="model_id" ref="gl_custom_module.model_planning_employee_availability_entry"/>
+            <field name="binding_model_id" ref="gl_custom_module.model_planning_employee_availability_entry"/>
+            <field name="binding_view_types">list,calendar</field>
+            <field name="state">code</field>
+            <field name="code">records.action_validate()</field>
+        </record>
+
+        <record id="action_planning_employee_availability_batch_reset_to_draft" model="ir.actions.server">
+            <field name="name">Reset to draft</field>
+            <field name="model_id" ref="gl_custom_module.model_planning_employee_availability_entry"/>
+            <field name="binding_model_id" ref="gl_custom_module.model_planning_employee_availability_entry"/>
+            <field name="binding_view_types">list,calendar</field>
+            <field name="state">code</field>
+            <field name="code">records.action_reset_to_draft()</field>
         </record>
 
         <record id="menu_employee_availability_root" model="ir.ui.menu">
