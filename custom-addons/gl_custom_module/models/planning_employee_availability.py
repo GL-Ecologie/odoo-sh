@@ -99,14 +99,13 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
             rec.name = f"{shift}"
 
     def action_request_validation(self):
-        entries = self.filtered(lambda r: r.state in ["draft", "validated"])
 
-        if not entries:
+        if not self:
             raise UserError(self.env._("There are no draft or already availability entries to submit for validation."))
 
-        entries.write({"state": "validation_requested"})
+        self.write({"state": "validation_requested"})
 
-        for entry in entries:
+        for entry in self:
             entry.message_post(
                 body=self.env._("Validation requested for this availability entry.")
             )
@@ -114,15 +113,15 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
         # One activity per manager for the whole batch
         manager_group = self.env.ref("planning.group_planning_manager")
         managers = manager_group.user_ids
-        count = len(entries)
-        date_range = self._date_range_label(entries.mapped("date"))
+        count = len(self)
+        date_range = self._date_range_label(self.mapped("date"))
         summary = (
             self.env._("%(count)d availability entries are awaiting your validation (%(range)s).", count=count, range=date_range)
             if count > 1
             else self.env._("Please review this availability entry (%(range)s).", range=date_range)
         )
         for manager in managers:
-            entries[0].activity_schedule(
+            self[0].activity_schedule(
                 "mail.mail_activity_data_todo",
                 user_id=manager.id,
                 summary=self.env._(summary),
