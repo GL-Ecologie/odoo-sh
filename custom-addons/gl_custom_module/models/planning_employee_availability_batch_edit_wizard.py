@@ -9,7 +9,7 @@ class PlanningEmployeeAvailabilityBatchEditWizard(models.TransientModel):
 
     entry_ids = fields.Many2many(
         "planning.employee_availability_entry",
-        relation="planning_employee_availability_batch_edit_2_entry"
+        relation="planning_employee_availability_batch_edit_2_entry",
         string="Availability Entries",
     )
 
