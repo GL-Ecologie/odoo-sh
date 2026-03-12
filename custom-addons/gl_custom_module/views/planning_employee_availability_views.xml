@@ -206,7 +206,8 @@
                 name="Availability by resource"
                 sequence="20"
                 parent="menu_employee_availability_root"
-                action="action_planning_employee_availability"/>
+                action="action_planning_employee_availability"
+                groups="planning.group_planning_manager"/>
             <menuitem
                 id="planning_menu_my_availability"
                 name="My availability"

@@ -33,6 +33,7 @@ class PlanningEmployeeAvailabilityBatchEditWizard(models.TransientModel):
             "name": "Edit batch availability",
             "res_model": "planning.employee_availability_batch_edit_wizard",
             "view_mode": "form",
+            "views": [[False, "form"]],
             "target": "new",
             "context": {
                 "default_entry_ids": [(6, 0, active_ids)],
