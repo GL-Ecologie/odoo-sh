@@ -3,7 +3,8 @@ import { calendarView } from "@web/views/calendar/calendar_view";
 import { CalendarController } from "@web/views/calendar/calendar_controller";
 import { CalendarRenderer } from "@web/views/calendar/calendar_renderer";
 import { CalendarCommonRenderer} from "@web/views/calendar/calendar_common/calendar_common_renderer";
-import { Component, useState, onWillStart } from "@odoo/owl";
+import { MultiSelectionButtons } from "@web/views/view_components/multi_selection_buttons";
+import { Component, onWillStart } from "@odoo/owl";
 import { useService } from "@web/core/utils/hooks";
 
 
@@ -12,11 +13,27 @@ class AvailabilityLegend extends Component {
     static props = ["*"];
 }
 
+class EmployeeAvailabilityMultiSelectionButtons extends MultiSelectionButtons {
+    static template = "gl_custom_module.EmployeeAvailabilityMultiSelectionButtons";
+    static props = {
+        reactive: {
+            type: Object,
+            shape: {
+                ...MultiSelectionButtons.props.reactive.shape,
+                isManager: Boolean,
+                onBatchEdit: Function,
+                onBatchValidate: Function,
+                onBatchResetToDraft: Function,
+            },
+        },
+    };
+}
+
 class EmployeeAvailabilityCalendarController extends CalendarController {
-    static template = "gl_custom_module.EmployeeAvailabilityCalendarController";
     static components = {
         ...CalendarController.components,
         AvailabilityLegend,
+        MultiSelectionButtons: EmployeeAvailabilityMultiSelectionButtons,
     };
 
     setup() {
@@ -24,17 +41,24 @@ class EmployeeAvailabilityCalendarController extends CalendarController {
         this.orm = useService("orm");
         this.actionService = useService("action");
         this.userService = useService("user");
-        this.selectionState = useState({ isManager: false });
 
         onWillStart(async () => {
-            this.selectionState.isManager = await this.userService.hasGroup(
-                "planning.group_planning_manager"
-            );
+            const isManager = await this.userService.hasGroup("planning.group_planning_manager");
+            this.multiSelectionButtonsReactive.isManager = isManager;
         });
     }
 
+    prepareMultiSelectionButtonsReactive() {
+        const result = super.prepareMultiSelectionButtonsReactive();
+        result.isManager = false;
+        result.onBatchEdit = () => this.onBatchEdit();
+        result.onBatchValidate = () => this.onBatchValidate();
+        result.onBatchResetToDraft = () => this.onBatchResetToDraft();
+        return result;
+    }
+
     get selectedIds() {
-        return [...this.model.selectedRecords];
+        return this.selectedCells ? this.getSelectedRecordIds(this.selectedCells) : [];
     }
 
     async onBatchEdit() {

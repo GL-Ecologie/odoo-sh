@@ -30,16 +30,16 @@
         </xpath>
     </t>
 
-    <t t-name="gl_custom_module.EmployeeAvailabilityCalendarController"
-       t-inherit="web.CalendarController"
+    <t t-name="gl_custom_module.EmployeeAvailabilityMultiSelectionButtons"
+       t-inherit="web.MultiSelectionButtons"
        t-inherit-mode="primary">
-        <xpath expr="//button[hasclass('o_calendar_delete_btn')]" position="before">
-            <button class="btn btn-secondary me-1" t-on-click="onBatchEdit">Edit</button>
-            <t t-if="selectionState.isManager">
-                <button class="btn btn-primary me-1" t-on-click="onBatchValidate">Validate</button>
-                <button class="btn btn-secondary me-1" t-on-click="onBatchResetToDraft">Reset to draft</button>
+        <button data-tooltip="Delete" position="before">
+            <button class="btn btn-secondary me-1" t-on-click="() => this.props.reactive.onBatchEdit()">Edit</button>
+            <t t-if="this.props.reactive.isManager">
+                <button class="btn btn-primary me-1" t-on-click="() => this.props.reactive.onBatchValidate()">Validate</button>
+                <button class="btn btn-secondary me-1" t-on-click="() => this.props.reactive.onBatchResetToDraft()">Reset to draft</button>
             </t>
-        </xpath>
+        </button>
     </t>
 
 </templates>
