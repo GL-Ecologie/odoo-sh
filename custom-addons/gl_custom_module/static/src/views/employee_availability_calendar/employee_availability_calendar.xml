@@ -9,14 +9,6 @@
         </xpath>
     </t>
 
-    <t t-name="gl_custom_module.EmployeeAvailabilityCalendarEvent" t-inherit="web.CalendarCommonRenderer.event" t-inherit-mode="extension">
-        <xpath expr="//*[contains(@class, 'fc-event')]" position="attributes">
-            <attribute name="t-attf-class">
-                {{ attrs.className or '' }} o_availability_event o_availability_#{record.rawRecord.style_key}
-            </attribute>
-        </xpath>
-    </t>
-
     <t t-name="gl_custom_module.AvailabilityCalendarLegend">
         <div class="o_employee_availability_legend">
             <div class="o_employee_availability_legend_title">Legend</div>
