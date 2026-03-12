@@ -52,6 +52,14 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
         compute="_compute_style_key"
     )
 
+    def _date_range_label(self, dates):
+        """Return a human-readable date range string from a list of date objects."""
+        min_d = min(dates)
+        max_d = max(dates)
+        if min_d == max_d:
+            return min_d.strftime("%d %b %Y")
+        return f"{min_d.strftime('%d %b %Y')} – {max_d.strftime('%d %b %Y')}"
+
     @api.model
     def _default_resource_id(self):
         employee = self.env["hr.employee"].search(
@@ -95,20 +103,28 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
 
         entries.write({"state": "validation_requested"})
 
-        manager_group = self.env.ref("planning.group_planning_manager")
-        managers = manager_group.user_ids
-        
         for entry in entries:
             entry.message_post(
                 body=self.env._("Validation requested for this availability entry.")
             )
-            for manager in managers:
-                entry.activity_schedule(
-                    "mail.mail_activity_data_todo",
-                    user_id=manager.id,
-                    note=self.env._("Please review this employee availability entry."),
-                    date_deadline=fields.Date.today() + timedelta(days=3)
-                )
+
+        # One activity per manager for the whole batch
+        manager_group = self.env.ref("planning.group_planning_manager")
+        managers = manager_group.user_ids
+        count = len(entries)
+        date_range = self._date_range_label(entries.mapped("date"))
+        note = (
+            self.env._("%(count)d availability entries are awaiting your validation (%(range)s).", count=count, range=date_range)
+            if count > 1
+            else self.env._("Please review this availability entry (%(range)s).", range=date_range)
+        )
+        for manager in managers:
+            entries[0].activity_schedule(
+                "mail.mail_activity_data_todo",
+                user_id=manager.id,
+                note=note,
+                date_deadline=fields.Date.today() + timedelta(days=3),
+            )
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -135,12 +151,30 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
             rec.message_post(
                 body=self.env._("Availability entry validated.")
             )
+
+        # One activity per affected user for the whole batch
+        entries_by_user = {}
+        for rec in entries:
             if rec.resource_id.user_id:
-                rec.activity_schedule(
-                    "mail.mail_activity_data_todo",
-                    user_id=rec.resource_id.user_id.id,
-                    note=self.env._("Your availability entry has been validated."),
-                )
+                uid = rec.resource_id.user_id.id
+                if uid not in entries_by_user:
+                    entries_by_user[uid] = {"rep": rec, "count": 0, "dates": []}
+                entries_by_user[uid]["count"] += 1
+                entries_by_user[uid]["dates"].append(rec.date)
+
+        for uid, data in entries_by_user.items():
+            count = data["count"]
+            date_range = self._date_range_label(data["dates"])
+            note = (
+                self.env._("%(count)d of your availability entries have been validated (%(range)s).", count=count, range=date_range)
+                if count > 1
+                else self.env._("Your availability entry has been validated (%(range)s).", range=date_range)
+            )
+            data["rep"].activity_schedule(
+                "mail.mail_activity_data_todo",
+                user_id=uid,
+                note=note,
+            )
 
     def action_reset_to_draft(self):
         if not self.env.user.has_group("planning.group_planning_manager"):
@@ -152,3 +186,27 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
             raise UserError(self.env._("There are no availability entries to reset to draft."))
 
         entries.write({"state": "draft"})
+
+        # One activity per affected user for the whole batch
+        entries_by_user = {}
+        for rec in entries:
+            if rec.resource_id.user_id:
+                uid = rec.resource_id.user_id.id
+                if uid not in entries_by_user:
+                    entries_by_user[uid] = {"rep": rec, "count": 0, "dates": []}
+                entries_by_user[uid]["count"] += 1
+                entries_by_user[uid]["dates"].append(rec.date)
+
+        for uid, data in entries_by_user.items():
+            count = data["count"]
+            date_range = self._date_range_label(data["dates"])
+            note = (
+                self.env._("%(count)d of your availability entries have been reset to draft (%(range)s).", count=count, range=date_range)
+                if count > 1
+                else self.env._("Your availability entry has been reset to draft (%(range)s).", range=date_range)
+            )
+            data["rep"].activity_schedule(
+                "mail.mail_activity_data_todo",
+                user_id=uid,
+                note=note,
+            )
