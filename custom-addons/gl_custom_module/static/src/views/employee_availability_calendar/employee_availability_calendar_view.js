@@ -2,7 +2,9 @@ import { registry } from "@web/core/registry";
 import { calendarView } from "@web/views/calendar/calendar_view";
 import { CalendarController } from "@web/views/calendar/calendar_controller";
 import { CalendarRenderer } from "@web/views/calendar/calendar_renderer";
+import { CalendarCommonRenderer} from "@web/views/calendar/calendar_common/calendar_common_renderer";
 import { Component } from "@odoo/owl";
+
 
 class AvailabilityLegend extends Component {
     static template = "gl_custom_module.AvailabilityCalendarLegend";
@@ -15,31 +17,33 @@ class EmployeeAvailabilityCalendarController extends CalendarController {
     };
 }
 
-class EmployeeAvailabilityCalendarRenderer extends CalendarRenderer {
-    
-    setupCalendar() {
-        const calendar = super.setupCalendar();
+class EmployeeAvailabilityCalendarCommonRenderer extends CalendarCommonRenderer {
+    eventClassNames(params) {
+        const classes = super.eventClassNames(params);
 
-        const originalEventDidMount = calendar.options.eventDidMount;
+        const record = this.props.model.records[params.event.id];
+        if (!record) {
+            return classes;
+        }
+        classes.push("o_availability_event");
 
-        calendar.setOption("eventDidMount", (info) => {
+        const styleKey = record.rawRecord?.style_key;
+        
+        if (styleKey) {
+            classes.push(`o_availability_${styleKey}`);
+        }
 
-            if (originalEventDidMount) {
-                originalEventDidMount(info);
-            }
-
-            const styleKey = info.event.extendedProps?.style_key;
-            console.log("Availability event styleKey:", styleKey, info.event.extendedProps);
-
-            info.el.classList.add("o_availability_event");
-            
-            if (styleKey) {
-                info.el.classList.add(`o_availability_${styleKey}`);
-            }
-        });
-
-        return calendar;
+        return classes;
     }
+}
+
+class EmployeeAvailabilityCalendarRenderer extends CalendarRenderer {
+    static components = {
+        ...CalendarRenderer.components,
+        day: EmployeeAvailabilityCalendarCommonRenderer,
+        week: EmployeeAvailabilityCalendarCommonRenderer,
+        month: EmployeeAvailabilityCalendarCommonRenderer,
+    };
 }
 
 export const employeeAvailabilityCalendarView = {
