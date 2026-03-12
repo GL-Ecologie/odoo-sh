@@ -1,7 +1,7 @@
 from odoo import models, fields, api
 from odoo.exceptions import UserError
 from datetime import timedelta
-
+import logging
 
 class PlanningEmployeeAvailabilityEntry(models.Model):
     """
@@ -12,6 +12,8 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
     _name = "planning.employee_availability_entry"
     _description = "Employee planning availability entry"
     _order = "date desc, resource_id, shift_type_id"
+
+    _logger = logging.getLogger(__name__)
 
     _sql_constraints = [
         (
@@ -56,9 +58,10 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
         """Return a human-readable date range string from a list of date objects."""
         min_d = min(dates)
         max_d = max(dates)
+        self._logger.info(f"Min date:{min_d}\tMax date:{max_d}")
         if min_d == max_d:
             return min_d.strftime("%d %b %Y")
-        return f"{min_d.strftime('%d %b %Y')} – {max_d.strftime('%d %b %Y')}"
+        return f"{min_d.strftime('%d %b %Y')} - {max_d.strftime('%d %b %Y')}"
 
     @api.model
     def _default_resource_id(self):
@@ -113,7 +116,7 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
         managers = manager_group.user_ids
         count = len(entries)
         date_range = self._date_range_label(entries.mapped("date"))
-        note = (
+        summary = (
             self.env._("%(count)d availability entries are awaiting your validation (%(range)s).", count=count, range=date_range)
             if count > 1
             else self.env._("Please review this availability entry (%(range)s).", range=date_range)
@@ -122,7 +125,7 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
             entries[0].activity_schedule(
                 "mail.mail_activity_data_todo",
                 user_id=manager.id,
-                note=note,
+                summary=self.env._(summary),
                 date_deadline=fields.Date.today() + timedelta(days=3),
             )
 
@@ -165,15 +168,16 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
         for uid, data in entries_by_user.items():
             count = data["count"]
             date_range = self._date_range_label(data["dates"])
-            note = (
+            message = (
                 self.env._("%(count)d of your availability entries have been validated (%(range)s).", count=count, range=date_range)
                 if count > 1
                 else self.env._("Your availability entry has been validated (%(range)s).", range=date_range)
             )
-            data["rep"].activity_schedule(
-                "mail.mail_activity_data_todo",
-                user_id=uid,
-                note=note,
+            user = self.env["res.users"].browse(uid)
+            self.env["bus.bus"]._sendone(
+                user.partner_id,
+                "simple_notification",
+                {"title": self.env._("Availability validated"), "message": message, "sticky": False},
             )
 
     def action_reset_to_draft(self):
@@ -200,13 +204,14 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
         for uid, data in entries_by_user.items():
             count = data["count"]
             date_range = self._date_range_label(data["dates"])
-            note = (
+            message = (
                 self.env._("%(count)d of your availability entries have been reset to draft (%(range)s).", count=count, range=date_range)
                 if count > 1
                 else self.env._("Your availability entry has been reset to draft (%(range)s).", range=date_range)
             )
-            data["rep"].activity_schedule(
-                "mail.mail_activity_data_todo",
-                user_id=uid,
-                note=note,
+            user = self.env["res.users"].browse(uid)
+            self.env["bus.bus"]._sendone(
+                user.partner_id,
+                "simple_notification",
+                {"title": self.env._("Availability reset to draft"), "message": message, "sticky": False},
             )
