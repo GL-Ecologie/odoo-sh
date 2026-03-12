@@ -90,7 +90,6 @@
                 <calendar string="Availability"
                     js_class="employee_availability_calendar"
                     date_start="date"
-                    color="state"
                     multi_create_view="gl_custom_module.view_gl_custom_planning_employee_availability_multi_create_form"
                     form_view_id="%(view_gl_custom_planning_employee_availability_form)d"
                     event_open_popup="true"
@@ -103,6 +102,8 @@
                         filter_field="checked"
                         groups="planning.group_planning_user"/>
                     <field name="state"/>
+                    <field name="available"/>
+                    <field name="style_key"/>
                     <field name="name"/>
                 </calendar>
             </field>
@@ -115,7 +116,6 @@
                 <calendar string="Availability"
                     js_class="employee_availability_calendar"
                     date_start="date"
-                    color="state"
                     multi_create_view="gl_custom_module.view_gl_custom_planning_employee_availability_multi_create_form"
                     form_view_id="%(view_gl_custom_planning_employee_availability_form)d"
                     event_open_popup="true"
@@ -129,6 +129,8 @@
                         filter_field="checked"
                         groups="planning.group_planning_user"/>
                     <field name="state"/>
+                    <field name="available"/>
+                    <field name="style_key"/>
                     <field name="name"/>
                 </calendar>
             </field>

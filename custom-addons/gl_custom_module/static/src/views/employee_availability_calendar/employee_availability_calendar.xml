@@ -4,8 +4,16 @@
     <t t-name="gl_custom_module.EmployeeAvailabilityCalendarController"
        t-inherit="web.CalendarController"
        t-inherit-mode="extension">
-        <xpath expr="//t[@t-component='props.Renderer']" position="before">
+        <xpath expr="//t[@t-component='props.Renderer']" position="after">
             <AvailabilityLegend/>
+        </xpath>
+    </t>
+
+    <t t-name="gl_custom_module.EmployeeAvailabilityCalendarEvent" t-inherit="web.CalendarCommonRenderer.event" t-inherit-mode="extension">
+        <xpath expr="//*[contains(@class, 'fc-event')]" position="attributes">
+            <attribute name="t-attf-class">
+                {{ attrs.className or '' }} o_availability_event o_availability_#{record.rawRecord.style_key}
+            </attribute>
         </xpath>
     </t>
 
@@ -13,16 +21,24 @@
         <div class="o_employee_availability_legend">
             <div class="o_employee_availability_legend_title">Legend</div>
             <div class="o_employee_availability_legend_item">
-                <span class="o_employee_availability_marker o_state_draft"></span>
+                <span class="o_employee_availability_marker o_availability_draft"></span>
                 <span>Draft</span>
             </div>
             <div class="o_employee_availability_legend_item">
-                <span class="o_employee_availability_marker o_state_validation_requested"></span>
-                <span>Validation requested</span>
+                <span class="o_employee_availability_marker o_availability_validation_requested_yes"></span>
+                <span>Validation requested | Available</span>
             </div>
             <div class="o_employee_availability_legend_item">
-                <span class="o_employee_availability_marker o_state_validated"></span>
-                <span>Validated</span>
+                <span class="o_employee_availability_marker o_availability_validation_requested_no"></span>
+                <span>Validation requested | Not available</span>
+            </div>
+            <div class="o_employee_availability_legend_item">
+                <span class="o_employee_availability_marker o_availability_validated_yes"></span>
+                <span>Validated | Available</span>
+            </div>
+            <div class="o_employee_availability_legend_item">
+                <span class="o_employee_availability_marker o_availability_validated_no"></span>
+                <span>Validated | Not available</span>
             </div>
         </div>
     </t>

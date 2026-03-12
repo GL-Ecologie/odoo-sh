@@ -46,19 +46,32 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
         )
     ]
 
-    @api.depends("resource_id", "date", "shift_type_id", "available", "state")
+    style_key = fields.Char(
+        compute="_compute_style_key"
+    )
+
+    @api.depends("state", "available")
+    def _compute_style_key(self):
+        for rec in self:
+            if rec.state == "draft":
+                rec.style_key = "draft"
+            elif rec.state == "validation_requested" and rec.available:
+                rec.style_key = "validation_requested_yes"
+            elif rec.state == "validation_requested" and not rec.available:
+                rec.style_key = "validation_requested_no"
+            elif rec.state == "validated" and rec.available:
+                rec.style_key = "validated_yes"
+            elif rec.state == "validated" and not rec.available:
+                rec.style_key = "validated_no"
+            else:
+                rec.style_key = "draft"
+
+    @api.depends("resource_id", "date", "shift_type_id")
     def _compute_name(self):
         for rec in self:
             shift = rec.shift_type_id.name or ""
-            availability = "Yes" if rec.available else "No"
 
-            state_label = {
-                "draft": "Draft",
-                "validation_requested": "Pending",
-                "validated": "Valid",
-            }.get(rec.state, "")
-
-            rec.name = f"{shift} | {availability} | {state_label}"
+            rec.name = f"{shift}"
 
     def action_request_validation(self):
         entries = self.filtered(lambda r: r.state == "draft")
