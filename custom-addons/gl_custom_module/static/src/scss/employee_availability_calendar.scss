@@ -1,10 +1,5 @@
-.o_availability_event {
-    border-radius: 0;
-    border-width: 1px;
-    border-style: solid;
-}
-
-.o_availability_draft {
+.o_availability_event.o_availability_draft,
+.o_availability_event.o_availability_draft .fc-event-main {
     background: repeating-linear-gradient(
         45deg,
         #d9d9d9,
@@ -16,7 +11,8 @@
     color: #444 !important;
 }
 
-.o_availability_validation_requested_yes {
+.o_availability_event.o_availability_validation_requested_yes,
+.o_availability_event.o_availability_validation_requested_yes .fc-event-main {
     background: repeating-linear-gradient(
         45deg,
         #7bc67b,
@@ -28,7 +24,8 @@
     color: #1b5e20 !important;
 }
 
-.o_availability_validation_requested_no {
+.o_availability_event.o_availability_validation_requested_no,
+.o_availability_event.o_availability_validation_requested_no .fc-event-main {
     background: repeating-linear-gradient(
         45deg,
         #e07a7a,
@@ -40,13 +37,15 @@
     color: #7f0000 !important;
 }
 
-.o_availability_validated_yes {
+.o_availability_event.o_availability_validated_yes,
+.o_availability_event.o_availability_validated_yes .fc-event-main {
     background: #81c784 !important;
     border-color: #2e7d32 !important;
     color: #1b5e20 !important;
 }
 
-.o_availability_validated_no {
+.o_availability_event.o_availability_validated_no,
+.o_availability_event.o_availability_validated_no .fc-event-main {
     background: #ef9a9a !important;
     border-color: #c62828 !important;
     color: #7f0000 !important;

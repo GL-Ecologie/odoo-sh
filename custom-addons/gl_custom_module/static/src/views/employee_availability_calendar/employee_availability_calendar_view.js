@@ -16,24 +16,29 @@ class EmployeeAvailabilityCalendarController extends CalendarController {
 }
 
 class EmployeeAvailabilityCalendarRenderer extends CalendarRenderer {
-    get options() {
-        const options = super.options;
-        const superEventDidMount = options.eventDidMount;
+    
+    setupCalendar() {
+        const calendar = super.setupCalendar();
 
-        options.eventDidMount = (info) => {
-            if (superEventDidMount) {
-                superEventDidMount(info);
+        const originalEventDidMount = calendar.options.eventDidMount;
+
+        calendar.setOption("eventDidMount", (info) => {
+
+            if (originalEventDidMount) {
+                originalEventDidMount(info);
             }
 
-            info.el.classList.add("o_availability_event");
-
             const styleKey = info.event.extendedProps?.style_key;
+            console.log("Availability event styleKey:", styleKey, info.event.extendedProps);
+
+            info.el.classList.add("o_availability_event");
+            
             if (styleKey) {
                 info.el.classList.add(`o_availability_${styleKey}`);
             }
-        };
+        });
 
-        return options;
+        return calendar;
     }
 }
 
