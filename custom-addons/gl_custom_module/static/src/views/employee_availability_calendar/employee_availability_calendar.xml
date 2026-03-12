@@ -32,7 +32,7 @@
 
     <t t-name="gl_custom_module.EmployeeAvailabilityCalendarController"
        t-inherit="web.CalendarController"
-       t-inherit-mode="extension">
+       t-inherit-mode="primary">
         <xpath expr="//button[hasclass('o_calendar_delete_btn')]" position="before">
             <button class="btn btn-secondary me-1" t-on-click="onBatchEdit">Edit</button>
             <t t-if="selectionState.isManager">
