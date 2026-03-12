@@ -1,6 +1,5 @@
 <odoo>
     <data>
-
         <record id="view_gl_custom_planning_employee_availability_list" model="ir.ui.view">
             <field name="name">planning.employee_availability_entry_list</field>
             <field name="model">planning.employee_availability_entry</field>

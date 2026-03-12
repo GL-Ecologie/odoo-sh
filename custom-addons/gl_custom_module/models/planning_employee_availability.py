@@ -2,19 +2,28 @@ from odoo import models, fields, api
 from odoo.exceptions import UserError
 from datetime import timedelta
 
+
 class PlanningEmployeeAvailabilityEntry(models.Model):
     """
     This model represents one day of employee calendar availability
     """
     _inherit = ["mail.thread",  "mail.activity.mixin"]
-        
+
     _name = "planning.employee_availability_entry"
     _description = "Employee planning availability entry"
     _order = "date desc, resource_id, shift_type_id"
 
+    _sql_constraints = [
+        (
+            "unique_employee_date_shift",
+            "unique(resource_id, date, shift_type_id)",
+            "Only one availability entry is allowed per resource, date, and shift type.",
+        )
+    ]
+
     name = fields.Char(compute="_compute_name", store=True)
 
-    resource_id = fields.Many2one("resource.resource", ondelete="cascade", index=True, required=True, export_string_translation=False)
+    resource_id = fields.Many2one("resource.resource", ondelete="cascade", index=True, required=True, export_string_translation=False, default=lambda self: self._default_resource_id())
 
     date = fields.Date(help="The date of this entry", required=True, index=True)
 
@@ -38,18 +47,23 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
         help="Additional information?",
     )
 
-    _sql_constraints = [
-        (
-            "unique_employee_date_shift",
-            "unique(resource_id, date, shift_type_id)",
-            "Only one availability entry is allowed per resource, date, and shift type.",
-        )
-    ]
 
     style_key = fields.Char(
         compute="_compute_style_key"
     )
 
+    @api.model
+    def _default_resource_id(self):
+        employee = self.env["hr.employee"].search(
+            [
+                ("user_id", "=", self.env.user.id),
+                ("active", "=", True),
+                ("resource_id", "!=", False),
+            ],
+            limit=1,
+        )
+        return employee.resource_id.id if employee and employee.resource_id else False
+        
     @api.depends("state", "available")
     def _compute_style_key(self):
         for rec in self:
@@ -74,7 +88,7 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
             rec.name = f"{shift}"
 
     def action_request_validation(self):
-        entries = self.filtered(lambda r: r.state == "draft")
+        entries = self.filtered(lambda r: r.state in ["draft", "validated"])
 
         if not entries:
             raise UserError(self.env._("There are no draft availability entries to submit for validation."))
@@ -95,6 +109,16 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
                     note=self.env._("Please review this employee availability entry."),
                     date_deadline=fields.Date.today() + timedelta(days=3)
                 )
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+
+        draft_records = records.filtered(lambda r: r.state == "draft")
+        if draft_records:
+            draft_records.action_request_validation()
+
+        return records
 
     def action_validate(self):
         if not self.env.user.has_group("planning.group_planning_manager"):

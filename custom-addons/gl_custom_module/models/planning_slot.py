@@ -289,7 +289,6 @@ class PlanningSlot(models.Model):
             ],
             limit=1,
         )
-
         # Strict mode:
         # if there is no explicit entry, employee is treated as unavailable
         if not availability_entry:
