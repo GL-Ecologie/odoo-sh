@@ -176,7 +176,7 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
             self.env["mail.thread"].message_notify(
                     body=message,
                     subject="Availability entries validated",
-                    partner_ids=user.partner_id.id,
+                    partner_ids=[user.partner_id.id,]
                 )
             self.env["bus.bus"]._sendone(
                 user.partner_id,
@@ -217,7 +217,7 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
             self.env["mail.thread"].message_notify(
                     body=message,
                     subject="Availability entries reseted",
-                    partner_ids=user.partner_id.id,
+                    partner_ids=[user.partner_id.id,]
                 )
             self.env["bus.bus"]._sendone(
                 user.partner_id,
