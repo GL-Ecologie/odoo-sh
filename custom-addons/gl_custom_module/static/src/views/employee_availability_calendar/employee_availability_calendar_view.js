@@ -4,6 +4,7 @@ import { CalendarController } from "@web/views/calendar/calendar_controller";
 import { CalendarRenderer } from "@web/views/calendar/calendar_renderer";
 import { CalendarCommonRenderer} from "@web/views/calendar/calendar_common/calendar_common_renderer";
 import { MultiSelectionButtons } from "@web/views/view_components/multi_selection_buttons";
+import { user } from "@web/core/user";
 import { Component, onWillStart } from "@odoo/owl";
 import { useService } from "@web/core/utils/hooks";
 
@@ -40,10 +41,9 @@ class EmployeeAvailabilityCalendarController extends CalendarController {
         super.setup();
         this.orm = useService("orm");
         this.actionService = useService("action");
-        this.userService = useService("user");
 
         onWillStart(async () => {
-            const isManager = await this.userService.hasGroup("planning.group_planning_manager");
+            const isManager = await user.hasGroup("planning.group_planning_manager");
             this.multiSelectionButtonsReactive.isManager = isManager;
         });
     }
