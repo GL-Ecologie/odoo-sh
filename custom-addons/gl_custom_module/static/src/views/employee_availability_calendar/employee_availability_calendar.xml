@@ -4,7 +4,7 @@
     <t t-name="gl_custom_module.EmployeeAvailabilityCalendarController"
        t-inherit="web.CalendarController"
        t-inherit-mode="extension">
-        <xpath expr="//*[hasclass('o_calendar_filter')]" position="after">
+        <xpath expr="//*[hasclass('o_calendar_sidebar')]" position="inside">
             <AvailabilityLegend/>
         </xpath>
     </t>
