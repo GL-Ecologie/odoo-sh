@@ -88,6 +88,7 @@
             <field name="model">planning.employee_availability_entry</field>
             <field name="arch" type="xml">
                 <calendar string="Availability"
+                    js_class="employee_availability_calendar"
                     date_start="date"
                     color="state"
                     multi_create_view="gl_custom_module.view_gl_custom_planning_employee_availability_multi_create_form"
@@ -96,8 +97,6 @@
                     quick_create="0"
                     mode="month">
                     <field name="resource_id"
-                        avatar_field="avatar_128"
-                        widget="many2one_avatar_resource"
                         filters="1"
                         write_model="planning.employee_availability_calendar_resource"
                         write_field="resource_id"
@@ -114,6 +113,7 @@
             <field name="model">planning.employee_availability_entry</field>
             <field name="arch" type="xml">
                 <calendar string="Availability"
+                    js_class="employee_availability_calendar"
                     date_start="date"
                     color="state"
                     multi_create_view="gl_custom_module.view_gl_custom_planning_employee_availability_multi_create_form"
@@ -123,8 +123,6 @@
                     mode="month"
                     >
                     <field name="resource_id"
-                        avatar_field="avatar_128"
-                        widget="many2one_avatar_resource"
                         filters="1"
                         write_model="planning.employee_availability_calendar_resource"
                         write_field="resource_id"

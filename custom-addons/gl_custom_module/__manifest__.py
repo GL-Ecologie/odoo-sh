@@ -36,6 +36,13 @@
         'views/materials_material_unit_views.xml',
         'views/materials_menu_views.xml'
     ],
+    "assets": {
+        "web.assets_backend": [
+            "gl_custom_module/static/src/views/employee_availability_calendar/employee_availability_calendar_view.js",
+            "gl_custom_module/static/src/views/employee_availability_calendar/employee_availability_calendar.xml",
+            "gl_custom_module/static/src/scss/employee_availability_calendar.scss",
+        ],
+    },
     # only loaded in demonstration mode
     'demo': [
         'demo/demo.xml',

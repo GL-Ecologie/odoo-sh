@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t t-name="gl_custom_module.EmployeeAvailabilityCalendarController"
+       t-inherit="web.CalendarController"
+       t-inherit-mode="extension">
+        <xpath expr="//t[@t-component='props.Renderer']" position="before">
+            <AvailabilityLegend/>
+        </xpath>
+    </t>
+
+    <t t-name="gl_custom_module.AvailabilityCalendarLegend">
+        <div class="o_employee_availability_legend">
+            <div class="o_employee_availability_legend_title">Legend</div>
+            <div class="o_employee_availability_legend_item">
+                <span class="o_employee_availability_marker o_state_draft"></span>
+                <span>Draft</span>
+            </div>
+            <div class="o_employee_availability_legend_item">
+                <span class="o_employee_availability_marker o_state_validation_requested"></span>
+                <span>Validation requested</span>
+            </div>
+            <div class="o_employee_availability_legend_item">
+                <span class="o_employee_availability_marker o_state_validated"></span>
+                <span>Validated</span>
+            </div>
+        </div>
+    </t>
+
+</templates>

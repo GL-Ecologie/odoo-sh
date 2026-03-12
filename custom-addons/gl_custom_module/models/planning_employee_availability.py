@@ -1,12 +1,12 @@
 from odoo import models, fields, api
 from odoo.exceptions import UserError
-
+from datetime import timedelta
 
 class PlanningEmployeeAvailabilityEntry(models.Model):
     """
     This model represents one day of employee calendar availability
     """
-    _inherit = 'mail.thread'
+    _inherit = ["mail.thread",  "mail.activity.mixin"]
         
     _name = "planning.employee_availability_entry"
     _description = "Employee planning availability entry"
@@ -61,13 +61,27 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
             rec.name = f"{shift} | {availability} | {state_label}"
 
     def action_request_validation(self):
-
         entries = self.filtered(lambda r: r.state == "draft")
 
         if not entries:
-            raise UserError(self.env._("There are no draft availability entries to request for validation."))
+            raise UserError(self.env._("There are no draft availability entries to submit for validation."))
 
         entries.write({"state": "validation_requested"})
+
+        manager_group = self.env.ref("planning.group_planning_manager")
+        managers = manager_group.user_ids
+        
+        for entry in entries:
+            entry.message_post(
+                body=self.env._("Validation requested for this availability entry.")
+            )
+            for manager in managers:
+                entry.activity_schedule(
+                    "mail.mail_activity_data_todo",
+                    user_id=manager.id,
+                    note=self.env._("Please review this employee availability entry."),
+                    date_deadline=fields.Date.today() + timedelta(days=3)
+                )
 
     def action_validate(self):
         if not self.env.user.has_group("planning.group_planning_manager"):
@@ -79,6 +93,17 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
             raise UserError(self.env._("There are no availability entries waiting for validation."))
 
         entries.write({"state": "validated"})
+
+        for rec in entries:
+            rec.message_post(
+                body=self.env._("Availability entry validated.")
+            )
+            if rec.resource_id.user_id:
+                rec.activity_schedule(
+                    "mail.mail_activity_data_todo",
+                    user_id=rec.resource_id.user_id.id,
+                    note=self.env._("Your availability entry has been validated."),
+                )
 
     def action_reset_to_draft(self):
         if not self.env.user.has_group("planning.group_planning_manager"):

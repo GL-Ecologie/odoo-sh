@@ -1,0 +1,49 @@
+.o_employee_availability_legend {
+    padding: 8px 12px;
+    border-bottom: 1px solid #ddd;
+    background: #fff;
+}
+
+.o_employee_availability_legend_title {
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.o_employee_availability_legend_item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.o_employee_availability_marker {
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    border-radius: 2px;
+    border: 1px solid #999;
+}
+
+.o_state_draft {
+    background: repeating-linear-gradient(
+        45deg,
+        #9b59b6,
+        #9b59b6 3px,
+        #ffffff 3px,
+        #ffffff 6px
+    );
+}
+
+.o_state_validation_requested {
+    background: repeating-linear-gradient(
+        135deg,
+        #f39c12,
+        #f39c12 3px,
+        #ffffff 3px,
+        #ffffff 6px
+    );
+}
+
+.o_state_validated {
+    background: #7d5ba6;
+}
