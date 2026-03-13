@@ -102,7 +102,7 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
         for rec in self:
             shift = rec.shift_type_id.name or "No shift type"
 
-            rec.name = f"{self.resource_id.name } - {shift}"
+            rec.name = f"{self.resource_id.avatar_128} - {shift}"
 
     def action_request_validation(self):
 
