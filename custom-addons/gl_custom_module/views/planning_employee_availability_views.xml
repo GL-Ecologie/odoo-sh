@@ -11,7 +11,7 @@
                         <button name="action_validate" string="Validate availability" type="object" class="btn-primary" groups="planning.group_planning_manager"/>
                         <button name="action_reset_to_draft" string="Reset to draft" type="object" class="btn-secondary" groups="planning.group_planning_manager"/>
                     </header>
-                    <field name="resource_id"/>
+                    <field name="resource_id" groups="planning.group_planning_manager"/>
                     <field name="date"/>
                     <field name="shift_type_id"/>
                     <field name="available"/>
@@ -33,7 +33,7 @@
                     </header>
                     <sheet>
                         <group>
-                            <field name="resource_id"/>
+                            <field name="resource_id" groups="planning.group_planning_manager"/>
                             <field name="date"/>
                             <field name="shift_type_id"/>
                             <field name="available"/>

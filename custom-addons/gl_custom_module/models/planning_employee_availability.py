@@ -3,11 +3,13 @@ from odoo.exceptions import UserError
 from datetime import timedelta
 import logging
 
+
 class PlanningEmployeeAvailabilityEntry(models.Model):
     """
     This model represents one day of employee calendar availability
     """
-    _inherit = ["mail.thread",  "mail.activity.mixin"]
+
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     _name = "planning.employee_availability_entry"
     _description = "Employee planning availability entry"
@@ -25,7 +27,15 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
 
     name = fields.Char(compute="_compute_name", store=True)
 
-    resource_id = fields.Many2one("resource.resource", ondelete="cascade", index=True, required=True, export_string_translation=False, default=lambda self: self._default_resource_id())
+    resource_id = fields.Many2one(
+        "resource.resource",
+        ondelete="cascade",
+        index=True,
+        required=True,
+        export_string_translation=False,
+        default=lambda self: self._default_resource_id(),
+        domain=[("resource_type", "=", "user")],
+    )
 
     date = fields.Date(help="The date of this entry", required=True, index=True)
 
@@ -49,10 +59,7 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
         help="Additional information?",
     )
 
-
-    style_key = fields.Char(
-        compute="_compute_style_key"
-    )
+    style_key = fields.Char(compute="_compute_style_key")
 
     def _date_range_label(self, dates):
         """Return a human-readable date range string from a list of date objects."""
@@ -74,7 +81,7 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
             limit=1,
         )
         return employee.resource_id.id if employee and employee.resource_id else False
-        
+
     @api.depends("state", "available")
     def _compute_style_key(self):
         for rec in self:
@@ -94,9 +101,10 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
     @api.depends("resource_id", "date", "shift_type_id")
     def _compute_name(self):
         for rec in self:
-            shift = rec.shift_type_id.name or ""
-
-            rec.name = f"{shift}"
+            shift = rec.shift_type_id.name or "?"
+            parts = (rec.resource_id.name or "").split()
+            initials = "".join(p[0].upper() for p in parts if p)
+            rec.name = f"{initials} - {shift}"
 
     def action_request_validation(self):
 
@@ -106,9 +114,7 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
         self.write({"state": "validation_requested"})
 
         for entry in self:
-            entry.message_post(
-                body=self.env._("Validation requested for this availability entry.")
-            )
+            entry.message_post(body=self.env._("Validation requested for this availability entry."))
 
         # One activity per manager for the whole batch
         manager_group = self.env.ref("planning.group_planning_manager")
@@ -127,6 +133,26 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
                 summary=self.env._(summary),
                 date_deadline=fields.Date.today() + timedelta(days=3),
             )
+
+    _REVALIDATION_TRIGGER_FIELDS = {"available", "date", "shift_type_id", "notes"}
+
+    def write(self, vals):
+        revalidate = (
+            not self.env.context.get("_skip_revalidation")
+            and bool(self._REVALIDATION_TRIGGER_FIELDS & vals.keys())
+        )
+        to_reset = None
+        if revalidate:
+            to_reset = self.filtered(lambda r: r.state != "draft")
+
+        result = super().write(vals)
+
+        if revalidate:
+            if to_reset:
+                to_reset.with_context(_skip_revalidation=True).write({"state": "draft"})
+            self.action_request_validation()
+
+        return result
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -150,9 +176,7 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
         entries.write({"state": "validated"})
 
         for rec in entries:
-            rec.message_post(
-                body=self.env._("Availability entry validated.")
-            )
+            rec.message_post(body=self.env._("Availability entry validated."))
 
         # One activity per affected user for the whole batch
         entries_by_user = {}
@@ -174,10 +198,12 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
             )
             user = self.env["res.users"].browse(uid)
             self.env["mail.thread"].message_notify(
-                    body=message,
-                    subject="Availability entries validated",
-                    partner_ids=[user.partner_id.id,]
-                )
+                body=message,
+                subject="Availability entries validated",
+                partner_ids=[
+                    user.partner_id.id,
+                ],
+            )
             self.env["bus.bus"]._sendone(
                 user.partner_id,
                 "simple_notification",
@@ -215,10 +241,12 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
             )
             user = self.env["res.users"].browse(uid)
             self.env["mail.thread"].message_notify(
-                    body=message,
-                    subject="Availability entries reseted",
-                    partner_ids=[user.partner_id.id,]
-                )
+                body=message,
+                subject="Availability entries reseted",
+                partner_ids=[
+                    user.partner_id.id,
+                ],
+            )
             self.env["bus.bus"]._sendone(
                 user.partner_id,
                 "simple_notification",

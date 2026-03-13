@@ -2,6 +2,19 @@
     border-radius: 0;
     border-width: 1px;
     border-style: solid;
+    font-size: larger;
+    padding: 2px 0px !important;
+}
+
+.o_availability_event .o_event_title {
+    background-color: rgba(255, 255, 255, 0.6);
+    padding: 0px 15px;
+    border-radius: 5px;
+    margin: auto;
+    color: #1a1a1a !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .o_employee_availability_legend {

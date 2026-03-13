@@ -4,7 +4,7 @@
     <record id="menu_materials_root" model="ir.ui.menu">
       <field name="name">Materials</field>
       <field name="parent_id" ref="planning.planning_menu_root"/>
-      <field name="sequence">50</field>
+      <field name="sequence">40</field>
       <field name="action" ref="action_materials_material_type"/>
     </record>
     
