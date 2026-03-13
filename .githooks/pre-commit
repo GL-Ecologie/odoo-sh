@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Auto-bump gl_custom_module patch version whenever the module is touched.
+set -euo pipefail
+
+MODULE_DIR="custom-addons/gl_custom_module"
+MANIFEST="$MODULE_DIR/__manifest__.py"
+
+# Only act if staged files include something from the module
+if git diff --cached --name-only | grep -q "^$MODULE_DIR/"; then
+    current=$(grep -oP "'version'\s*:\s*'\K[^']+" "$MANIFEST")
+    if [[ -z "$current" ]]; then
+        echo "pre-commit: could not read version from $MANIFEST — skipping bump"
+        exit 0
+    fi
+
+    IFS='.' read -r major minor patch <<< "$current"
+    patch=$((patch + 1))
+    new_version="$major.$minor.$patch"
+
+    sed -i "s/'version': '$current'/'version': '$new_version'/" "$MANIFEST"
+    git add "$MANIFEST"
+    echo "pre-commit: gl_custom_module version bumped $current → $new_version"
+fi
