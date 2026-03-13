@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="gl_custom_module.EmployeeAvailabilityCalendarSidePanel"
+    t-inherit="web.CalendarSidePanel"
+    t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('o_calendar_sidebar')]" position="inside">
+            <div class="o_employee_availability_legend">
+                <div class="o_employee_availability_legend_title">Legend</div>
+                <div class="o_employee_availability_legend_item">
+                    <span class="o_employee_availability_marker o_availability_draft"></span>
+                    <span>Draft</span>
+                </div>
+                <div class="o_employee_availability_legend_item">
+                    <span class="o_employee_availability_marker o_availability_validation_requested_yes"></span>
+                    <span>Validation requested | Yes</span>
+                </div>
+                <div class="o_employee_availability_legend_item">
+                    <span class="o_employee_availability_marker o_availability_validation_requested_no"></span>
+                    <span>Validation requested | No</span>
+                </div>
+                <div class="o_employee_availability_legend_item">
+                    <span class="o_employee_availability_marker o_availability_validated_yes"></span>
+                    <span>Validated | Yes</span>
+                </div>
+                <div class="o_employee_availability_legend_item">
+                    <span class="o_employee_availability_marker o_availability_validated_no"></span>
+                    <span>Validated | No</span>
+                </div>
+            </div>
+        </xpath>
+    </t>
+
+    <t t-name="gl_custom_module.EmployeeAvailabilityMultiSelectionButtons"
+       t-inherit="web.MultiSelectionButtons"
+       t-inherit-mode="primary">
+        <button data-tooltip="Delete" position="before">
+            <t t-if="this.props.reactive.nbSelected > 0">
+                <button class="btn btn-secondary me-1" t-on-click="() => this.props.reactive.onBatchEdit()">Edit</button>
+                <t t-if="this.props.reactive.isManager">
+                    <button class="btn btn-primary me-1" t-on-click="() => this.props.reactive.onBatchValidate()">Validate</button>
+                    <button class="btn btn-secondary me-1" t-on-click="() => this.props.reactive.onBatchResetToDraft()">Reset to draft</button>
+                </t>
+            </t>
+        </button>
+    </t>
+
+</templates>
