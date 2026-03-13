@@ -34,6 +34,7 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
         required=True,
         export_string_translation=False,
         default=lambda self: self._default_resource_id(),
+        domain=[("resource_type", "=", "user")],
     )
 
     date = fields.Date(help="The date of this entry", required=True, index=True)

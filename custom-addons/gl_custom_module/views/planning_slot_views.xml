@@ -1,5 +1,10 @@
 <odoo>
     <data>
+        <!-- Hide the native Planning > Configuration > Materials menu (replaced by our custom materials system) -->
+        <record id="planning.planning_menu_settings_resource" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+
         <record id="view_planning_slot_form_inherit_custom_domain" model="ir.ui.view">
             <field name="name">planning.slot.form.custom.domain</field>
             <field name="model">planning.slot</field>
