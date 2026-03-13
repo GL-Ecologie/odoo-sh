@@ -100,9 +100,10 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
     @api.depends("resource_id", "date", "shift_type_id")
     def _compute_name(self):
         for rec in self:
-            shift = rec.shift_type_id.name or "No shift type"
-
-            rec.name = f"{self.resource_id.avatar_128} - {shift}"
+            shift = rec.shift_type_id.name or "?"
+            parts = (rec.resource_id.name or "").split()
+            initials = "".join(p[0].upper() for p in parts if p)
+            rec.name = f"{initials} - {shift}"
 
     def action_request_validation(self):
 

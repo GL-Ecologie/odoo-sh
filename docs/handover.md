@@ -1,10 +1,10 @@
 # GL-Ecologie Odoo Module — Handover Document
 
 **Module:** `gl_custom_module`
-**Version:** 1.0.2
+**Version:** 1.0.6
 **Author:** Julian Ruiz Burgos
 **Website:** https://www.gl-ecologie.nl
-**Last reviewed:** 2026-03-12
+**Last reviewed:** 2026-03-13
 
 ---
 
@@ -183,13 +183,18 @@ Core availability model. One record = one employee's availability for one date a
 | Action | Who | From | To |
 |---|---|---|---|
 | `create()` | Anyone | — | draft → auto-triggers request validation |
-| `action_request_validation` | Employee (non-manager) | draft, validated | validation_requested |
+| `write()` | Anyone | any | resets to draft + re-triggers request validation if a meaningful field changed |
+| `action_request_validation` | Anyone | draft, validated | validation_requested |
 | `action_validate` | Planning Manager only | validation_requested | validated |
 | `action_reset_to_draft` | Planning Manager only | validation_requested, validated | draft |
 
-On `action_request_validation`: posts a chatter message and creates a `mail.mail_activity_data_todo` activity for every member of `planning.group_planning_manager`, with a 3-day deadline.
+**`write()` override:** if any of `available`, `date`, `shift_type_id`, or `notes` is in the write payload, the record is reset to `draft` (if not already) and `action_request_validation()` is called. A context flag `_skip_revalidation=True` prevents the reset-state write from re-triggering the loop.
 
-On `action_validate`: posts chatter message and schedules a notification activity back to the resource's user.
+On `action_request_validation`: groups entries by manager and creates one `mail.mail_activity_data_todo` activity per manager (not per entry), with a note stating the entry count and earliest–latest date range. Deadline is 3 days from today.
+
+On `action_validate`: sends a real-time `bus.bus` `simple_notification` toast to the affected employee (one per batch), and a persistent inbox `message_notify` to the same partner. No To-Do activity is created.
+
+On `action_reset_to_draft`: same pattern as `action_validate` — bus toast + inbox message to the affected employee.
 
 **`_compute_style_key` mapping:**
 
@@ -379,13 +384,14 @@ Exposes the same 4 planning preference fields as writable related fields via `re
 | `planning.shift_type` | CRUD | R only |
 | `planning.employee_availability_entry` | CRUD | CRW (no delete) |
 | `planning.employee_availability_calendar_resource` | CRUD | RW (no create/delete) |
+| `planning.employee_availability_batch_edit_wizard` | CRUD | CRUD (TransientModel, ephemeral) |
 | `materials.consumable_type` | CRUD | R only |
 | `materials.material_category` | CRUD | R only |
 | `materials.material_type` | CRUD | R only |
 | `materials.material_unit` | CRUD | R only |
 | `materials.material_unit_status` | CRUD | R only |
 
-> **Missing entry:** `planning.employee_availability_batch_edit_wizard` (TransientModel) has no ACL entry. In Odoo 17+ TransientModels still require ACL records for non-base users to instantiate them. This may cause an `AccessError` when regular employees try to use the batch wizard.
+> ACL entries exist for all custom models including the TransientModel wizard.
 
 ### Record Rules (`security/security.xml`)
 
@@ -412,28 +418,39 @@ The manager rule overrides the user rule (Odoo applies the most permissive match
 employeeAvailabilityCalendarView
 ├── Controller: EmployeeAvailabilityCalendarController
 │     extends CalendarController
-│     adds: AvailabilityLegend component (renders legend from XML template)
+│     static template = "gl_custom_module.EmployeeAvailabilityCalendarController"
+│     adds: AvailabilityLegend component
+│     adds: setup() — orm, action, user services; isManager check via onWillStart
+│     adds: selectedIds getter (from model.selectedRecords Set)
+│     adds: onBatchEdit(), onBatchValidate(), onBatchResetToDraft() handlers
 └── Renderer: EmployeeAvailabilityCalendarRenderer
       extends CalendarRenderer
       overrides: day/week/month sub-renderers with:
         EmployeeAvailabilityCalendarCommonRenderer
           extends CalendarCommonRenderer
-          overrides: eventClassNames() → appends o_availability_event + o_availability_{style_key}
+          overrides: eventClassNames() → appends o_availability_event +
+                     o_availability_event_title + o_availability_{style_key}
 ```
 
-**Legend XML template** (`employee_availability_calendar.xml`):
-- Extends `web.CalendarSidePanel` via `t-inherit`/`t-inherit-mode="extension"`
-- Injects legend block inside `.o_calendar_sidebar`
+**OWL Templates** (`employee_availability_calendar.xml`):
+
+- **`gl_custom_module.EmployeeAvailabilityCalendarController`** — `t-inherit="web.CalendarController"` with `t-inherit-mode="primary"`. Creates a new named template (does NOT patch the parent globally). Injects Edit / Validate / Reset to Draft buttons into the multi-selection bar, visible only when `nbSelected > 0`. Validate and Reset buttons additionally gated by `isManager`.
+- **Legend** — extends `web.CalendarSidePanel` via `t-inherit-mode="extension"`. Injects legend block inside `.o_calendar_sidebar`. Intentionally global (extension mode) since it is always wanted for this view.
+
+> **`t-inherit-mode` distinction:** `"primary"` creates an independent named template the component can reference via `static template`; `"extension"` patches the parent in-place and does NOT register a new name. Using `"extension"` for the controller template causes `OwlError: Missing template`.
 
 **SCSS classes** (`employee_availability_calendar.scss`):
 
-| CSS class | Visual | Meaning |
-|---|---|---|
-| `.o_availability_draft` | Diagonal grey stripes | Draft entry |
-| `.o_availability_validation_requested_yes` | Diagonal green stripes | Pending validation, available |
-| `.o_availability_validation_requested_no` | Diagonal red stripes | Pending validation, not available |
-| `.o_availability_validated_yes` | Solid green `#81c784` | Confirmed available |
-| `.o_availability_validated_no` | Solid red `#ef9a9a` | Confirmed unavailable |
+| CSS class | Applied to | Visual | Meaning |
+|---|---|---|---|
+| `.o_availability_event` | Outer event element | No border-radius, 1px solid border, larger font, 2px vertical padding | All availability events |
+| `.o_availability_event_title` | Outer event element | — | Marker class; targets `.o_event_title` descendant for text styling |
+| `.o_availability_event_title .o_event_title` | Inner title div | White semi-transparent background, rounded, centred, dark forced text | Readable text over gradient backgrounds |
+| `.o_availability_draft` | Outer event element | Diagonal grey stripes | Draft entry |
+| `.o_availability_validation_requested_yes` | Outer event element | Diagonal green stripes | Pending validation, available |
+| `.o_availability_validation_requested_no` | Outer event element | Diagonal red stripes | Pending validation, not available |
+| `.o_availability_validated_yes` | Outer event element | Solid green `#81c784` | Confirmed available |
+| `.o_availability_validated_no` | Outer event element | Solid red `#ef9a9a` | Confirmed unavailable |
 
 > `style_key` is a computed (non-stored) field on the model. The calendar view fetches it by listing `<field name="style_key"/>` in the calendar view XML. Ensure this field remains in the `<calendar>` fields list if the view XML is ever refactored.
 
@@ -453,6 +470,10 @@ Rather than granting employees HR manager rights to edit their own records, the 
 ### D. Dynamic resource domain as UI hint only
 `resource_ids_domain` is a computed Binary field that restricts the dropdown in the shift form. It is **advisory only** — the actual enforcement is in `_check_planning_constraints()` (called on create/write). This dual-layer approach prevents confusing UX (empty dropdown) while still blocking invalid assignments.
 
+### F. `write()` override forces re-validation on meaningful field changes
+
+Any write to `available`, `date`, `shift_type_id`, or `notes` automatically resets the entry to `draft` and triggers `action_request_validation()`, regardless of who performs the write (employee or manager). This ensures availability changes never go silently unnoticed. A `_skip_revalidation` context flag prevents the internal state-reset write from looping.
+
 ### E. Materials is a standalone catalogue
 The materials sub-system has no business logic or automation. `booked_quantity` and `needed_stock` are plain integers requiring manual updates. The link to planning shifts (`material_type_ids` on `planning.slot`) is for informational purposes only — no stock deduction or validation is implemented.
 
@@ -460,34 +481,11 @@ The materials sub-system has no business logic or automation. `booked_quantity` 
 
 ## 10. Known Issues & TODOs
 
-### Bug: Syntax error in batch edit wizard (BLOCKS MODULE LOAD)
-
-**File:** `models/planning_employee_availability_batch_edit_wizard.py`, line 12–13
-
-```python
-# BROKEN — missing comma after relation= argument
-entry_ids = fields.Many2many(
-    "planning.employee_availability_entry",
-    relation="planning_employee_availability_batch_edit_2_entry"
-    string="Availability Entries",
-)
-```
-
-Add the missing comma after the `relation=` value.
-
----
-
 ### Fragile: Shift type name string matching
 
 Evening/morning conflict detection and weekend detection both rely on `.endswith("vening")` and `.endswith("orning")`. This is a naming convention constraint — if shift types are renamed or translated, the logic silently breaks with no error.
 
 **Recommendation:** Use the `code` field on `planning.shift_type` for this logic instead, e.g. `code in ("morning", "evening")`.
-
----
-
-### Missing ACL for batch edit wizard
-
-`planning.employee_availability_batch_edit_wizard` has no entry in `ir.model.access.csv`. Regular users who try to trigger the "Batch Edit Availability" server action will receive an `AccessError`.
 
 ---
 
@@ -518,12 +516,6 @@ For each slot, the method iterates over every candidate employee and runs `searc
 ### Gantt form view references a Studio action
 
 `views/planning_slot_views.xml` inherits `planning.planning_view_form_in_gantt` and references action `studio_customization.request_assignment_7a79e11f-811d-41cc-b72b-7346e4636a2f`. If the Odoo Studio customizations are removed or the database is restored without them, this view will fail to render.
-
----
-
-### `action_open_wizard` uses `_()` without import
-
-In the wizard's `action_open_wizard` method, `_("Batch Edit Availability")` is called directly as a bare `_()`, but `_` is not imported. The rest of the file correctly uses `self.env._()`. This will raise a `NameError` at runtime.
 
 ---
 
@@ -560,6 +552,20 @@ This section covers everything likely to break if Odoo core or the `planning`/`h
 
 ## 12. Developer Runbook
 
+### Setting up the pre-commit hook (new developer setup)
+
+A pre-commit hook at `.githooks/pre-commit` automatically bumps the module patch version whenever any file under `custom-addons/gl_custom_module/` is staged. This triggers Odoo.sh to auto-upgrade the module on push.
+
+Each developer must enable it once after cloning:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+This is a local git config — it is not committed to the repo and must be set per machine.
+
+---
+
 ### Installing the module
 
 ```bash
@@ -567,7 +573,7 @@ This section covers everything likely to break if Odoo core or the `planning`/`h
 odoo -d <db> -i gl_custom_module
 ```
 
-Or via Odoo.sh: push to the branch and trigger an upgrade.
+Or via Odoo.sh: push to the branch. If the pre-commit hook is active, the version will have been bumped automatically and Odoo.sh will pick up the upgrade on the next push. Otherwise, manually upgrade from Apps.
 
 ### Upgrading the module after code changes
 

@@ -12,6 +12,9 @@
     border-radius: 5px;
     margin: auto;
     color: #1a1a1a !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .o_employee_availability_legend {
