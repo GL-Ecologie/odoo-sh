@@ -309,23 +309,23 @@ class PlanningSlot(models.Model):
             (resource_being_checked)
             and (not resource_being_checked.employee_id.combine_evening_morning_shift)
             and self.shift_type_id
-            and (self.shift_type_id.name.endswith("vening") or self.shift_type_id.name.endswith("orning"))
+            and (self.shift_type_id.time_of_day in ("evening", "morning"))
         ):
             start = self.start_datetime.date()
             self._logger.info(f"shift type {self.shift_type_id.name} Start date {start}")
-            if self.shift_type_id.name.endswith("vening"):
+            if self.shift_type_id.time_of_day == "evening":
                 start_date_modifier = +datetime.timedelta(days=1)
-                check_against_shift_type = "orning"
+                check_against_time_of_day = "morning"
             else:
                 start_date_modifier = -datetime.timedelta(days=1)
-                check_against_shift_type = "vening"
-            self._logger.info(f"Date to check against: {start + start_date_modifier}\n Against shift type {check_against_shift_type}")
+                check_against_time_of_day = "evening"
+            self._logger.info(f"Date to check against: {start + start_date_modifier}\n Against time of day: {check_against_time_of_day}")
             domain = [
                 ("id", "!=", self.id),
                 ("resource_id", "=", resource_being_checked.id),
                 ("start_datetime", ">=", start + start_date_modifier),
                 ("start_datetime", "<", start + start_date_modifier + datetime.timedelta(days=1)),
-                ("shift_type_id.name", "like", check_against_shift_type),
+                ("shift_type_id.time_of_day", "=", check_against_time_of_day),
             ]
             self._logger.info(f"Domain: {domain}")
             conflicting_shifts = self.search(domain)
@@ -343,10 +343,10 @@ class PlanningSlot(models.Model):
         resource_being_checked = candidate if candidate else (self.resource_id if self.resource_id else None)
 
         is_friday_evening = (
-            self.shift_type_id.name.endswith("vening") and fields.Datetime.to_datetime(self.start_datetime).isoweekday() == 5
+            self.shift_type_id.time_of_day == "evening" and fields.Datetime.to_datetime(self.start_datetime).isoweekday() == 5
         )
         is_monday_morning = (
-            self.shift_type_id.name.endswith("orning") and fields.Datetime.to_datetime(self.start_datetime).isoweekday() == 1
+            self.shift_type_id.time_of_day == "morning" and fields.Datetime.to_datetime(self.start_datetime).isoweekday() == 1
         )
         is_weekend = fields.Datetime.to_datetime(self.start_datetime).isoweekday() in [6, 7]
 
