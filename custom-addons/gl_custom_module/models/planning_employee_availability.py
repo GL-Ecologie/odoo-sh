@@ -17,13 +17,10 @@ class PlanningEmployeeAvailabilityEntry(models.Model):
 
     _logger = logging.getLogger(__name__)
 
-    _sql_constraints = [
-        (
-            "unique_employee_date_shift",
-            "unique(resource_id, date, shift_type_id)",
-            "Only one availability entry is allowed per resource, date, and shift type.",
-        )
-    ]
+    _unique_employee_date_shift = models.Constraint(
+        "UNIQUE(resource_id, date, shift_type_id)",
+        "Only one availability entry is allowed per resource, date, and shift type.",
+    )
 
     name = fields.Char(compute="_compute_name", store=True)
 

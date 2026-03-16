@@ -8,7 +8,7 @@
       <field name="arch" type="xml">
         <list>
           <field name="name"/>
-          <field name="code"/>
+          <field name="time_of_day"/>
         </list>
       </field>
     </record>
@@ -22,7 +22,7 @@
                 <sheet>
                     <group>
                         <field name="name"/>
-                        <field name="code"/>
+                        <field name="time_of_day"/>
                     </group>
                 </sheet>
             </form>
