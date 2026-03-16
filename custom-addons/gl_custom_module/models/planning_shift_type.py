@@ -13,6 +13,7 @@ class PlanningShiftType(models.Model):
             ("night", "Night"),
         ],
         string="Time of Day",
+        required=True,
         help="Technical classification used by scheduling logic (e.g. evening/morning conflict detection). Always set in English regardless of shift name language.",
     )
     # TODO: Add i18n/nl.po translation file to the module so custom field labels
