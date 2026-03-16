@@ -836,6 +836,9 @@
         <xpath expr="/form//label[@for='start_time']" position="before">
           <field name="x_studio_label" string="Name"/>
         </xpath>
+        <xpath expr="/form//field[@name='active']" position="after">
+          <field name="x_studio_shift_type"/>
+        </xpath>
         <xpath expr="/form//field[@name='project_id']" position="attributes">
           <attribute name="required">False</attribute>
         </xpath>
@@ -853,6 +856,7 @@
       <data>
         <xpath expr="/list//field[@name='sequence']" position="after">
           <field optional="show" name="x_studio_related_field_37f_1jho6f9t7" string="Name"/>
+          <field name="x_studio_shift_type" optional="show"/>
         </xpath>
       </data>
     </field>
@@ -899,11 +903,13 @@
     <field name="arch" type="xml">
       <data>
         <xpath expr="/form//div[@name='button_box']" position="before">
-          <group name="studio_group_5if_1jhtqbnnr" invisible="x_studio_enough_people" string="Warnings">
-            <div style="display:flex; align-items:center; margin-bottom:8px;" name="studio_div_822282">
-              <img src="/web/image/148" style="height: 150px; margin-right: 8px;"/>
-            </div>
-          </group>
+          <group name="studio_group_5if_1jhtqbnnr" invisible="x_studio_enough_people" string="Warnings" colspan="1">
+    </group>
+          <div role="alert" class="alert alert-warning text-center py-1 mb-1" invisible="x_studio_enough_people">
+            <p class="align-middle mb-0" invisible="x_studio_enough_people">
+              <span>Not enough employees assigned to task.</span>
+            </p>
+          </div>
         </xpath>
         <xpath expr="/form/sheet/group[2]/group/field[@name='project_id']" position="before">
           <field name="name" required="True"/>
@@ -1284,7 +1290,6 @@
                 <group name="studio_group_7r1_left">
                   <field name="x_studio_time_of_the_visit"/>
                   <field name="x_studio_minimum_days_from_previous_visit"/>
-                  <field name="x_studio_related_visit" options="{&quot;create_name_field&quot;:&quot;x_name&quot;,&quot;no_create&quot;:true}"/>
                 </group>
                 <group name="studio_group_7r1_right">
                   <field name="x_studio_weather_conditions"/>
