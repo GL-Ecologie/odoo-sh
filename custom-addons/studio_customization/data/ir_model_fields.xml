@@ -1138,4 +1138,13 @@
     <field name="name">x_studio_goal</field>
     <field name="on_delete" eval="False"/>
   </record>
+  <record id="new_many2one_shift_t_3571942c-1a4d-43ee-8179-dd41cacee0c1" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">many2one</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Shift Type</field>
+    <field name="model">planning.slot.template</field>
+    <field name="model_id" ref="planning.model_planning_slot_template"/>
+    <field name="name">x_studio_shift_type</field>
+    <field name="relation">planning.shift_type</field>
+  </record>
 </odoo>
