@@ -725,7 +725,7 @@
                                     <field name="role_id" context="{'search_default_resource_ids': resource_id}" placeholder="e.g. Bartender"/>
                                     <field name="project_id" groups="!project.group_project_user" options="{'no_open': True}"/>
                                     <field name="project_id" groups="project.group_project_user"/>
-                                    <field name="x_studio_task" domain="[('project_id', '=', project_id)]" context="{'search_default_task_ids': project_id}"/>
+                                    <field name="task_id" domain="[('project_id', '=', project_id)]" context="{'search_default_task_ids': project_id}"/>
                                     <field name="company_id" invisible="1"/>
                                   </group>
                                   <!-- slot_info_right group is used in another module -->
@@ -885,7 +885,7 @@
           <attribute name="invisible">False</attribute>
         </xpath>
         <xpath expr="/form/sheet/group/group/field[@name='project_id'][2]" position="after">
-          <field name="x_studio_task" domain="[('project_id', '=', project_id)]" context="{'search_default_task_ids': project_id}"/>
+          <field name="task_id" domain="[('project_id', '=', project_id)]" context="{'search_default_task_ids': project_id}"/>
         </xpath>
         <xpath expr="/form//label[@for='start_datetime']" position="before">
           <field name="shift_type_id" required="True"/>
@@ -1005,7 +1005,7 @@
                   <field name="role_id" context="{'search_default_resource_ids': resource_id}" placeholder="e.g. Bartender"/>
                   <field name="project_id" groups="!project.group_project_user" options="{'no_open': True}"/>
                   <field name="project_id" groups="project.group_project_user"/>
-                  <field name="x_studio_task" domain="[('project_id', '=', project_id)]" context="{'search_default_task_ids': project_id}"/>
+                  <field name="task_id" domain="[('project_id', '=', project_id)]" context="{'search_default_task_ids': project_id}"/>
                   <field name="company_id" invisible="1"/>
                 </group>
                 <!-- slot_info_right group is used in another module -->
@@ -1600,7 +1600,7 @@
     <field name="arch" type="xml">
       <data>
         <xpath expr="/form//field[@name='task_id']" position="after">
-          <field name="x_studio_shift" options="{'no_create_edit': True}" context="{'default_project_id': project_id, 'default_task_id': task_id, 'search_default_my_tasks': True, 'search_default_open_tasks': True}" readonly="readonly_timesheet" domain="[('allow_timesheets', '=', True), ('x_studio_task', '=', task_id), ('resource_id', '=', employee_id)]"/>
+          <field name="x_studio_shift" options="{'no_create_edit': True}" context="{'default_project_id': project_id, 'default_task_id': task_id, 'search_default_my_tasks': True, 'search_default_open_tasks': True}" readonly="readonly_timesheet" domain="[('allow_timesheets', '=', True), ('task_id', '=', task_id), ('resource_id', '=', employee_id)]"/>
         </xpath>
       </data>
     </field>
