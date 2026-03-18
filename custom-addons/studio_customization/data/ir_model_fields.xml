@@ -557,7 +557,6 @@
     <field name="ttype">char</field>
     <field name="copied" eval="True"/>
     <field name="field_description">Visit</field>
-    <field name="index" eval="True"/>
     <field name="model">x_protocols_line_514e0</field>
     <field name="model_id" ref="protocols_line_c7496bbc-8d49-4182-8c18-6104e74df43b"/>
     <field name="name">x_name</field>
@@ -915,7 +914,7 @@
   </record>
   <record id="new_one2many_project_b3f6e5ba-d105-46b2-84ae-8cb4edbc46d2" model="ir.model.fields" context="{'studio': True}">
     <field name="ttype">one2many</field>
-    <field name="field_description">Tasks</field>
+    <field name="field_description">Project Tasks (Studio)</field>
     <field name="model">project.project</field>
     <field name="model_id" ref="project.model_project_project"/>
     <field name="name">x_studio_tasks</field>
