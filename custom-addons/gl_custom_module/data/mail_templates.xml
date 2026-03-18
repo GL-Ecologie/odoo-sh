@@ -53,7 +53,7 @@
                 <th style="padding: 5px; text-align: left;">Note</th>
                 <td style="padding: 5px;" t-out="object.name or ''">/</td>
             </tr>
-            <tr t-if="object.x_studio_reminder">
+            <tr t-if="hasattr(object, 'x_studio_reminder') and object.x_studio_reminder">
                 <th style="padding: 5px; text-align: left; color: #714B67;">Preparations</th>
                 <td style="padding: 5px;" t-out="object.x_studio_reminder or ''">Remember to bring your equipment</td>
             </tr>
