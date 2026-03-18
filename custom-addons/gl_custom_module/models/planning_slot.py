@@ -7,7 +7,7 @@ import logging
 
 
 class PlanningSlot(models.Model):
-    _inherit = "planning.slot"
+    _inherit = ["planning.slot", "mail.thread"]
 
     _logger = logging.getLogger(__name__)
     _name = "planning.slot"
