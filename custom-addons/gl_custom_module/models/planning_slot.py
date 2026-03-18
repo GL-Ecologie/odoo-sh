@@ -368,11 +368,13 @@ class PlanningSlot(models.Model):
         if self.task_id:
             vals["task_id"] = self.task_id.id
         timesheet = self.env["account.analytic.line"].create(vals)
+        view_id = self.env.ref("hr_timesheet.timesheet_view_form_user").id
         return {
             "type": "ir.actions.act_window",
             "res_model": "account.analytic.line",
             "res_id": timesheet.id,
             "view_mode": "form",
+            "views": [(view_id, "form")],
             "target": "current",
         }
 

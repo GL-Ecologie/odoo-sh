@@ -17,8 +17,8 @@
                     <button string="Register Hours"
                             name="action_register_timesheet"
                             type="object"
-                            class="btn btn-secondary"
-                            invisible="not resource_id or not start_datetime or not can_register_hours"/>
+                            class="btn btn-primary"
+                            invisible="not resource_id or not start_datetime or state != 'published' or not can_register_hours"/>
                 </xpath>
                 <xpath expr="//group[@name='slot_info_right']" position="inside">
                     <field name="resource_ids_domain" invisible="1"/>
@@ -45,8 +45,8 @@
                     <button string="Register Hours"
                             name="action_register_timesheet"
                             type="object"
-                            class="btn btn-secondary"
-                            invisible="not resource_id or not start_datetime or not can_register_hours"/>
+                            class="btn btn-primary"
+                            invisible="not resource_id or not start_datetime or state != 'published' or not can_register_hours"/>
                 </xpath>
             </field>
         </record>
