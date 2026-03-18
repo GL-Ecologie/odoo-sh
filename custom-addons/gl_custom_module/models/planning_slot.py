@@ -22,7 +22,6 @@ class PlanningSlot(models.Model):
     task_id = fields.Many2one(
         "project.task",
         string="Task",
-        column_name="x_studio_task",
         domain="[('project_id', '=', project_id)]",
     )
 

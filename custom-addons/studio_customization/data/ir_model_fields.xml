@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
+  <!-- Remove the old Studio field replaced by gl_custom_module's task_id -->
+  <delete model="ir.model.fields" search="[('model', '=', 'planning.slot'), ('name', '=', 'x_studio_task')]"/>
+
   <record id="new_integer_employee_396bdead-4471-4116-a27a-29ea474ae5d9" model="ir.model.fields" context="{'studio': True}">
     <field name="ttype">integer</field>
     <field name="copied" eval="True"/>
