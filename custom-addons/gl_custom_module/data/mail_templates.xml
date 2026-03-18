@@ -1,0 +1,76 @@
+<odoo>
+    <data noupdate="1">
+        <record id="email_template_shift_reminder" model="mail.template">
+            <field name="name">Planning: Shift reminder</field>
+            <field name="model_id" ref="planning.model_planning_slot"/>
+            <field name="subject">Shift reminder: {{ object.role_id.name }} on {{ object.start_datetime.strftime('%d/%m/%Y') }}</field>
+            <field name="email_to">{{ object.resource_id.employee_id.work_email }}</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html"><![CDATA[
+<html>
+<head><style>
+    .button_box {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 20px 15px 0px 15px;
+    }
+    .planning_mail_template_button {
+        padding: 5px 10px;
+        text-decoration: none;
+        border-radius: 3px;
+        text-align: center;
+        color: #374151;
+        background-color: #E7E9ED;
+        border: solid #E7E9ED;
+        flex: 1 1 40%;
+    }
+</style></head>
+<body><div>
+    <p t-if="object.resource_id">Dear <t t-out="object.resource_id.name">Employee</t>,</p>
+    <p t-else="">Hello,</p>
+    <br/>
+    <p>This is a reminder for your upcoming shift:</p>
+    <table style="margin-left: 30px;">
+        <tbody>
+            <tr t-if="object.start_datetime and object.end_datetime">
+                <th style="padding: 5px; text-align: left;">Date</th>
+                <td style="padding: 5px;" t-out="object.start_datetime.strftime('%d/%m/%Y %H:%M') + ' ⟶ ' + object.end_datetime.strftime('%H:%M')">01/01/2025 08:00 ⟶ 16:00</td>
+            </tr>
+            <tr t-if="object.role_id">
+                <th style="padding: 5px; text-align: left;">Role</th>
+                <td style="padding: 5px;" t-out="object.role_id.name or ''">Fieldworker</td>
+            </tr>
+            <tr t-if="hasattr(object, 'project_id') and object.project_id">
+                <th style="padding: 5px; text-align: left;">Project</th>
+                <td style="padding: 5px;" t-out="object.sudo().project_id.name or ''">Project</td>
+            </tr>
+            <tr t-if="object.shift_type_id">
+                <th style="padding: 5px; text-align: left;">Shift type</th>
+                <td style="padding: 5px;" t-out="object.shift_type_id.name or ''">Morning</td>
+            </tr>
+            <tr t-if="object.name">
+                <th style="padding: 5px; text-align: left;">Note</th>
+                <td style="padding: 5px;" t-out="object.name or ''">/</td>
+            </tr>
+            <tr t-if="hasattr(object, 'x_studio_reminder') and object.x_studio_reminder">
+                <th style="padding: 5px; text-align: left; color: #714B67;">Preparations</th>
+                <td style="padding: 5px;" t-out="object.x_studio_reminder or ''">Remember to bring your equipment</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="button_box">
+        <a t-att-href="'%s/web#id=%s&amp;model=planning.slot&amp;view_type=form' % (object.get_base_url(), object.id)"
+           target="_blank" class="planning_mail_template_button"
+           style="color: #FFFFFF; background-color: #714B67; border: solid #714B67;">
+            View shift
+        </a>
+    </div>
+    <br/>
+    <p>Kind regards,<br/>GL Ecologie</p>
+</div></body>
+</html>
+            ]]></field>
+        </record>
+    </data>
+</odoo>
