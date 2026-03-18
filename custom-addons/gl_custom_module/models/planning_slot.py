@@ -19,6 +19,13 @@ class PlanningSlot(models.Model):
         string="Shift Type",
     )
 
+    task_id = fields.Many2one(
+        "project.task",
+        string="Task",
+        column_name="x_studio_task",
+        domain="[('project_id', '=', project_id)]",
+    )
+
     counts_for_max_shift_per_week = fields.Boolean(
         string="Counts for max shift per week?",
         help="When set to False, this shift will not count for max shifts per week of resource (employee)",
@@ -45,7 +52,6 @@ class PlanningSlot(models.Model):
         their weekly max number of shifts for the week of start_datetime.
         """
 
-        self._logger.info(f"Compute resource domain for: {len(self)}")
         MAX_FIELD = "max_shifts_per_week"  # <- change if yours is different
         employees = self.env["hr.employee"]
         Slot = self.env["planning.slot"]
@@ -53,7 +59,6 @@ class PlanningSlot(models.Model):
         # If we don't have a date yet, don't touch the domain
         shift_candidates = employees.sudo().search([(MAX_FIELD, ">=", 0)])
 
-        self._logger.info(f"Resource list: {shift_candidates}")
 
         for slot in self:
             if not slot.start_datetime:
@@ -333,6 +338,43 @@ class PlanningSlot(models.Model):
             evening_morning_conflict = len(conflicting_shifts) > 0
 
         return evening_morning_conflict
+
+    can_register_hours = fields.Boolean(
+        compute="_compute_can_register_hours",
+    )
+
+    @api.depends("resource_id")
+    def _compute_can_register_hours(self):
+        is_manager = self.env.user.has_group("planning.group_planning_manager")
+        for slot in self:
+            slot.can_register_hours = is_manager or (slot.resource_id.user_id == self.env.user)
+
+    def action_register_timesheet(self):
+        """Create a pre-filled timesheet entry for this shift and open it."""
+        self.ensure_one()
+        if not self.resource_id:
+            raise ValidationError(self.env._("Cannot register hours: this shift has no resource assigned."))
+        employee = self.resource_id.employee_id
+        vals = {
+            "name": "/",
+            "date": fields.Date.to_date(self.start_datetime) if self.start_datetime else fields.Date.today(),
+            "unit_amount": self.allocated_hours or 0.0,
+            "x_studio_shift": self.id,
+            "employee_id": employee.id
+        }
+        
+        if self.project_id:
+            vals["project_id"] = self.project_id.id
+        if self.task_id:
+            vals["task_id"] = self.task_id.id
+        timesheet = self.env["account.analytic.line"].create(vals)
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "account.analytic.line",
+            "res_id": timesheet.id,
+            "view_mode": "form",
+            "target": "current",
+        }
 
     def _check_employee_works_weekends_conflict(self, candidate=None):
         """

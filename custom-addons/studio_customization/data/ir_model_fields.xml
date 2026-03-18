@@ -407,15 +407,6 @@
     <field name="name">x_studio_many2one_field_9d9_1jhoh0duf</field>
     <field name="relation">project.task</field>
   </record>
-  <record id="new_many2one_plannin_63446f0c-338f-49ad-88c0-9d0de3c22e36" model="ir.model.fields" context="{'studio': True}">
-    <field name="ttype">many2one</field>
-    <field name="copied" eval="True"/>
-    <field name="field_description">Task</field>
-    <field name="model">planning.slot</field>
-    <field name="model_id" ref="planning.model_planning_slot"/>
-    <field name="name">x_studio_task</field>
-    <field name="relation">project.task</field>
-  </record>
   <record id="id_copy_planning_shi_41abfb01-94a6-400e-98a9-5824b9b83886" model="ir.model.fields" context="{'studio': True}">
     <field name="ttype">integer</field>
     <field name="related">project_id.id</field>
@@ -435,7 +426,7 @@
     <field name="name">x_studio_one2many_field_6k3_1jhoktf9v</field>
     <field name="on_delete" eval="False"/>
     <field name="relation">planning.slot</field>
-    <field name="relation_field">x_studio_task</field>
+    <field name="relation_field">task_id</field>
   </record>
   <record id="new_one2many_task_ddeed225-5a50-40f0-9645-33772a5f03bc" model="ir.model.fields" context="{'studio': True}">
     <field name="ttype">one2many</field>
@@ -445,7 +436,7 @@
     <field name="name">x_studio_assigned_shifts</field>
     <field name="on_delete" eval="False"/>
     <field name="relation">planning.slot</field>
-    <field name="relation_field">x_studio_task</field>
+    <field name="relation_field">task_id</field>
   </record>
   <record id="new_many2one_project_47829efa-d891-4d51-a260-ece714532a69" model="ir.model.fields" context="{'studio': True}">
     <field name="ttype">many2one</field>
