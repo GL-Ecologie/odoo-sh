@@ -45,6 +45,15 @@ class PlanningSlot(models.Model):
         compute="_compute_resource_domain",
     )
 
+    date_outside_protocol_window = fields.Boolean(
+        compute="_compute_date_outside_protocol_window",
+        store=False,
+    )
+
+    can_register_hours = fields.Boolean(
+        compute="_compute_can_register_hours",
+    )
+
     @api.depends("start_datetime", "shift_type_id", "role_id", "counts_for_max_shift_per_week")
     def _compute_resource_domain(self):
         """Limit resource_id dropdown to people who have not yet reached
@@ -124,7 +133,45 @@ class PlanningSlot(models.Model):
             self._logger.info(f"Final domain: {domain}")
             slot.resource_ids_domain = domain
 
-    # ------------- CONSTRAINT-LIKE LOGIC -------------
+    @api.depends("task_id", "start_datetime", "task_id.x_studio_protocol_visit_single")
+    def _compute_date_outside_protocol_window(self):
+        for slot in self:
+            slot.date_outside_protocol_window = slot._is_outside_protocol_window()
+
+    def _is_outside_protocol_window(self):
+        """Returns True if the shift date falls outside the protocol visit window."""
+        self.ensure_one()
+        if not self.task_id or not self.start_datetime:
+            return False
+
+        visit = self.task_id.x_studio_protocol_visit_single
+        if not visit:
+            return False
+
+        s_day = visit.x_studio_start_day
+        s_month = visit.x_studio_start_month
+        e_day = visit.x_studio_end_day
+        e_month = visit.x_studio_end_month
+
+        if not all([s_day, s_month, e_day, e_month]):
+            return False
+
+        shift_date = fields.Datetime.to_datetime(self.start_datetime).date()
+        year = shift_date.year
+
+        try:
+            window_start = datetime.date(year, int(s_month), int(s_day))
+            window_end = datetime.date(year, int(e_month), int(e_day))
+        except ValueError:
+            return False
+
+        return shift_date < window_start or shift_date > window_end
+
+    @api.depends("resource_id")
+    def _compute_can_register_hours(self):
+        is_manager = self.env.user.has_group("planning.group_planning_manager")
+        for slot in self:
+            slot.can_register_hours = is_manager or (slot.resource_id.user_id == self.env.user)
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -137,7 +184,6 @@ class PlanningSlot(models.Model):
         self._check_planning_constraints()
         return res
 
-    # main checker
     def _check_planning_constraints(self):
         """
         Enforce:
@@ -214,8 +260,6 @@ class PlanningSlot(models.Model):
                         sdate=fields.Date.to_string(fields.Date.to_date(slot.start_datetime)),
                     )
                 )
-
-    # ------------- HELPERS (we'll plug into your existing fields later) -------------
 
     def _get_week_slots_for_resource(self):
         """Return all slots for the same resource in the same calendar week."""
@@ -338,45 +382,6 @@ class PlanningSlot(models.Model):
 
         return evening_morning_conflict
 
-    can_register_hours = fields.Boolean(
-        compute="_compute_can_register_hours",
-    )
-
-    @api.depends("resource_id")
-    def _compute_can_register_hours(self):
-        is_manager = self.env.user.has_group("planning.group_planning_manager")
-        for slot in self:
-            slot.can_register_hours = is_manager or (slot.resource_id.user_id == self.env.user)
-
-    def action_register_timesheet(self):
-        """Create a pre-filled timesheet entry for this shift and open it."""
-        self.ensure_one()
-        if not self.resource_id:
-            raise ValidationError(self.env._("Cannot register hours: this shift has no resource assigned."))
-        employee = self.resource_id.employee_id
-        vals = {
-            "name": "/",
-            "date": fields.Date.to_date(self.start_datetime) if self.start_datetime else fields.Date.today(),
-            "unit_amount": self.allocated_hours or 0.0,
-            "x_studio_shift": self.id,
-            "employee_id": employee.id
-        }
-        
-        if self.project_id:
-            vals["project_id"] = self.project_id.id
-        if self.task_id:
-            vals["task_id"] = self.task_id.id
-        timesheet = self.env["account.analytic.line"].create(vals)
-        view_id = self.env.ref("hr_timesheet.timesheet_view_form_user").id
-        return {
-            "type": "ir.actions.act_window",
-            "res_model": "account.analytic.line",
-            "res_id": timesheet.id,
-            "view_mode": "form",
-            "views": [(view_id, "form")],
-            "target": "current",
-        }
-
     def _check_employee_works_weekends_conflict(self, candidate=None):
         """
         Checks whether this employee wants to work during the weekends
@@ -401,3 +406,32 @@ class PlanningSlot(models.Model):
         ):
             weekends_conflict = True
         return weekends_conflict
+
+    def action_register_timesheet(self):
+            """Create a pre-filled timesheet entry for this shift and open it."""
+            self.ensure_one()
+            if not self.resource_id:
+                raise ValidationError(self.env._("Cannot register hours: this shift has no resource assigned."))
+            employee = self.resource_id.employee_id
+            vals = {
+                "name": "/",
+                "date": fields.Date.to_date(self.start_datetime) if self.start_datetime else fields.Date.today(),
+                "unit_amount": self.allocated_hours or 0.0,
+                "x_studio_shift": self.id,
+                "employee_id": employee.id
+            }
+            
+            if self.project_id:
+                vals["project_id"] = self.project_id.id
+            if self.task_id:
+                vals["task_id"] = self.task_id.id
+            timesheet = self.env["account.analytic.line"].create(vals)
+            view_id = self.env.ref("hr_timesheet.timesheet_view_form_user").id
+            return {
+                "type": "ir.actions.act_window",
+                "res_model": "account.analytic.line",
+                "res_id": timesheet.id,
+                "view_mode": "form",
+                "views": [(view_id, "form")],
+                "target": "current",
+            }
