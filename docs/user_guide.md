@@ -1,7 +1,7 @@
 # GL-Ecologie — Odoo Planning System: User Guide
 
-**Version:** 1.0
-**Last updated:** [date]
+**Version:** 1.1
+**Last updated:** 2026-03-19
 **Prepared by:** Ruiz Burgos Ecology and Software
 
 ---
@@ -122,6 +122,7 @@ Brief description of the system, its purpose for GL-Ecologie, and the two main u
 - Generating recurring shifts
 - Draft vs. published state
 - Sending the schedule notification to employees (email)
+- **Reminder field:** fill in the *Reminder* field on a shift to send the assigned employee an automatic preparation email 24 hours before the shift starts (e.g. "Remember to pick up keys from the office")
 
 ### 4.7 Assigning People to Shifts
 
@@ -133,8 +134,9 @@ Brief description of the system, its purpose for GL-Ecologie, and the two main u
 - Assigning a person
 - Handling shift requests from employees
 
-### 4.8 Validating Worked Hours
+### 4.8 Registering & Validating Worked Hours
 
+- **Register Hours button:** on a published shift with an assigned employee, click *Register Hours* to create a pre-filled timesheet entry (date, allocated hours, project, and task are filled in automatically). Only visible to the assigned employee and planning managers.
 - Where employees log worked hours
 - Project leader validation flow
 - What happens after validation (locked, reportable)
