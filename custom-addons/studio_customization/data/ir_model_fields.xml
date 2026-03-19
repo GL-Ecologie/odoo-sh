@@ -418,16 +418,6 @@
     <field name="readonly" eval="True"/>
     <field name="store" eval="False"/>
   </record>
-  <record id="new_one2many_task_0f857c83-5999-4ee1-8fc7-00d556aee0e1" model="ir.model.fields" context="{'studio': True}">
-    <field name="ttype">one2many</field>
-    <field name="field_description">New One2Many</field>
-    <field name="model">project.task</field>
-    <field name="model_id" ref="project.model_project_task"/>
-    <field name="name">x_studio_one2many_field_6k3_1jhoktf9v</field>
-    <field name="on_delete" eval="False"/>
-    <field name="relation">planning.slot</field>
-    <field name="relation_field">task_id</field>
-  </record>
   <record id="new_one2many_task_ddeed225-5a50-40f0-9645-33772a5f03bc" model="ir.model.fields" context="{'studio': True}">
     <field name="ttype">one2many</field>
     <field name="field_description">Assigned shifts</field>
