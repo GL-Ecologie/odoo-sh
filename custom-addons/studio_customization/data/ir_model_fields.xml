@@ -1140,13 +1140,7 @@
     <field name="name">x_studio_shift_type</field>
     <field name="relation">planning.shift_type</field>
   </record>
-  <record id="new_multiline_text_c_01f22bf1-7c39-4847-9ea2-821746e1fb16" model="ir.model.fields" context="{'studio': True}">
-    <field name="ttype">text</field>
-    <field name="copied" eval="True"/>
-    <field name="field_description">Reminder</field>
-    <field name="model">planning.slot</field>
-    <field name="model_id" ref="planning.model_planning_slot"/>
-    <field name="name">x_studio_reminder</field>
-    <field name="on_delete" eval="False"/>
-  </record>
+  <!-- x_studio_reminder (planning.slot) exists in production DB (created via Studio UI).
+       Not declared here to avoid duplicate key errors on staging builds copied from production.
+       Field is tracked by the automation rule for shift reminders. -->
 </odoo>
