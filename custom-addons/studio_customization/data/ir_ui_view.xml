@@ -880,6 +880,7 @@
         <xpath expr="/form/header/button[@name='action_self_assign'][2]" position="attributes">
           <attribute name="invisible">True</attribute>
         </xpath>
+        <xpath expr="/form//field[@name='slot_properties']" position="replace"/>
         <xpath expr="/form//field[@name='template_id']" position="attributes">
           <attribute name="domain">[("x_studio_label", "!=", False)]</attribute>
           <attribute name="invisible">False</attribute>
@@ -889,6 +890,12 @@
         </xpath>
         <xpath expr="/form//label[@for='start_datetime']" position="before">
           <field name="shift_type_id" required="True"/>
+        </xpath>
+        <xpath expr="/form//field[@name='material_type_ids']" position="after">
+          <field name="x_studio_reminder"/>
+        </xpath>
+        <xpath expr="/form//group[@name='materials_needed_group']" position="attributes">
+          <attribute name="string">Additional information</attribute>
         </xpath>
       </data>
     </field>
