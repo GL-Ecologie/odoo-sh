@@ -1,7 +1,7 @@
 # GL-Ecologie — Odoo Planning System: User Guide
 
 **Version:** 1.1
-**Last updated:** 2026-03-19
+**Last updated:** 2026-03-20
 **Prepared by:** Ruiz Burgos Ecology and Software
 
 ---
@@ -133,6 +133,7 @@ Brief description of the system, its purpose for GL-Ecologie, and the two main u
   - Max shifts/week not exceeded
 - Assigning a person
 - Handling shift requests from employees
+- **Protocol visit window warning:** if a shift's date falls outside the protocol visit window defined on the linked task, an amber warning bar appears at the top of the shift form ("Shift date is outside the protocol visit window for the associated task"). This is informational only — it does not block saving the shift.
 
 ### 4.8 Registering & Validating Worked Hours
 

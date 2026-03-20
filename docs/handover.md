@@ -4,7 +4,7 @@
 **Version:** 1.0.6
 **Author:** Julian Ruiz Burgos
 **Website:** https://www.gl-ecologie.nl
-**Last reviewed:** 2026-03-13
+**Last reviewed:** 2026-03-20
 
 ---
 
@@ -313,10 +313,13 @@ Added fields:
 
 | Field | Type | Notes |
 |---|---|---|
+| `task_id` | Many2one `project.task` | Links shift to a task; domain filtered by `project_id`. Replaced old Studio field `x_studio_task` (fully deleted). |
 | `shift_type_id` | Many2one `planning.shift_type` | Optional; used in constraint checks |
 | `counts_for_max_shift_per_week` | Boolean | Default True; flag individual shifts as exempt |
 | `material_type_ids` | Many2many `materials.material_type` | Materials required for this shift |
 | `resource_ids_domain` | Binary (computed) | Dynamic domain for `resource_id` dropdown |
+| `can_register_hours` | Boolean (computed) | True if current user is a planning manager or the assigned employee. Controls "Register Hours" button visibility. |
+| `date_outside_protocol_window` | Boolean (computed, store=False) | True when shift date falls outside the protocol visit window defined by `task_id.x_studio_protocol_visit_single`. Shown as a non-blocking amber alert in the form. |
 
 **`_compute_resource_domain`:**
 Runs on every slot form load/change of `start_datetime`, `shift_type_id`, `role_id`, or `counts_for_max_shift_per_week`. Iterates over **all active employees** with `max_shifts_per_week >= 0` and filters out those who:
@@ -507,9 +510,12 @@ For each slot, the method iterates over every candidate employee and runs `searc
 
 ---
 
-### `project` dependency is unused
+### `project` dependency is actively used
 
-`project` is in `depends` in `__manifest__.py` but nothing in the current codebase references project models. Safe to remove if not needed, but verify no planned features depend on it.
+`project` is in `depends` for both `gl_custom_module` and `studio_customization`. It is used via:
+- `planning.slot.task_id` — Many2one to `project.task`
+- `project.task.x_studio_assigned_shifts` — Studio one2many showing shifts per task
+- Various Studio view customizations on `project.task` and `project.project`
 
 ---
 
@@ -614,6 +620,22 @@ After editing SCSS, the asset bundle must be regenerated:
 3. Log in as the employee, go to `My Availability`, create an entry
 4. Log in as a Planning Manager, validate the entry
 5. Create a `planning.slot` with a matching date/shift type — the employee should be selectable
+
+---
+
+### Studio customization workflow
+
+The `studio_customization` module contains Odoo Studio-generated field and view definitions alongside hand-edited fixes. Follow this order when making Studio changes:
+
+1. Make the change in **production** via the Studio UI
+2. Export Studio customizations from production (Settings → Technical → Studio → Export)
+3. Review the diff — accept changes to `ir_ui_view.xml` and `ir_model_fields.xml`; reject anything unexpected
+4. Commit and push to the development branch; test on staging before deploying back to production
+
+**Critical rules:**
+- All Studio view `ir.model.data` records must have `noupdate=False`. If they are `True`, code-side XML changes are silently ignored on upgrade. Check via Settings → Technical → External Identifiers, filter by module=`studio_customization`.
+- If a field has an `ir.model.data` entry registered to `studio_customization` but **no `<record>`** in `ir_model_fields.xml`, Odoo will **auto-delete the field** on the next module upgrade (including dropping the DB column). Always ensure exported fields have matching XML records.
+- When deleting a Studio field, the order matters: (1) remove all view references via Studio UI, (2) delete any dependent fields (e.g. one2many fields that use it as `relation_field`), (3) delete the field itself.
 
 ---
 
