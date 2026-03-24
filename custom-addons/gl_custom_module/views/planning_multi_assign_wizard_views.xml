@@ -21,6 +21,8 @@
                     </div>
 
                     <field name="date_outside_protocol_window" invisible="1"/>
+                    <field name="date_violates_related_visit_gap" invisible="1"/>
+                    <field name="related_visit_gap_warning_text" invisible="1"/>
 
                     <!-- Protocol visit window warning (create mode) -->
                     <div role="alert"
@@ -28,6 +30,15 @@
                          invisible="not date_outside_protocol_window or mode != 'create'">
                         <p class="align-middle mb-0">
                             <span>Shift date is outside the protocol visit window for the associated task.</span>
+                        </p>
+                    </div>
+
+                    <!-- Related visit minimum gap warning (create mode) -->
+                    <div role="alert"
+                         class="alert alert-warning text-center py-1 mb-1"
+                         invisible="not date_violates_related_visit_gap or mode != 'create'">
+                        <p class="align-middle mb-0">
+                            <field name="related_visit_gap_warning_text" readonly="1" nolabel="1"/>
                         </p>
                     </div>
 

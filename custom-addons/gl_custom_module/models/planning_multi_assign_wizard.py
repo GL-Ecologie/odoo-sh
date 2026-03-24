@@ -57,6 +57,14 @@ class PlanningMultiAssignWizard(models.TransientModel):
         compute="_compute_date_outside_protocol_window",
         store=False,
     )
+    date_violates_related_visit_gap = fields.Boolean(
+        compute="_compute_related_visit_gap",
+        store=False,
+    )
+    related_visit_gap_warning_text = fields.Char(
+        compute="_compute_related_visit_gap",
+        store=False,
+    )
 
     # ── Edit mode: selected shifts ────────────────────────────────────────────
 
@@ -153,6 +161,24 @@ class PlanningMultiAssignWizard(models.TransientModel):
                 }
             )
             wizard.date_outside_protocol_window = temp_slot._is_outside_protocol_window()
+
+    # ── Compute: related visit gap warning ───────────────────────────────────
+
+    @api.depends("task_id", "start_datetime", "project_id")
+    def _compute_related_visit_gap(self):
+        for wizard in self:
+            if not wizard.task_id or not wizard.start_datetime or not wizard.project_id:
+                wizard.date_violates_related_visit_gap = False
+                wizard.related_visit_gap_warning_text = ""
+                continue
+            temp_slot = self.env["planning.slot"].new({
+                "task_id": wizard.task_id.id,
+                "start_datetime": wizard.start_datetime,
+                "project_id": wizard.project_id.id,
+            })
+            violation, message = temp_slot._check_related_visit_gap()
+            wizard.date_violates_related_visit_gap = violation
+            wizard.related_visit_gap_warning_text = message
 
     # ── Compute: eligible resources ───────────────────────────────────────────
 
