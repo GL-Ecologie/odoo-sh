@@ -147,6 +147,26 @@
         </record>
 
         <!-- ═══════════════════════════════════════════════════════════════
+             Standalone act_window — must be declared before any
+             %(action_planning_multi_assign_create_window)d references.
+        ════════════════════════════════════════════════════════════════ -->
+        <record id="action_planning_multi_assign_create_window" model="ir.actions.act_window">
+            <field name="name">Create Multi-Resource Shifts</field>
+            <field name="res_model">planning.multi_assign_wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{"default_mode": "create"}</field>
+        </record>
+
+        <!-- Menu item under Planning > Schedule (managers only) -->
+        <menuitem id="menu_planning_multi_assign_create"
+                  name="Create Multi-Resource Shifts"
+                  parent="planning.planning_menu_schedule"
+                  action="action_planning_multi_assign_create_window"
+                  groups="planning.group_planning_manager"
+                  sequence="20"/>
+
+        <!-- ═══════════════════════════════════════════════════════════════
              Inject "Create Multi-Resource Shifts" button into the
              planning list view header (appears next to "New").
         ════════════════════════════════════════════════════════════════ -->
@@ -185,25 +205,6 @@
                 </calendar>
             </field>
         </record>
-
-        <!-- ═══════════════════════════════════════════════════════════════
-             Standalone act_window — used by the menu item below.
-        ════════════════════════════════════════════════════════════════ -->
-        <record id="action_planning_multi_assign_create_window" model="ir.actions.act_window">
-            <field name="name">Create Multi-Resource Shifts</field>
-            <field name="res_model">planning.multi_assign_wizard</field>
-            <field name="view_mode">form</field>
-            <field name="target">new</field>
-            <field name="context">{"default_mode": "create"}</field>
-        </record>
-
-        <!-- Menu item under Planning > Schedule (managers only) -->
-        <menuitem id="menu_planning_multi_assign_create"
-                  name="Create Multi-Resource Shifts"
-                  parent="planning.planning_menu_schedule"
-                  action="action_planning_multi_assign_create_window"
-                  groups="planning.group_planning_manager"
-                  sequence="20"/>
 
         <!-- ═══════════════════════════════════════════════════════════════
              Server action: "Edit Selected Shifts"
