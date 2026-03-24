@@ -247,6 +247,18 @@ If the shift is linked to a task that has a protocol visit, and the shift date f
 
 This is informational only — the shift can still be saved. Use it as a prompt to double-check the date.
 
+#### Related visit minimum gap warning
+
+Some protocol visits require a minimum number of days to have passed since a related (previous) visit. For example, HM2 may require at least 10 days after the most recent HM1 shift in the same project.
+
+If this condition is not met, an amber warning bar appears with a specific message, for example:
+
+> *"This shift is only 3 day(s) after the most recent HM1 shift. The required minimum gap is 10 day(s)."*
+
+Like the window warning, this is informational only — the shift can still be saved. The same warning also appears in the **Create Multi-Resource Shifts** wizard when a date and task are selected.
+
+The minimum gap and related visit are configured on the protocol visit record itself (by your system administrator).
+
 #### Publishing a shift
 
 A shift starts in **Draft** status. In this state it is not visible to field workers.
