@@ -34,12 +34,12 @@
                     <!-- ══ CREATE MODE ════════════════════════════════════ -->
                     <group invisible="mode != 'create'" class="o_planning_multi_assign">
                         <group string="Shift Details">
-                            <group>
+                            <group class="o_planning_multi_assign_shift_info">
                                 <field name="role_id" required="mode == 'create'"/>
                                 <field name="project_id"/>
                                 <field name="task_id"/>
                             </group>
-                            <group>
+                            <group class="o_planning_multi_assign_resource_info">
                                 <field name="template_id" options="{'no_create': True}"/>
                                 <field name="shift_type_id" required="mode == 'create'"/>
                                 <label for="start_datetime" string="Date"/>
@@ -59,10 +59,12 @@
                             <!-- <field name="end_datetime" required="mode == 'create'"/> -->
                             <!-- <field name="counts_for_max_shift_per_week"/> -->
                             <separator string="Additional Information" colspan="2"/>
-                            <field name="material_type_ids"
+                            <group>
+                                <field name="material_type_ids"
                                    widget="many2many_tags"
                                    options="{'no_create': True}"/>
-                            <field name="reminder"/>
+                                <field name="reminder"/>
+                            </group>
                         </group>
                         <group string="Assign Resources">
                             <!-- Placeholder: shown until all three required fields are filled -->

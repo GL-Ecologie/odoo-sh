@@ -1,23 +1,17 @@
 // Widen the multi-assign shift wizard dialog and apply 65/35 column split
 .modal-dialog:has(.o_planning_multi_assign) {
-    max-width: 960px;
+    max-width: 1200px;
     width: 95vw;
 }
 
-.o_group.o_planning_multi_assign > .o_wrap_group {
-    display: flex !important;
-    flex-wrap: nowrap;
-    align-items: flex-start;
+.o_planning_multi_assign_shift_info{
+    flex: 0 0 65% !important;
+    max-width: 65% !important;
+}
 
-    > .o_group:first-child {
-        flex: 0 0 65% !important;
-        max-width: 65%;
-    }
-
-    > .o_group:last-child {
-        flex: 0 0 35% !important;
-        max-width: 35%;
-    }
+o_planning_multi_assign_resource_info {
+    flex: 0 0 35% !important;
+    max-width: 35% !important;
 }
 
 .o_availability_event {
