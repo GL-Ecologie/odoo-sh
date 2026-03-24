@@ -185,28 +185,7 @@
             </field>
         </record>
 
-        <!-- ═══════════════════════════════════════════════════════════════
-             Same button injected into the planning calendar view.
-             (<header> inside <calendar> may work in Odoo 17 — low risk.)
-        ════════════════════════════════════════════════════════════════ -->
-        <record id="view_planning_slot_calendar_multi_assign_inherit" model="ir.ui.view">
-            <field name="name">planning.slot.calendar.multi_assign_button</field>
-            <field name="model">planning.slot</field>
-            <field name="inherit_id" ref="planning.planning_view_calendar"/>
-            <field name="arch" type="xml">
-                <calendar position="inside">
-                    <header>
-                        <button string="Create Multi-Resource Shifts"
-                                name="%(action_planning_multi_assign_create_window)d"
-                                type="action"
-                                class="btn btn-secondary"
-                                groups="planning.group_planning_manager"/>
-                    </header>
-                </calendar>
-            </field>
-        </record>
-
-        <!-- ═══════════════════════════════════════════════════════════════
+<!-- ═══════════════════════════════════════════════════════════════
              Server action: "Edit Selected Shifts"
              Bound to planning.slot list view — requires record selection.
              Managers only.
