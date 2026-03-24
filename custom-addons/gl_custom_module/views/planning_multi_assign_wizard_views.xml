@@ -147,23 +147,68 @@
         </record>
 
         <!-- ═══════════════════════════════════════════════════════════════
-             Server action: "Create Multi-Resource Shifts"
-             Bound to planning.slot list view — no record selection needed.
+             Inject "Create Multi-Resource Shifts" button into the
+             planning list view header (appears next to "New").
         ════════════════════════════════════════════════════════════════ -->
-        <record id="action_planning_multi_assign_create" model="ir.actions.server">
-            <field name="name">Create Multi-Resource Shifts</field>
-            <field name="model_id" ref="planning.model_planning_slot"/>
-            <field name="binding_model_id" ref="planning.model_planning_slot"/>
-            <field name="binding_view_types">list</field>
-            <field name="state">code</field>
-            <field name="code">
-action = env['planning.multi_assign_wizard'].action_open_create_wizard()
+        <record id="view_planning_slot_list_multi_assign_inherit" model="ir.ui.view">
+            <field name="name">planning.slot.list.multi_assign_button</field>
+            <field name="model">planning.slot</field>
+            <field name="inherit_id" ref="planning.planning_view_tree"/>
+            <field name="arch" type="xml">
+                <header position="inside">
+                    <button string="Create Multi-Resource Shifts"
+                            name="%(action_planning_multi_assign_create_window)d"
+                            type="action"
+                            class="btn btn-secondary"
+                            groups="planning.group_planning_manager"/>
+                </header>
             </field>
         </record>
 
         <!-- ═══════════════════════════════════════════════════════════════
+             Same button injected into the planning calendar view.
+             (<header> inside <calendar> may work in Odoo 17 — low risk.)
+        ════════════════════════════════════════════════════════════════ -->
+        <record id="view_planning_slot_calendar_multi_assign_inherit" model="ir.ui.view">
+            <field name="name">planning.slot.calendar.multi_assign_button</field>
+            <field name="model">planning.slot</field>
+            <field name="inherit_id" ref="planning.planning_view_calendar"/>
+            <field name="arch" type="xml">
+                <calendar position="inside">
+                    <header>
+                        <button string="Create Multi-Resource Shifts"
+                                name="%(action_planning_multi_assign_create_window)d"
+                                type="action"
+                                class="btn btn-secondary"
+                                groups="planning.group_planning_manager"/>
+                    </header>
+                </calendar>
+            </field>
+        </record>
+
+        <!-- ═══════════════════════════════════════════════════════════════
+             Standalone act_window — used by the menu item below.
+        ════════════════════════════════════════════════════════════════ -->
+        <record id="action_planning_multi_assign_create_window" model="ir.actions.act_window">
+            <field name="name">Create Multi-Resource Shifts</field>
+            <field name="res_model">planning.multi_assign_wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{"default_mode": "create"}</field>
+        </record>
+
+        <!-- Menu item under Planning > Schedule (managers only) -->
+        <menuitem id="menu_planning_multi_assign_create"
+                  name="Create Multi-Resource Shifts"
+                  parent="planning.planning_menu_schedule"
+                  action="action_planning_multi_assign_create_window"
+                  groups="planning.group_planning_manager"
+                  sequence="20"/>
+
+        <!-- ═══════════════════════════════════════════════════════════════
              Server action: "Edit Selected Shifts"
              Bound to planning.slot list view — requires record selection.
+             Managers only.
         ════════════════════════════════════════════════════════════════ -->
         <record id="action_planning_multi_assign_edit" model="ir.actions.server">
             <field name="name">Edit Selected Shifts</field>
