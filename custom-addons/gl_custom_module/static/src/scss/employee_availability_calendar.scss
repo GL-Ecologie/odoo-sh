@@ -4,22 +4,24 @@
     width: 95vw;
 }
 
-.modal-content:has(.o_planning_multi_assign_shift_info){
+// Outer columns: Shift Details (65%) vs Assign Resources (35%)
+.o_planning_multi_assign_shift_info {
     flex: 0 0 65% !important;
     max-width: 65% !important;
 }
 
-.modal-content:has(.o_planning_multi_assign_resource_availability){
+.o_planning_multi_assign_resource_availability {
     flex: 0 0 35% !important;
     max-width: 35% !important;
 }
 
-.modal-content:has(.o_planning_multi_assign_shift_info_left){
+// Inner columns within Shift Details: left (40%) vs right (60%)
+.o_planning_multi_assign_shift_info_left {
     flex: 0 0 40% !important;
     max-width: 40% !important;
 }
 
-.modal-content:has(.o_planning_multi_assign_shift_info_right){
+.o_planning_multi_assign_shift_info_right {
     flex: 0 0 60% !important;
     max-width: 60% !important;
 }
