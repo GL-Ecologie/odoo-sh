@@ -39,7 +39,7 @@
                                 <field name="project_id"/>
                                 <field name="task_id"/>
                             </group>
-                            <group class="o_planning_multi_assign_resource_info">
+                            <group class="o_planning_multi_assign_resource_availability">
                                 <field name="template_id" options="{'no_create': True}"/>
                                 <field name="shift_type_id" required="mode == 'create'"/>
                                 <label for="start_datetime" string="Date"/>
