@@ -60,5 +60,17 @@
                 </xpath>
             </field>
         </record>
+        <!-- Change "Schedule by Project" gantt default grouping from
+             project only → project + task. -->
+        <record id="view_planning_gantt_group_by_project_task_default" model="ir.ui.view">
+            <field name="name">planning.slot.gantt.group.by.project.task.default</field>
+            <field name="model">planning.slot</field>
+            <field name="inherit_id" ref="project_forecast.planning_view_gantt_group_by_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="/gantt" position="attributes">
+                    <attribute name="default_group_by">project_id,task_id</attribute>
+                </xpath>
+            </field>
+        </record>
     </data>
 </odoo>

@@ -16,10 +16,10 @@
     # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Customizations',
-    'version': '1.1.10',
+    'version': '1.1.11',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'planning', 'project', 'hr'],
+    'depends': ['base', 'planning', 'project', 'hr', 'project_forecast'],
 
     # always loaded
     'data': [
