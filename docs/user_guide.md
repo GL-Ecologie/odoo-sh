@@ -22,8 +22,9 @@
    - 4.4 Projects & Sub-projects
    - 4.5 Shift Types & Roles
    - 4.6 Creating & Publishing Shifts
-   - 4.7 Assigning People to Shifts
-   - 4.8 Registering & Validating Worked Hours
+   - 4.7 Creating Multiple Shifts at Once
+   - 4.8 Assigning People to Shifts
+   - 4.9 Registering & Validating Worked Hours
 5. [Inventory & Tools](#5-inventory--tools)
 6. [Reporting & Exports](#6-reporting--exports)
 7. [Notifications & Approvals](#7-notifications--approvals)
@@ -198,6 +199,8 @@ Key system behaviours to note:
 - Each project can have one or more **tasks**. Shifts can be linked to a specific task on a project.
 - The **Assigned shifts** tab on a task shows all shifts linked to that task — useful for tracking how many shifts have been planned for a given monitoring visit.
 - A task displays a warning banner when the number of assigned people falls below the required number set in the *People needed* field.
+- The **Create Shifts** button on a task form opens the multi-resource wizard pre-filled with that task's project and task (see §4.7).
+- Once at least one shift exists for the task, an **Edit Shifts** button appears showing the shift count. Clicking it opens the bulk-edit wizard pre-loaded with all shifts for that task.
 
 ---
 
@@ -260,7 +263,71 @@ To create a repeating shift, enable the **Repeat** toggle on the shift form and 
 
 ---
 
-### 4.7 Assigning People to Shifts
+### 4.7 Creating Multiple Shifts at Once
+
+When a project requires several people to be scheduled for the same shift (same date, time, role, and project), use the **Create Multi-Resource Shifts** wizard instead of creating shifts one by one.
+
+#### Opening the wizard
+
+There are three ways to open it:
+
+| From | How |
+|------|-----|
+| **Planning menu** | Planning → Schedule → *Create Multi-Resource Shifts* |
+| **Task form** | Open a task → click the **Create Shifts** button in the top-right button area |
+| **Shift list view** | Select one or more shifts → click **Edit Selected Shifts** (opens in edit mode) |
+
+#### Create mode — filling in shift details
+
+The wizard has two columns: **Shift Details** on the left and **Assign Resources** on the right.
+
+Fill in the Shift Details first:
+
+| Field | Notes |
+|-------|-------|
+| **Role** | Required — filters which employees appear as candidates |
+| **Shift Template** | Optional — pre-fills date/time from a saved template |
+| **Shift Type** | Required — must match employee preferences |
+| **Date** | Start and end date/time for the shift |
+| **Project / Task** | The project and task this shift belongs to |
+| **Counts for max shift per week** | Uncheck for shifts that should not count against the weekly cap |
+| **Required materials** | Equipment types needed |
+| **Reminder** | Preparation note sent to each assigned employee 24h before the shift |
+
+> Once Role, Shift Type, and Date are filled in, the Assign Resources column automatically shows all eligible employees as selectable tags.
+
+#### Selecting resources
+
+Click the name of each employee you want to assign. Selected names are highlighted in purple. You can select as many as needed — one shift will be created per selected employee.
+
+> Only employees who pass **all** eligibility checks are shown: role match, shift type preference, validated availability, weekly cap, evening/morning conflict, and weekend availability. If someone you expect is missing, check their availability entries for that date.
+
+#### Protocol visit window warning
+
+If the selected date falls outside the protocol visit window for the linked task, an amber warning banner appears above the form. The shift can still be created — the warning is informational only.
+
+#### After clicking Create Shifts
+
+One shift is created per selected employee. If any employee fails a constraint at save time (which can happen in edge cases), a summary banner lists who was created and who was skipped, with the reason.
+
+---
+
+#### Edit mode — bulk-editing existing shifts
+
+To update several shifts at once:
+
+1. Go to **Planning → Schedule** in list view
+2. Select the shifts you want to edit (tick the checkboxes)
+3. Click **Edit Selected Shifts** in the action bar
+4. The wizard shows the selected shifts as tags at the top
+5. Tick the checkbox next to each field you want to update, then fill in the new value
+6. Click **Apply Changes** — only ticked fields are written
+
+> If you want to update the Task but not the Project, tick only *Update task*. The project on existing shifts is left unchanged.
+
+---
+
+### 4.8 Assigning People to Shifts
 
 #### How the candidate list is filtered
 
@@ -289,7 +356,7 @@ When an employee requests an open shift (see §3.3), you will receive a notifica
 
 ---
 
-### 4.8 Registering & Validating Worked Hours
+### 4.9 Registering & Validating Worked Hours
 
 #### Register Hours button
 
