@@ -1,0 +1,179 @@
+<odoo>
+    <data>
+
+        <!-- ═══════════════════════════════════════════════════════════════
+             Wizard form view
+        ════════════════════════════════════════════════════════════════ -->
+        <record id="view_planning_multi_assign_wizard_form" model="ir.ui.view">
+            <field name="name">planning.multi_assign_wizard.form</field>
+            <field name="model">planning.multi_assign_wizard</field>
+            <field name="arch" type="xml">
+                <form string="Multi-Shift Assignment">
+
+                    <field name="mode" invisible="1"/>
+                    <field name="available_resource_ids" invisible="1"/>
+
+                    <!-- Result summary (shown when some resources were skipped) -->
+                    <div class="alert alert-warning mb-3"
+                         invisible="not creation_summary">
+                        <field name="creation_summary" widget="html" nolabel="1"/>
+                    </div>
+
+                    <field name="date_outside_protocol_window" invisible="1"/>
+
+                    <!-- Protocol visit window warning (create mode) -->
+                    <div role="alert"
+                         class="alert alert-warning text-center py-1 mb-1"
+                         invisible="not date_outside_protocol_window or mode != 'create'">
+                        <p class="align-middle mb-0">
+                            <span>Shift date is outside the protocol visit window for the associated task.</span>
+                        </p>
+                    </div>
+
+                    <!-- ══ CREATE MODE ════════════════════════════════════ -->
+                    <group invisible="mode != 'create'">
+                        <group string="Shift Details" col="2">
+                            <field name="template_id"
+                                   options="{'no_create': True}"
+                                   colspan="2"/>
+                            <field name="start_datetime" required="mode == 'create'"/>
+                            <field name="end_datetime" required="mode == 'create'"/>
+                            <field name="project_id"/>
+                            <field name="task_id"/>
+                            <field name="role_id" required="mode == 'create'"/>
+                            <field name="shift_type_id" required="mode == 'create'"/>
+                            <field name="counts_for_max_shift_per_week"/>
+                            <field name="material_type_ids"
+                                   widget="many2many_tags"
+                                   options="{'no_create': True}"/>
+                            <field name="reminder" colspan="2"/>
+                        </group>
+                        <group string="Assign Resources">
+                            <!-- Placeholder: shown until all three required fields are filled -->
+                            <div class="text-muted fst-italic py-2"
+                                 invisible="start_datetime and shift_type_id and role_id">
+                                Please select Shift Type, Role and Shift Start date/time
+                                to see eligible resources.
+                            </div>
+                            <!-- Resource selector: only shown when all three fields are set -->
+                            <div invisible="not start_datetime or not shift_type_id or not role_id"
+                                 colspan="2">
+                                <div class="text-muted mb-2">
+                                    Only resources that are eligible for this shift
+                                    (availability, role, shift type, weekly cap) are shown.
+                                </div>
+                                <field name="selected_resource_ids"
+                                       widget="many2many_tags"
+                                       nolabel="1"
+                                       domain="[('id', 'in', available_resource_ids)]"
+                                       options="{'no_create': True}"
+                                       placeholder="Select resources..."/>
+                            </div>
+                        </group>
+                    </group>
+
+                    <!-- ══ EDIT MODE ═════════════════════════════════════ -->
+                    <group invisible="mode != 'edit'">
+                        <group string="Shifts being edited" colspan="2">
+                            <field name="slot_ids"
+                                   widget="many2many_tags"
+                                   readonly="1"
+                                   nolabel="1"
+                                   colspan="2"/>
+                        </group>
+
+                        <group string="Fields to update" colspan="2">
+                            <group>
+                                <field name="update_start_datetime"/>
+                                <field name="start_datetime"
+                                       invisible="not update_start_datetime"
+                                       required="update_start_datetime and mode == 'edit'"/>
+
+                                <field name="update_end_datetime"/>
+                                <field name="end_datetime"
+                                       invisible="not update_end_datetime"
+                                       required="update_end_datetime and mode == 'edit'"/>
+
+                                <field name="update_project_id"/>
+                                <field name="project_id"
+                                       invisible="not update_project_id"/>
+
+                                <field name="update_task_id"/>
+                                <field name="task_id"
+                                       invisible="not update_task_id"/>
+
+                                <field name="update_reminder"/>
+                                <field name="reminder"
+                                       invisible="not update_reminder"/>
+                            </group>
+                            <group>
+                                <field name="update_role_id"/>
+                                <field name="role_id"
+                                       invisible="not update_role_id"/>
+
+                                <field name="update_shift_type_id"/>
+                                <field name="shift_type_id"
+                                       invisible="not update_shift_type_id"/>
+
+                                <field name="update_counts_for_max_shift_per_week"/>
+                                <field name="counts_for_max_shift_per_week"
+                                       invisible="not update_counts_for_max_shift_per_week"/>
+
+                                <field name="update_material_type_ids"/>
+                                <field name="material_type_ids"
+                                       widget="many2many_tags"
+                                       options="{'no_create': True}"
+                                       invisible="not update_material_type_ids"/>
+                            </group>
+                        </group>
+                    </group>
+
+                    <footer>
+                        <button string="Create Shifts"
+                                type="object"
+                                name="action_confirm"
+                                class="btn-primary"
+                                invisible="mode != 'create'"/>
+                        <button string="Apply Changes"
+                                type="object"
+                                name="action_confirm"
+                                class="btn-primary"
+                                invisible="mode != 'edit'"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- ═══════════════════════════════════════════════════════════════
+             Server action: "Create Multi-Resource Shifts"
+             Bound to planning.slot list view — no record selection needed.
+        ════════════════════════════════════════════════════════════════ -->
+        <record id="action_planning_multi_assign_create" model="ir.actions.server">
+            <field name="name">Create Multi-Resource Shifts</field>
+            <field name="model_id" ref="planning.model_planning_slot"/>
+            <field name="binding_model_id" ref="planning.model_planning_slot"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+action = env['planning.multi_assign_wizard'].action_open_create_wizard()
+            </field>
+        </record>
+
+        <!-- ═══════════════════════════════════════════════════════════════
+             Server action: "Edit Selected Shifts"
+             Bound to planning.slot list view — requires record selection.
+        ════════════════════════════════════════════════════════════════ -->
+        <record id="action_planning_multi_assign_edit" model="ir.actions.server">
+            <field name="name">Edit Selected Shifts</field>
+            <field name="model_id" ref="planning.model_planning_slot"/>
+            <field name="binding_model_id" ref="planning.model_planning_slot"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+action = env['planning.multi_assign_wizard'].action_open_edit_wizard()
+            </field>
+        </record>
+
+    </data>
+</odoo>

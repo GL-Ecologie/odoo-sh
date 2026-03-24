@@ -1,1 +1,15 @@
-from . import planning_slot, planning_shift_type, planning_employee_availability, planning_employee_availability_batch_edit_wizard, planning_employee_availability_calendar_resource, hr_employee, hr_employee_public, materials_consumable_type, materials_material_category, materials_material_type, materials_material_unit, materials_material_unit_status
+from . import (
+    planning_slot,
+    planning_shift_type,
+    planning_employee_availability,
+    planning_employee_availability_batch_edit_wizard,
+    planning_employee_availability_calendar_resource,
+    planning_multi_assign_wizard,
+    hr_employee,
+    hr_employee_public,
+    materials_consumable_type,
+    materials_material_category,
+    materials_material_type,
+    materials_material_unit,
+    materials_material_unit_status,
+)
