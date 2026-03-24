@@ -14,7 +14,8 @@
                     <field name="available_resource_ids" invisible="1"/>
 
                     <!-- Result summary (shown when some resources were skipped) -->
-                    <div class="alert alert-warning mb-3"
+                    <div role="alert"
+                         class="alert alert-warning mb-3"
                          invisible="not creation_summary">
                         <field name="creation_summary" widget="html" nolabel="1"/>
                     </div>
