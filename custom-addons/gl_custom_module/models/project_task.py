@@ -1,13 +1,24 @@
-from odoo import models
+from odoo import api, fields, models
 
 
 class ProjectTask(models.Model):
     _inherit = "project.task"
-    _description = "Custom planning slot (shift) model"
-    
+
+    planning_shift_count = fields.Integer(
+        string="Shifts",
+        compute="_compute_planning_shift_count",
+    )
+
+    @api.depends_context("uid")
+    def _compute_planning_shift_count(self):
+        for task in self:
+            task.planning_shift_count = self.env["planning.slot"].search_count(
+                [("task_id", "=", task.id)]
+            )
+
     def action_create_shifts_for_task(self):
         """Open the multi-resource shift creation wizard pre-filled with
-        this task's project and task, for manager use from the task form.
+        this task's project and task.
         """
         self.ensure_one()
         return {
@@ -23,3 +34,15 @@ class ProjectTask(models.Model):
                 "default_task_id": self.id,
             },
         }
+
+    def action_edit_shifts_for_task(self):
+        """Open the multi-resource shift edit wizard pre-loaded with all
+        shifts currently assigned to this task.
+        """
+        self.ensure_one()
+        shift_ids = self.env["planning.slot"].search(
+            [("task_id", "=", self.id)]
+        ).ids
+        return self.env["planning.multi_assign_wizard"].with_context(
+            active_ids=shift_ids
+        ).action_open_edit_wizard()

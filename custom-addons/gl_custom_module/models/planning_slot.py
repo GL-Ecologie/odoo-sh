@@ -407,9 +407,10 @@ class PlanningSlot(models.Model):
             weekends_conflict = True
         return weekends_conflict
 
-    @api.model
     def action_open_multi_assign_create_wizard(self):
-        """Open the multi-resource shift creation wizard."""
+        """Open the multi-resource shift creation wizard.
+        Ignores any selected records — always opens a fresh create wizard.
+        """
         return self.env["planning.multi_assign_wizard"].action_open_create_wizard()
 
     def action_open_multi_assign_edit_wizard(self):

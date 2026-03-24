@@ -17,6 +17,15 @@
                             <span class="o_stat_text">Create Shifts</span>
                         </div>
                     </button>
+                    <button name="action_edit_shifts_for_task"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-calendar"
+                            groups="planning.group_planning_manager"
+                            invisible="planning_shift_count == 0">
+                        <field name="planning_shift_count" widget="statinfo"
+                               string="Shifts"/>
+                    </button>
                 </xpath>
             </field>
         </record>
