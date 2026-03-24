@@ -1,3 +1,8 @@
+// Widen the multi-assign shift wizard dialog
+.modal-dialog:has(.o_planning_multi_assign) {
+    max-width: min(960px, 95vw);
+}
+
 .o_availability_event {
     border-radius: 0;
     border-width: 1px;
