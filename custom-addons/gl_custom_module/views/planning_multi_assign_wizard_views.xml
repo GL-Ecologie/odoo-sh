@@ -59,7 +59,7 @@
                             <!-- <field name="end_datetime" required="mode == 'create'"/> -->
                             <!-- <field name="counts_for_max_shift_per_week"/> -->
                             <separator string="Additional Information"/>
-                            <group>
+                            <group colspan="1">
                                 <field name="material_type_ids"
                                    widget="many2many_tags"
                                    options="{'no_create': True}"/>
