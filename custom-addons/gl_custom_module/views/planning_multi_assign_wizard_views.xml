@@ -33,20 +33,43 @@
 
                     <!-- ══ CREATE MODE ════════════════════════════════════ -->
                     <group invisible="mode != 'create'">
-                        <group string="Shift Details" col="2">
+                        <group string="Shift Details">
+                            <!-- Template badges (same as planning.slot form) -->
                             <field name="template_id"
-                                   options="{'no_create': True}"
-                                   colspan="2"/>
-                            <field name="start_datetime" required="mode == 'create'"/>
-                            <field name="end_datetime" required="mode == 'create'"/>
-                            <field name="project_id"/>
-                            <field name="task_id"/>
-                            <field name="role_id" required="mode == 'create'"/>
-                            <field name="shift_type_id" required="mode == 'create'"/>
-                            <field name="counts_for_max_shift_per_week"/>
+                                   options="{'no_create': True, 'horizontal': true}"
+                                   widget="selection_badge"
+                                   colspan="2"
+                                   nolabel="1"/>
+
+                            <!-- Left sub-group: role / project / task -->
+                            <group>
+                                <field name="role_id" required="mode == 'create'"/>
+                                <field name="project_id"/>
+                                <field name="task_id"/>
+                            </group>
+
+                            <!-- Right sub-group: shift type / dates / cap -->
+                            <group>
+                                <field name="shift_type_id" required="mode == 'create'"/>
+                                <label for="start_datetime" string="Date"/>
+                                <div class="d-flex gap-1 align-items-center">
+                                    <field name="start_datetime"
+                                           widget="daterange"
+                                           options="{'end_date_field': 'end_datetime'}"
+                                           required="mode == 'create'"
+                                           nolabel="1"/>
+                                    <field name="end_datetime" invisible="1"
+                                           required="mode == 'create'"/>
+                                </div>
+                                <field name="counts_for_max_shift_per_week"/>
+                            </group>
+
+                            <!-- Additional information section -->
+                            <separator string="Additional Information" colspan="2"/>
                             <field name="material_type_ids"
                                    widget="many2many_tags"
-                                   options="{'no_create': True}"/>
+                                   options="{'no_create': True}"
+                                   colspan="2"/>
                             <field name="reminder" colspan="2"/>
                         </group>
                         <group string="Assign Resources">
