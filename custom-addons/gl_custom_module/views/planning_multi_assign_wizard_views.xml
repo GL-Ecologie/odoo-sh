@@ -158,13 +158,13 @@
             <field name="context">{"default_mode": "create"}</field>
         </record>
 
-        <!-- Menu item under Planning > Schedule (managers only) 
+        <!-- Menu item under Planning > Schedule (managers only) -->
         <menuitem id="menu_planning_multi_assign_create"
                   name="Create Multi-Resource Shifts"
                   parent="planning.planning_menu_schedule"
                   action="action_planning_multi_assign_create_window"
                   groups="planning.group_planning_manager"
-                  sequence="20"/>-->
+                  sequence="150"/>
 
         <!-- ═══════════════════════════════════════════════════════════════
              Inject "Create Multi-Resource Shifts" button into the
@@ -177,8 +177,8 @@
             <field name="arch" type="xml">
                 <header position="inside">
                     <button string="Create Multi-Resource Shifts"
-                            name="%(action_planning_multi_assign_create_window)d"
-                            type="action"
+                            name="action_open_multi_assign_create_wizard"
+                            type="object"
                             class="btn btn-secondary"
                             groups="planning.group_planning_manager"/>
                 </header>
