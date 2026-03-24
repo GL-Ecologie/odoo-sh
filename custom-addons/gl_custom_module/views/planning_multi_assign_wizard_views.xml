@@ -33,13 +33,13 @@
 
                     <!-- ══ CREATE MODE ════════════════════════════════════ -->
                     <group invisible="mode != 'create'" class="o_planning_multi_assign">
-                        <group string="Shift Details">
-                            <group class="o_planning_multi_assign_shift_info">
+                        <group string="Shift Details" class="o_planning_multi_assign_shift_info">
+                            <group class="o_planning_multi_assign_shift_info_left">
                                 <field name="role_id" required="mode == 'create'"/>
                                 <field name="project_id"/>
                                 <field name="task_id"/>
                             </group>
-                            <group class="o_planning_multi_assign_resource_availability">
+                            <group class="o_planning_multi_assign_shift_info_right">
                                 <field name="template_id" options="{'no_create': True}"/>
                                 <field name="shift_type_id" required="mode == 'create'"/>
                                 <label for="start_datetime" string="Date"/>
@@ -58,7 +58,7 @@
                             <!-- <field name="start_datetime" required="mode == 'create'"/> -->
                             <!-- <field name="end_datetime" required="mode == 'create'"/> -->
                             <!-- <field name="counts_for_max_shift_per_week"/> -->
-                            <separator string="Additional Information" colspan="2"/>
+                            <separator string="Additional Information"/>
                             <group>
                                 <field name="material_type_ids"
                                    widget="many2many_tags"
@@ -66,7 +66,7 @@
                                 <field name="reminder"/>
                             </group>
                         </group>
-                        <group string="Assign Resources">
+                        <group string="Assign Resources" class="o_planning_multi_assign_resource_availability">
                             <!-- Placeholder: shown until all three required fields are filled -->
                             <div class="text-muted fst-italic py-2"
                                  invisible="start_datetime and shift_type_id and role_id">
