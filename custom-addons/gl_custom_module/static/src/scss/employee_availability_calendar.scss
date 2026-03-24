@@ -26,6 +26,46 @@
     max-width: 60% !important;
 }
 
+// Style resource checkboxes as clickable tag pills
+.o_planning_multi_assign_resource_availability {
+    .o_field_many2many_checkboxes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+
+        .form-check {
+            padding: 0;
+            margin: 0;
+
+            .form-check-input {
+                display: none;
+            }
+
+            .form-check-label {
+                cursor: pointer;
+                padding: 4px 12px;
+                border-radius: 20px;
+                border: 1px solid #adb5bd;
+                background: transparent;
+                font-size: 0.85em;
+                margin: 0;
+                transition: all 0.15s ease;
+
+                &:hover {
+                    border-color: #875a7b;
+                    background: rgba(135, 90, 123, 0.08);
+                }
+            }
+
+            .form-check-input:checked + .form-check-label {
+                background: #875a7b;
+                border-color: #875a7b;
+                color: white;
+            }
+        }
+    }
+}
+
 .o_availability_event {
     border-radius: 0;
     border-width: 1px;
