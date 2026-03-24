@@ -5,6 +5,7 @@ from . import (
     planning_employee_availability_batch_edit_wizard,
     planning_employee_availability_calendar_resource,
     planning_multi_assign_wizard,
+    project_task,
     hr_employee,
     hr_employee_public,
     materials_consumable_type,

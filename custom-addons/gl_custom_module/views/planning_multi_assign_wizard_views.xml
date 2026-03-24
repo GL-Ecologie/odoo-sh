@@ -64,11 +64,9 @@
                                     (availability, role, shift type, weekly cap) are shown.
                                 </div>
                                 <field name="selected_resource_ids"
-                                       widget="many2many_tags"
+                                       widget="many2many_checkboxes"
                                        nolabel="1"
-                                       domain="[('id', 'in', available_resource_ids)]"
-                                       options="{'no_create': True}"
-                                       placeholder="Select resources..."/>
+                                       domain="[('id', 'in', available_resource_ids)]"/>
                             </div>
                         </group>
                     </group>
@@ -167,8 +165,9 @@
                   sequence="150"/>
 
         <!-- ═══════════════════════════════════════════════════════════════
-             Inject "Create Multi-Resource Shifts" button into the
-             planning list view header (appears next to "New").
+             List view: "Edit Selected Shifts" in the <header> selection bar.
+             Appears only when records are selected (Odoo 17 list behaviour).
+             "Create Multi-Resource Shifts" is accessible via the menu item.
         ════════════════════════════════════════════════════════════════ -->
         <record id="view_planning_slot_list_multi_assign_inherit" model="ir.ui.view">
             <field name="name">planning.slot.list.multi_assign_button</field>
@@ -181,23 +180,12 @@
                             type="object"
                             class="btn btn-secondary"
                             groups="planning.group_planning_manager"/>
+                    <button string="Edit Selected Shifts"
+                            name="action_open_multi_assign_edit_wizard"
+                            type="object"
+                            class="btn btn-secondary"
+                            groups="planning.group_planning_manager"/>
                 </header>
-            </field>
-        </record>
-
-<!-- ═══════════════════════════════════════════════════════════════
-             Server action: "Edit Selected Shifts"
-             Bound to planning.slot list view — requires record selection.
-             Managers only.
-        ════════════════════════════════════════════════════════════════ -->
-        <record id="action_planning_multi_assign_edit" model="ir.actions.server">
-            <field name="name">Edit Selected Shifts</field>
-            <field name="model_id" ref="planning.model_planning_slot"/>
-            <field name="binding_model_id" ref="planning.model_planning_slot"/>
-            <field name="binding_view_types">list</field>
-            <field name="state">code</field>
-            <field name="code">
-action = env['planning.multi_assign_wizard'].action_open_edit_wizard()
             </field>
         </record>
 

@@ -412,6 +412,14 @@ class PlanningSlot(models.Model):
         """Open the multi-resource shift creation wizard."""
         return self.env["planning.multi_assign_wizard"].action_open_create_wizard()
 
+    def action_open_multi_assign_edit_wizard(self):
+        """Open the multi-resource shift edit wizard for the selected shifts.
+        Called from the list view <header> button with self = selected records.
+        """
+        return self.env["planning.multi_assign_wizard"].with_context(
+            active_ids=self.ids
+        ).action_open_edit_wizard()
+
     def action_register_timesheet(self):
             """Create a pre-filled timesheet entry for this shift and open it."""
             self.ensure_one()

@@ -201,6 +201,18 @@ class PlanningMultiAssignWizard(models.TransientModel):
         active_ids = self.env.context.get("active_ids", [])
         if not active_ids:
             raise UserError(self.env._("No shifts were selected."))
+
+        ctx = {
+            "default_mode": "edit",
+            "default_slot_ids": [(6, 0, active_ids)],
+        }
+        # If all selected slots share the same project, pre-populate it so
+        # the task domain works even when "Update project" is not ticked.
+        slots = self.env["planning.slot"].browse(active_ids)
+        common_projects = slots.mapped("project_id")
+        if len(common_projects) == 1:
+            ctx["default_project_id"] = common_projects.id
+
         return {
             "type": "ir.actions.act_window",
             "name": "Edit Shifts",
@@ -208,10 +220,7 @@ class PlanningMultiAssignWizard(models.TransientModel):
             "view_mode": "form",
             "views": [[False, "form"]],
             "target": "new",
-            "context": {
-                "default_mode": "edit",
-                "default_slot_ids": [(6, 0, active_ids)],
-            },
+            "context": ctx,
         }
 
     # ── Confirm ───────────────────────────────────────────────────────────────
@@ -254,11 +263,13 @@ class PlanningMultiAssignWizard(models.TransientModel):
                 errors.append(f"<li><b>{resource.name}</b>: {msg}</li>")
 
         if errors:
-            lines = "".join(errors)
+            created_lines = "".join(f"<li>{n}</li>" for n in created_names)
+            skipped_lines = "".join(errors)
             self.creation_summary = (
-                f"<p>Created {len(created_names)} shift(s).</p>"
+                f"<p><b>{len(created_names)} shift(s) created:</b></p>"
+                f"<ul>{created_lines}</ul>"
                 f"<p>The following resources were <b>skipped</b> due to constraint violations:</p>"
-                f"<ul>{lines}</ul>"
+                f"<ul>{skipped_lines}</ul>"
             )
             return {
                 "type": "ir.actions.act_window",
