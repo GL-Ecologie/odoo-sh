@@ -397,6 +397,12 @@ If you want to view your timesheets (to check whether they have already been val
    <center><i>Timesheet entry. Notice validation state on the top right corner (Draft)</i></center>
 <br>
 
+### 3.8 About Projects and tasks
+
+### 3.9 About Protocols, protocol visits and species
+
+### 3.10 About Locations
+
 ---
 
 ## 4. For Managers & Project Leaders
@@ -413,7 +419,7 @@ To add a new employee:
 1. Create the new employee via **Employees → New**
 2. Go to the ***Settings*** tab → ***User*** section and  associate the new employee to a previously created user. **If the user doesn't exist yet, ask the system administrator to create it for you.**
 
-3. In addition to the user field, the following fields are available. By tab:
+3. Fill the different Employee fields, as fitting. These are, by tab:
 
    - ***Settings***:
       |Field|Description|
@@ -478,35 +484,59 @@ To add a new employee:
       |Work Address|Place of work. **Select from list or add new**|*Nasa*|
       |Work Location|Main work location. **Select from list or add new**|*International Space Station*|
       |***Usual work location*** → ***Weekday***|Self-descriptive. **Select from list or add new**|*International Space Station*|
-      |**Max shifts per week** | The maximum number of shifts you want to work in a single week. The system will not assign you beyond this number. Set to 0 if there is no limit. ||
-      | **Available to work weekends** | If unchecked, you will not be offered or assigned to Saturday/Sunday shifts, Friday evening shifts, or Monday morning shifts. |
-      | **Combine evening and morning shift** | If unchecked, the system will not assign you to a morning shift the day after an evening shift (and vice versa). |
-      | **Shift type preferences** | The types of shifts (morning, evening, etc.) you are willing to work. You will only appear as a candidate for shift types listed here. |
+      |**Max shifts per week** | The maximum number of shifts the employee wants to work in a single week. **Set to 0 if there is no limit.** |*3*|
+      | **Available to work weekends** | If unchecked, the employee will not be offered or assigned to Saturday/Sunday shifts, Friday evening shifts, or Monday morning shifts.|*Yes*|
+      | **Combine evening and morning shift** | If unchecked, the system will not assign the employee to a morning shift the day after an evening shift (and vice versa). |*Yes*|
+      | **Allowed shift types** | The types of shifts (morning, evening, etc.) the employee is willing to work. Employee will only appear as a candidate for shift types listed here. |*Ochtend HM*|
+      
+      > **Important!!** 
+      >
+      >**Always** 
+      >  - **Fill** *Allowed shift types*, *Max shifts per week*, *Available to work weekends*, and *ombine evening and morning shift* — **these directly affect which shifts the employee can be assigned to**.
+      >
+      >  - **Assign** one or more **planning roles** (e.g. Field Worker, Project Leader) — **the employee will only appear as a candidate for shifts that require one of their assigned roles**
 
+      > **Important!!**
+      >
+      > **Changes** to these fields **take effect immediately for future shift assignments. They do not affect shifts you are already assigned to**.
 
+#### 4.1.3 Deleting employees
+In order to delete an existing employee, either:
+- ***Employees*** → ***List view*** → Select employee(s) to delete →***Actions*** → ***Delete***
 
+   or
 
+- ***Employees*** → Open employee to delete → Press ***Gear actions*** button → ***Delete***
 
- 
-- Always fill in the **Planning** tab: shift type preferences, max shifts per week, weekend availability, and evening/morning combination preference — these directly affect which shifts the employee can be assigned to
-- Link the employee to a user account (Work Information tab → Related User) so they can log in and manage their own availability
-- Assign one or more **planning roles** (e.g. Field Worker, Project Leader) — the employee will only appear as a candidate for shifts that require one of their assigned roles
-
-
-
-| Field | What it means |
-|-------|---------------|
-| 
-| **Vehicle** | Whether you have a vehicle available. |
-| **Language** | Your working language (Dutch / other). |
-
-> **Important:** changes to these fields take effect immediately for future shift assignments. They do not affect shifts you are already assigned to.
+> ***Caution!***
+>
+> **Deleting an Employee is a risky action.** If unsure, ***Archive*** the employee **instead**.
 
 ---
 
 ### 4.2 Locations & Meeting Points
 
 > *[TODO: Tamara — brief description of how you use locations and meeting points in your workflow.]*
+
+The custom app ***Locations*** allows you to create location entries that can later on be associated to projects.
+
+To create a new location, from the ***Homepage*** go to ***Locations*** → ***New***. Once you have filled the information for the location, click on the **cloud shaped** save button or simply leave the form. Changes are automatically saved.
+
+<br>
+   <p align="center">
+      <img src="gallery/locations_add_new.png" alt="New Location form" />
+   </p>
+   <center><i>Adding a new location.</i></center>
+<br>
+
+Alternatively, it is also possible to create a new location from within a **Project's form**, via its field ***Location*** → ***Add line*** → ***New*** .
+
+<br>
+   <p align="center">
+      <img src="gallery/project_form.png" alt="Project details" />
+   </p>
+   <center><i>Project form, an existing or new location can be added by pressing "Add a line"</i></center>
+<br>
 
 ---
 
