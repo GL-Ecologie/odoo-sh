@@ -169,16 +169,16 @@ These buttons offer different functionalities, like exporting/importing records,
 
 ### 3.2 Your Employee Profile
 
-Your employee profile stores your personal preferences that the planning system uses when assigning shifts. This profile can only be edited by managers or system administrators. If you want to have your employee profile updated (for instance if your maximum number of shifts per week changed, or you got access to a vehicle) please notify your manager or system administrator and they will update your profile.
+Your employee profile **stores your personal preferences** that the planning system uses when assigning shifts. **This profile can only be edited by managers or system administrators.** If you want to have your employee profile updated (for instance if your maximum number of shifts per week changed, or you got access to a vehicle) please notify your manager or system administrator and they will update your profile.
 
-**To find your profile:** *Employees* → (your name).
+You can find your profile at ***Employees*** → (your name).
 
 The following information is available:
 
 | Tab | Information |
 |-------|---------------|
 | **All** | Employee name, email address, contact phone numbers |
-|**Work** tab | Department job title, manager, office location, work location, planning constraints -maximum shifts per week, allowed shift types, weekend availability and willingness to combine evening and morning shifts.)|
+|**Work** | Department job title, manager, office location, work location, planning constraints -maximum shifts per week, allowed shift types, weekend availability and willingness to combine evening and morning shifts.)|
 | **Resume** | Work experience, skills & certifications |
 |**Certifications** | Employee certifications |
 
@@ -400,26 +400,103 @@ If you want to view your timesheets (to check whether they have already been val
 ---
 
 ## 4. For Managers & Project Leaders
+This section **extends the user guide** with information that is mostly of interest **for managers** and **project leaders**. Please make sure that you've read the previous sections before reading further.
 
 ### 4.1 Managing Employees
+Unlike non manager/adminstrator users, **managers can see and edit the profiles of all employees in the platform**, **as well as all fields**, even those that are not visible to employees about themselves.
 
 #### 4.1.1 Adding and editing employees
 
 > *[TODO: Tamara — you are already familiar with this area. Add any notes specific to your GL-Ecologie process, e.g. how new employees are onboarded, naming conventions, etc.]*
 
-Key points:
-- Create a new employee via **Employees → New**
+To add a new employee:
+1. Create the new employee via **Employees → New**
+2. Go to the ***Settings*** tab → ***User*** section and  associate the new employee to a previously created user. **If the user doesn't exist yet, ask the system administrator to create it for you.**
+
+3. In addition to the user field, the following fields are available. By tab:
+
+   - ***Settings***:
+      |Field|Description|
+      |---|---|
+      |***Timezone***|The timezone the user lives in. Most likely *Europe/Amsterdam*|
+      |***HR Responsible***| The person responsible for validating the employee's contracts|
+      |***Timesheet*** | The person responsible for approval of the employee's timesheets. If left empty the responsibility is delegated to users with role ***Administrator*** or ***User: All timesheets***.|
+      |***Roles***|Which roles this employee can fullfill. This constraints what shifts are visible and can be assigned to the employee.|
+      |***Default Role***|When creating a shift for the employee, this role will be assigned by default|
+      |***Hourly cost*** (if applicable) |The hourly rate of the employee|
+
+   - ***Payroll***:
+      |Field|Description|Example|
+      |---|---|---|
+      |***Contract***| Start date of the employee.||
+      |***Wage***|Gross monthly salary|$5,000,000|
+      |***Employee type***|Employee type. **Select from list or add new**| *Contractor*, *Freelance*|
+      |***Contract Type***|Employee contract type. **Select from list or add new**|*Seasonal*, *Permanent*...|
+      |***Pay category***|Employee category. **Select from list or add new**| *Worker*, *Employee*|
+      |***Working hours***|Hours per week the employee works. **Select from list or add new**| *Standard 40hours/week*|
+
+   - ***Personal***:
+      |Field|Description|Example|
+      |---|---|---|
+      |***Email***|Employee's private email address|*contact@nasa.com*|
+      |***Phone***|Employee's private phone|*+31645645622*|
+      |***Bank accounts***| Employee's Bank accounts, select **Select from list or add new**| *NL580000000000000*|
+      |***Legal name***|Self-descriptive||
+      |***Birthday***|Self-descriptive||
+      |***Show to all employees***| Whether to make the birthday available to all employees or not||
+      |***Place of Birth***|Self-descriptive||
+      |***Gender***|Self-descriptive||
+      |***Emergency contact*** → ***Contact***|Self-descriptive||
+      |***Emergency contact*** → ***Phone***|Self-descriptive||
+      |***Nationality***|Self-descriptive||
+      |***Identification No***|National identification number|*52377859L*|
+      |***SSN No***|Social security number (BSN)||
+      |***Passport No***|Self-descriptive||
+      |***Private address***|Self-descriptive||
+      |***Home-Work Distance***|Self-descriptive||
+      |***Marital status***|Self-descriptive||
+      |***Dependent children***|Self-descriptive||
+      |***Certificate level***|Self-descriptive. **Select from list**||
+      |***Field of Study***|Self-descriptive||
+      |***Languages***|Self-descriptive||
+      |***Means of transport*** → ***Bicycle***|Can this employee travel by bicycle?|*Yes*/*No*|
+      |***Means of transport*** → ***Auto***|Can this employee travel by Auto?|*Yes*/*No*|
+      |***Means of transport*** → ***Other***|Can this employee travel by other  means?|*Yes*/*No*|
+
+   - ***Resume***:
+      - ***Resume***: Employee resume. Create more lines if relevant.
+      - ***Skills & certifications***: Pick and add if relevant.
+
+   - ***Work***:
+      |Field|Description|Example|
+      |---|---|---|
+      |***Department***|What department the employee belongs to. **Select from list or add new**||
+      |Job Position|Self-Descriptive. **Select from list or add new**|*Fieldworker*|
+      |Job Title|Self-Descriptive. **Select from list or add new**|*Fieldworker*|
+      |Manager|Self-Descriptive. **Select from list**||
+      |***SMP Eligible***|**Is this employee eligible for SMP projects/shifts?**|*Yes*/*No*|
+      |Work Address|Place of work. **Select from list or add new**|*Nasa*|
+      |Work Location|Main work location. **Select from list or add new**|*International Space Station*|
+      |***Usual work location*** → ***Weekday***|Self-descriptive. **Select from list or add new**|*International Space Station*|
+      |**Max shifts per week** | The maximum number of shifts you want to work in a single week. The system will not assign you beyond this number. Set to 0 if there is no limit. ||
+      | **Available to work weekends** | If unchecked, you will not be offered or assigned to Saturday/Sunday shifts, Friday evening shifts, or Monday morning shifts. |
+      | **Combine evening and morning shift** | If unchecked, the system will not assign you to a morning shift the day after an evening shift (and vice versa). |
+      | **Shift type preferences** | The types of shifts (morning, evening, etc.) you are willing to work. You will only appear as a candidate for shift types listed here. |
+
+
+
+
+
+ 
 - Always fill in the **Planning** tab: shift type preferences, max shifts per week, weekend availability, and evening/morning combination preference — these directly affect which shifts the employee can be assigned to
 - Link the employee to a user account (Work Information tab → Related User) so they can log in and manage their own availability
 - Assign one or more **planning roles** (e.g. Field Worker, Project Leader) — the employee will only appear as a candidate for shifts that require one of their assigned roles
 
 
+
 | Field | What it means |
 |-------|---------------|
-| **Max shifts per week** | The maximum number of shifts you want to work in a single week. The system will not assign you beyond this number. Set to 0 if there is no limit. |
-| **Available to work weekends** | If unchecked, you will not be offered or assigned to Saturday/Sunday shifts, Friday evening shifts, or Monday morning shifts. |
-| **Combine evening and morning shift** | If unchecked, the system will not assign you to a morning shift the day after an evening shift (and vice versa). |
-| **Shift type preferences** | The types of shifts (morning, evening, etc.) you are willing to work. You will only appear as a candidate for shift types listed here. |
+| 
 | **Vehicle** | Whether you have a vehicle available. |
 | **Language** | Your working language (Dutch / other). |
 
