@@ -11,7 +11,7 @@
 1. [Introduction](#1-introduction)
 2. [Getting Started](#2-getting-started)
 3. [For All Users](#3-for-all-users)
-   - 3.1 Your Employee Profile
+   - 3.1 [Your Employee Profile](#31-your-employee-profile)
    - 3.2 Filling In Your Availability
    - 3.3 Requesting an Open Shift
    - 3.4 Viewing Your Schedule
@@ -278,7 +278,7 @@ Each shift form shows the following information:
 
 <br>
 <p align="center">
-   <img src="gallery/planning_assigned_shift_ask_to_switch.png" alt="Assign shift conflict ask to switch" />
+   <img src="gallery/planning_assigned_shift.png" alt="Assign shift conflict ask to switch" />
 </p>
 <center><i>Assigned shift with conflict. ***Ask to switch*** button available.</i></center>
 <br>
@@ -288,7 +288,7 @@ Each shift form shows the following information:
 
 ### 3.4 Requesting an Open Shift
 
-You can request being assigned to an open shift. A manager will then either approve or reject that request.
+You can request being assigned to an open shift. **A manager will then either approve or reject that request.**
 
 1. Go to **Planning → My Planning** (or the main Planning view)
 2. Open shifts are shown without a name in the resource column
@@ -306,8 +306,70 @@ You can request being assigned to an open shift. A manager will then either appr
 > You **cannot self-assign** to a shift. The *Request shift* button notifies your manager, who makes the final assignment.
 
 ### 3.5 Registering hours
+The ***Timesheets*** app of the platform allows you to register your worked hours.
 
-#TODO: Continue from this section
+The easiest way to do so, however, is via the planning app:
+
+1. Go to **Planning → My Planning** and open the shift you want to register hours for.
+2. Press the **Register hours** button. This will create a new timsheet entry and open it for you.
+
+   <br>
+   <p align="center">
+      <img src="gallery/planning_assigned_shift.png" alt="Assigned shift with Register hours button" />
+   </p>
+   <center><i>Assigned shift. ***Register hours*** button available.</i></center>
+   <br>
+3. As you will see, the entry has already been pre-filled. **You don't need to change anything here** unless something changed from the initial planning (for instance if the shift took longer or shorter than initially defined). If you want, however, **you can add a description or comment** using the unnamed field immediately below ***Shift***, which by default is just populated with ***"/"*** character. 
+
+   <br>
+   <p align="center">
+      <img src="gallery/timesheets_register_hours.png" alt="Timesheet entry form" />
+   </p>
+   <center><i>Timesheet entry with example description field</i></center>
+   <br>
+
+   > **Caution!!**
+   >
+   >Every time the **Register hours** button is pressed, the allocated hours will be registered. This is by design.
+
+<br>
+
+Alternatively, you can register your hours directly from the ***Timesheet*** app:
+1. From the home menu, open the ***Timesheets*** app. This will immediately open your time sheets ***Grid*** view.
+2. The grid view might already **show some of your shifts, even if you have not registered hours yet**. **This is normal**. The advantage of this view is that it shows you a whole day/week/month, so you could easily register hours for shifts that span multiple days. 
+
+   > **Caution!!**
+   >
+   > **Any changes made in this view are are automatically saved**.
+
+3. **Alternatively**, you can go to the **list view, and press ***New***** on the top left. This will immediately create a new entry (row) and ask you to **manually fill in the different fields**. Once you've filled the entry, press the ***Save*** button on the top left.
+
+   > **Caution!!**
+   >
+   > **You are responsible for correctly filling the different fields. Make sure the project and tasks selected match the selected shift**.
+
+#### What if you made a mistake?
+If you realise that you've made a mistake when registering hours for a shift, you can look for the relevant entry(ies) in the ***List view*** and update or delete it/them. 
+   > **Caution!!**
+   >
+   > **Validated entries cannot be edited or deleted**.
+
+### 3.6 Viewing your timesheets
+If you want to view your timesheets (to check whether they have already been validated or not, for instance), you just need to **open the Timesheets app in ***List*** or ***Calendar*** view**. You can also open a specific entry to see its state on the top right corner of the form.
+
+<br>
+   <p align="center">
+      <img src="gallery/timesheets_calendar_view.png" alt="Timesheets calendar view" />
+   </p>
+   <center><i>My timesheets calendar view. Draft (not yet validated) entries have stripes while validated ones show solid coloring</i></center>
+<br>
+<br>
+<br>
+   <p align="center">
+      <img src="gallery/timesheets_register_hours.png" alt="Timesheet entry"/>
+   </p>
+   <center><i>Timesheet entry. Notice validation state on the top right corner (Draft)</i></center>
+<br>
 
 ---
 
