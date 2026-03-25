@@ -11,22 +11,28 @@
 1. [Introduction](#1-introduction)
 2. [Getting Started](#2-getting-started)
 3. [For All Users](#3-for-all-users)
-   - 3.1 [Your Employee Profile](#31-your-employee-profile)
-   - 3.2 Filling In Your Availability
-   - 3.3 Requesting an Open Shift
-   - 3.4 Viewing Your Schedule
+   - 3.1 [General features across apps](#31-general-features-across-apps)
+   - 3.2 [Your Employee Profile](#32-your-employee-profile)
+   - 3.3 [Filling In Your Availability](#33-filling-in-your-availability)
+   - 3.4 [Viewing Your Schedule and Open Shifts](#34-viewing-your-schedule-and-open-shifts)
+   - 3.5 [Requesting an Open Shift](#35-requesting-an-open-shift)
+   - 3.6 [Registering Hours](#36-registering-hours)
+   - 3.7 [Viewing Your Timesheets](#37-viewing-your-timesheets)
 4. [For Managers & Project Leaders](#4-for-managers--project-leaders)
-   - 4.1 Managing Employees
-   - 4.2 Locations & Meeting Points
-   - 4.3 Protocols
-   - 4.4 Projects & Sub-projects
-   - 4.5 Shift Types & Roles
-   - 4.6 Creating & Publishing Shifts
-   - 4.7 Creating Multiple Shifts at Once
-   - 4.8 Assigning People to Shifts
-   - 4.9 Registering & Validating Worked Hours
+   - 4.1 [Managing Employees](#41-managing-employees)
+   - 4.2 [Locations & Meeting Points](#42-locations--meeting-points)
+   - 4.3 [Protocols](#43-protocols)
+   - 4.4 [Projects & Sub-projects](#44-projects--sub-projects)
+   - 4.5 [Shift Types & Roles](#45-shift-types--roles)
+   - 4.6 [Creating & Publishing Shifts](#46-creating--publishing-shifts)
+   - 4.7 [Creating Multiple Shifts at Once](#47-creating-multiple-shifts-at-once)
+   - 4.8 [Assigning People to Shifts](#48-assigning-people-to-shifts)
+   - 4.9 [Registering & Validating Worked Hours](#49-registering--validating-worked-hours)
 5. [Inventory & Tools](#5-inventory--tools)
 6. [Reporting & Exports](#6-reporting--exports)
+   - 6.1 [Planning Analysis](#61-planning-analysis)
+   - 6.2 [Availability Export](#62-availability-export)
+   - 6.3 [PDF Reports](#63-pdf-reports)
 7. [Notifications & Approvals](#7-notifications--approvals)
 
 ---
@@ -141,7 +147,27 @@ Many views (List, Gantt, Calendar...) display a search bar at the top center of 
 <center><i>Example: Planning schedule grouped by project and task</i></center>
 <br>
 
-### 3.1 Your Employee Profile
+#### Action buttons
+Besides the intuitive buttons visible throughout the platform, there are a *category* of buttons, the so called ***Actions buttons*** which are either easy to miss, or only become visible under certain circumstances: for instance when a record is selected ***List*** **view**. You can identify them by their icon (a toothed wheel or gearwheel), sometimes accompanied by the word ***Actions***.
+
+These buttons offer different functionalities, like exporting/importing records, deleting selected records, etc. 
+
+
+<br>
+<p align="center">
+   <img src="gallery/general_features_actions_buttons.png" alt="Icon only actions button" />
+</p>
+<center><i>Actions button, icon only. Often shows importing/exporting options.</i></center>
+<br>
+
+<br>
+<p align="center">
+   <img src="gallery/general_features_actions_buttons_with_label.png" alt="Icon and label actions button" />
+</p>
+<center><i>Actions button, icon and label, with multiple options</i></center>
+<br>
+
+### 3.2 Your Employee Profile
 
 Your employee profile stores your personal preferences that the planning system uses when assigning shifts. This profile can only be edited by managers or system administrators. If you want to have your employee profile updated (for instance if your maximum number of shifts per week changed, or you got access to a vehicle) please notify your manager or system administrator and they will update your profile.
 
@@ -156,11 +182,11 @@ The following information is available:
 | **Resume** | Work experience, skills & certifications |
 |**Certifications** | Employee certifications |
 
-Non manager/adminstrator employees can only see their own profile.
+Non manager/administrator employees can only see their own profile.
 
 ---
 
-### 3.2 Filling In Your Availability
+### 3.3 Filling In Your Availability
 
 Before a manager can assign you to a shift, you must declare your availability and have it **validated**. This is the most important step in the planning workflow.
 
@@ -246,7 +272,7 @@ The steps to batch editing are as follow, depending on the view:
 
 ---
 
-### 3.3 Viewing Your Schedule and Open shifts
+### 3.4 Viewing Your Schedule and Open Shifts
 
 Go to **Planning → My Planning** to see all shifts you are assigned to, and any open shifts available (shifts that have been created and published by a manager but do not yet have an assigned resource).
 The default view is a ***Gantt***, displayed **weekly**. If you want to see a different time split you can change that by either selecting a different time window (monthly, quarterly, yearly...) on the top left. Alternatively you can select a different view, like **Calendar** (that defaults to monthly).
@@ -286,7 +312,7 @@ Each shift form shows the following information:
 > You cannot self-unassign from a shift. If you are not available for a shift that has been assigned to you, open the affected shift and press the ***Ask to switch***  button and notify your manager.
 
 
-### 3.4 Requesting an Open Shift
+### 3.5 Requesting an Open Shift
 
 You can request being assigned to an open shift. **A manager will then either approve or reject that request.**
 
@@ -305,7 +331,7 @@ You can request being assigned to an open shift. **A manager will then either ap
 
 > You **cannot self-assign** to a shift. The *Request shift* button notifies your manager, who makes the final assignment.
 
-### 3.5 Registering hours
+### 3.6 Registering Hours
 The ***Timesheets*** app of the platform allows you to register your worked hours.
 
 The easiest way to do so, however, is via the planning app:
@@ -354,7 +380,7 @@ If you realise that you've made a mistake when registering hours for a shift, yo
    >
    > **Validated entries cannot be edited or deleted**.
 
-### 3.6 Viewing your timesheets
+### 3.7 Viewing Your Timesheets
 If you want to view your timesheets (to check whether they have already been validated or not, for instance), you just need to **open the Timesheets app in ***List*** or ***Calendar*** view**. You can also open a specific entry to see its state on the top right corner of the form.
 
 <br>
