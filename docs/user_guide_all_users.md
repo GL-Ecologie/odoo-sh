@@ -21,18 +21,6 @@
    - 3.8 [Viewing Locations](#38-viewing-locations)
    - 3.9 [Viewing Protocols, Protocol Visits and Species](#39-viewing-protocols-protocol-visits-and-species)
    - 3.10 [Viewing Projects and Tasks](#310-viewing-project-and-tasks)
-4. [For Managers & Project Leaders](#4-for-managers--project-leaders)
-   - 4.1 [Managing Employees](#41-managing-employees)
-     - 4.1.1 [Adding and editing employees](#411-adding-and-editing-employees)
-     - 4.1.2 [Deleting employees](#412-deleting-employees)
-   - 4.2 [Locations & Meeting Points](#42-locations--meeting-points)
-   - 4.3 [Protocols](#43-protocols)
-   - 4.4 [Projects & Sub-projects](#44-projects--sub-projects)
-   - 4.5 [Shift Types & Roles](#45-shift-types--roles)
-   - 4.6 [Creating & Publishing Shifts](#46-creating--publishing-shifts)
-   - 4.7 [Creating Multiple Shifts at Once](#47-creating-multiple-shifts-at-once)
-   - 4.8 [Assigning People to Shifts](#48-assigning-people-to-shifts)
-   - 4.9 [Registering & Validating Worked Hours](#49-registering--validating-worked-hours)
 5. [Inventory & Tools](#5-inventory--tools)
 6. [Reporting & Exports](#6-reporting--exports)
    - 6.1 [Planning Analysis](#61-planning-analysis)
@@ -912,7 +900,7 @@ The inventory module is accessible via **Planning → Materials**.
 Materials are organised in three levels:
 
 ```
-Category  (e.g. Acoustic equipment)
+Category  (e.g. Bat research)
   └─ Material type  (e.g. Bat detector SM4)
        └─ Material unit  (individual physical item, e.g. SM4 #003)
 ```
@@ -921,6 +909,7 @@ Each **material unit** has:
 - A **status** (e.g. In service, Out for repair, Lost)
 - A serial number (optional)
 - A rental flag (if the item is rented rather than owned)
+- A material type
 
 ### Linking materials to a shift
 
@@ -932,35 +921,6 @@ On a shift form, use the **Materials needed** field to attach one or more materi
 
 Open any material type to see the list of individual units and their current statuses. Use the list view under **Planning → Materials → Material Types** to get an overview of available vs. booked quantities across all types.
 
----
-
-## 6. Reporting & Exports
-
-### 6.1 Planning Analysis
-
-**Planning → Reporting → Planning Analysis**
-
-Useful measures and groupings:
-
-| What you want to know | Measure | Group by |
-|-----------------------|---------|----------|
-| Total planned hours per project | Allocated Time | Project |
-| Hours per employee per month | Allocated Time | Resource, Start date (month) |
-| Shifts per employee per week | Count | Resource, Start date (week) |
-| Actual vs. planned hours | Effective Time vs. Allocated Time | Project or Resource |
-| Planning progress (%) | Progress | Project |
-
-Export to Excel using the **⬇ Download** button (list view) or via **Action → Export**.
-
-### 6.2 Availability Export
-
-**Planning → Employee Availability → (list view) → Action → Export**
-
-Useful for reviewing who declared availability for a given period before creating shifts.
-
-### 6.3 PDF Reports
-
-> *[TODO: add if/when implemented.]*
 
 ---
 
@@ -976,12 +936,6 @@ Useful for reviewing who declared availability for a given period before creatin
 | Availability reset to draft | Employee | Inbox notification + live toast |
 | Shift request submitted | Planning managers | To-do activity |
 | Availability submitted for validation | Planning managers | To-do activity |
-
-### Pending approvals
-
-Planning managers can see pending availability validations as **to-do activities** in their Activity view or in the Inbox. Each activity groups all pending entries from one employee and shows the date range covered.
-
-To validate: open the activity, review the availability entries, and click **Validate**.
 
 ---
 
