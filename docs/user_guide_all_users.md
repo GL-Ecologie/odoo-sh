@@ -1,7 +1,7 @@
 # GL-Ecologie — Odoo Planning System: User Guide
 
 **Version:** 1.2
-**Last updated:** 2026-03-20
+**Last updated:** 2026-03-26
 **Prepared by:** Ruiz Burgos Ecology and Software
 
 ---
@@ -21,12 +21,8 @@
    - 3.8 [Viewing Locations](#38-viewing-locations)
    - 3.9 [Viewing Protocols, Protocol Visits and Species](#39-viewing-protocols-protocol-visits-and-species)
    - 3.10 [Viewing Projects and Tasks](#310-viewing-project-and-tasks)
-5. [Inventory & Tools](#5-inventory--tools)
-6. [Reporting & Exports](#6-reporting--exports)
-   - 6.1 [Planning Analysis](#61-planning-analysis)
-   - 6.2 [Availability Export](#62-availability-export)
-   - 6.3 [PDF Reports](#63-pdf-reports)
-7. [Notifications & Approvals](#7-notifications--approvals)
+4. [Inventory & Tools](#4-inventory--tools)
+5. [Notifications & Approvals](#5-notifications--approvals)
 
 ---
 
@@ -34,10 +30,7 @@
 
 
 
-This guide covers the day-to-day use of the GL-Ecologie planning system implemented using the Odoo platform. It is organised into two tracks:
-
-- **All users (field workers):** how to manage your profile, declare your availability, request shifts, and log hours.
-- **Managers & project leaders:** how to set up projects, create and publish shifts, assign people, and validate worked hours.
+This guide covers the day-to-day use of the GL-Ecologie planning system implemented using the Odoo platform. **Only non-manager related information is described in this document**. Manager-related documentation will follow at a future time.
 
 If you are new to the system, start with §2 (Getting Started) and then follow the track that matches your role.
 
@@ -175,7 +168,11 @@ The following information is available:
 | **Resume** | Work experience, skills & certifications |
 |**Certifications** | Employee certifications |
 
-Non manager/administrator employees can only see their own profile.
+<br>
+
+> **Important!**
+>
+> Non manager/administrator employees can only see their own profile.
 
 ---
 
@@ -552,346 +549,7 @@ Furthermore, the following tabs are available for each task:
 
 ---
 
-## 4. For Managers & Project Leaders
-This section **extends the user guide** with information that is mostly of interest **for managers** and **project leaders**. Please make sure that you've read the previous sections before reading further.
-
-### 4.1 Managing Employees
-Unlike non manager/adminstrator users, **managers can see and edit the profiles of all employees in the platform**, **as well as all fields**, even those that are not visible to employees about themselves.
-
-#### 4.1.1 Adding and editing employees
-
-> *[TODO: Tamara — you are already familiar with this area. Add any notes specific to your GL-Ecologie process, e.g. how new employees are onboarded, naming conventions, etc.]*
-
-To add a new employee:
-1. Create the new employee via **Employees → New**
-2. Go to the ***Settings*** tab → ***User*** section and  associate the new employee to a previously created user. **If the user doesn't exist yet, ask the system administrator to create it for you.**
-
-3. Fill the different Employee fields, as fitting. These are, by tab:
-
-   - ***Settings***:
-      |Field|Description|
-      |---|---|
-      |***Timezone***|The timezone the user lives in. Most likely *Europe/Amsterdam*|
-      |***HR Responsible***| The person responsible for validating the employee's contracts|
-      |***Timesheet*** | The person responsible for approval of the employee's timesheets. If left empty the responsibility is delegated to users with role ***Administrator*** or ***User: All timesheets***.|
-      |***Roles***|Which roles this employee can fullfill. This constraints what shifts are visible and can be assigned to the employee.|
-      |***Default Role***|When creating a shift for the employee, this role will be assigned by default|
-      |***Hourly cost*** (if applicable) |The hourly rate of the employee|
-
-   - ***Payroll***:
-      |Field|Description|Example|
-      |---|---|---|
-      |***Contract***| Start date of the employee.||
-      |***Wage***|Gross monthly salary|$5,000,000|
-      |***Employee type***|Employee type. **Select from list or add new**| *Contractor*, *Freelance*|
-      |***Contract Type***|Employee contract type. **Select from list or add new**|*Seasonal*, *Permanent*...|
-      |***Pay category***|Employee category. **Select from list or add new**| *Worker*, *Employee*|
-      |***Working hours***|Hours per week the employee works. **Select from list or add new**| *Standard 40hours/week*|
-
-   - ***Personal***:
-      |Field|Description|Example|
-      |---|---|---|
-      |***Email***|Employee's private email address|*contact@nasa.com*|
-      |***Phone***|Employee's private phone|*+31645645622*|
-      |***Bank accounts***| Employee's Bank accounts, select **Select from list or add new**| *NL580000000000000*|
-      |***Legal name***|Self-descriptive||
-      |***Birthday***|Self-descriptive||
-      |***Show to all employees***| Whether to make the birthday available to all employees or not||
-      |***Place of Birth***|Self-descriptive||
-      |***Gender***|Self-descriptive||
-      |***Emergency contact*** → ***Contact***|Self-descriptive||
-      |***Emergency contact*** → ***Phone***|Self-descriptive||
-      |***Nationality***|Self-descriptive||
-      |***Identification No***|National identification number|*52377859L*|
-      |***SSN No***|Social security number (BSN)||
-      |***Passport No***|Self-descriptive||
-      |***Private address***|Self-descriptive||
-      |***Home-Work Distance***|Self-descriptive||
-      |***Marital status***|Self-descriptive||
-      |***Dependent children***|Self-descriptive||
-      |***Certificate level***|Self-descriptive. **Select from list**||
-      |***Field of Study***|Self-descriptive||
-      |***Languages***|Self-descriptive||
-      |***Means of transport*** → ***Bicycle***|Can this employee travel by bicycle?|*Yes*/*No*|
-      |***Means of transport*** → ***Auto***|Can this employee travel by Auto?|*Yes*/*No*|
-      |***Means of transport*** → ***Other***|Can this employee travel by other  means?|*Yes*/*No*|
-
-   - ***Resume***:
-      - ***Resume***: Employee resume. Create more lines if relevant.
-      - ***Skills & certifications***: Pick and add if relevant.
-
-   - ***Work***:
-      |Field|Description|Example|
-      |---|---|---|
-      |***Department***|What department the employee belongs to. **Select from list or add new**||
-      |Job Position|Self-Descriptive. **Select from list or add new**|*Fieldworker*|
-      |Job Title|Self-Descriptive. **Select from list or add new**|*Fieldworker*|
-      |Manager|Self-Descriptive. **Select from list**||
-      |***SMP Eligible***|**Is this employee eligible for SMP projects/shifts?**|*Yes*/*No*|
-      |Work Address|Place of work. **Select from list or add new**|*Nasa*|
-      |Work Location|Main work location. **Select from list or add new**|*International Space Station*|
-      |***Usual work location*** → ***Weekday***|Self-descriptive. **Select from list or add new**|*International Space Station*|
-      |**Max shifts per week** | The maximum number of shifts the employee wants to work in a single week. **Set to 0 if there is no limit.** |*3*|
-      | **Available to work weekends** | If unchecked, the employee will not be offered or assigned to Saturday/Sunday shifts, Friday evening shifts, or Monday morning shifts.|*Yes*|
-      | **Combine evening and morning shift** | If unchecked, the system will not assign the employee to a morning shift the day after an evening shift (and vice versa). |*Yes*|
-      | **Allowed shift types** | The types of shifts (morning, evening, etc.) the employee is willing to work. Employee will only appear as a candidate for shift types listed here. |*Ochtend HM*|
-      
-      > **Important!!** 
-      >
-      >**Always** 
-      >  - **Fill** *Allowed shift types*, *Max shifts per week*, *Available to work weekends*, and *ombine evening and morning shift* — **these directly affect which shifts the employee can be assigned to**.
-      >
-      >  - **Assign** one or more **planning roles** (e.g. Field Worker, Project Leader) — **the employee will only appear as a candidate for shifts that require one of their assigned roles**
-
-      > **Important!!**
-      >
-      > **Changes** to these fields **take effect immediately for future shift assignments. They do not affect shifts you are already assigned to**.
-
-#### 4.1.2 Deleting employees
-In order to delete an existing employee, either:
-- ***Employees*** → ***List view*** → Select employee(s) to delete →***Actions*** → ***Delete***
-
-   or
-
-- ***Employees*** → Open employee to delete → Press ***Gear actions*** button → ***Delete***
-
-> ***Caution!***
->
-> **Deleting an Employee is a risky action.** If unsure, ***Archive*** the employee **instead**.
-
----
-
-### 4.2 Locations & Meeting Points
-
-> *[TODO: Tamara — brief description of how you use locations and meeting points in your workflow.]*
-
-The custom app ***Locations*** allows you to create location entries that can later on be associated to projects.
-
-To create a new location, from the ***Homepage*** go to ***Locations*** → ***New***. Once you have filled the information for the location, click on the **cloud shaped** save button or simply leave the form. Changes are automatically saved.
-
-<br>
-   <p align="center">
-      <img src="gallery/locations_add_new.png" alt="New Location form" />
-   </p>
-   <center><i>Adding a new location.</i></center>
-<br>
-
-Alternatively, it is also possible to create a new location from within a **Project's form**, via its field ***Location*** → ***Add line*** → ***New*** .
-
-<br>
-   <p align="center">
-      <img src="gallery/project_form.png" alt="Project details" />
-   </p>
-   <center><i>Project form, an existing or new location can be added by pressing "Add a line"</i></center>
-<br>
-
----
-
-### 4.3 Protocols
-
-> *[TODO: Tamara — you are already managing protocols. Add a brief description of what a protocol is in GL-Ecologie's context, the key fields, and how protocols connect to projects.]*
-
----
-
-### 4.4 Projects & Sub-projects
-
-> *[TODO: Tamara — brief walkthrough of creating a project, required fields, and how sub-projects are structured.]*
-
-Key system behaviours to note:
-- Each project can have one or more **tasks**. Shifts can be linked to a specific task on a project.
-- The **Assigned shifts** tab on a task shows all shifts linked to that task — useful for tracking how many shifts have been planned for a given monitoring visit.
-- A task displays a warning banner when the number of assigned people falls below the required number set in the *People needed* field.
-- The **Create Shifts** button on a task form opens the multi-resource wizard pre-filled with that task's project and task (see §4.7).
-- Once at least one shift exists for the task, an **Edit Shifts** button appears showing the shift count. Clicking it opens the bulk-edit wizard pre-loaded with all shifts for that task.
-
----
-
-### 4.5 Shift Types & Roles
-
-Shift types and roles are configured under **Planning → Configuration**.
-
-**Shift types** (e.g. Morning, Evening, Night) define the time-of-day category of a shift. They are used in:
-- Employee preference matching (employees declare which types they want to work)
-- Evening/morning conflict detection (an employee who does not want to combine shifts cannot be assigned to a morning shift the day after an evening shift)
-- Availability entries (employees declare availability per date *and* per shift type)
-
-> **Important naming rule:** for evening/morning conflict detection to work, the shift type name must end in *"vening"* (e.g. "Evening") or *"orning"* (e.g. "Morning"). Do not rename shift types unless you are certain this rule is still satisfied.
-
-**Roles** (e.g. Field Worker, Project Leader) define the function performed on a shift. An employee must have the required role assigned on their profile to appear as a candidate for a shift with that role.
-
----
-
-### 4.6 Creating & Publishing Shifts
-
-#### Creating a shift
-
-1. Go to **Planning** and click **New**, or click directly on a time slot in the Gantt view
-2. Fill in the required fields:
-
-| Field | Notes |
-|-------|-------|
-| **Resource** | The employee to assign. Leave empty to create an open shift. The dropdown only shows eligible candidates (see §4.7). |
-| **Role** | The function required for this shift |
-| **Shift type** | Morning, Evening, etc. Must match the employee's preferences |
-| **Project** | The project this shift belongs to |
-| **Task** | The specific task within the project (optional but recommended) |
-| **Date / Time** | Start and end datetime |
-| **Allocated hours** | Auto-calculated from start/end; can be adjusted |
-| **Counts for max shift per week** | Uncheck to exclude this shift from the weekly cap (e.g. for training shifts or special arrangements) |
-| **Materials needed** | Any equipment required for this shift |
-| **Reminder** | A preparation note sent automatically to the assigned employee 24 hours before the shift (e.g. "Pick up keys from the office before departure") |
-
-#### Protocol visit window warning
-
-If the shift is linked to a task that has a protocol visit, and the shift date falls **outside** the defined monitoring window for that visit, an amber warning bar appears at the top of the shift form:
-
-> *"Shift date is outside the protocol visit window for the associated task."*
-
-This is informational only — the shift can still be saved. Use it as a prompt to double-check the date.
-
-#### Related visit minimum gap warning
-
-Some protocol visits require a minimum number of days to have passed since a related (previous) visit. For example, HM2 may require at least 10 days after the most recent HM1 shift in the same project.
-
-If this condition is not met, an amber warning bar appears with a specific message, for example:
-
-> *"This shift is only 3 day(s) after the most recent HM1 shift. The required minimum gap is 10 day(s)."*
-
-Like the window warning, this is informational only — the shift can still be saved. The same warning also appears in the **Create Multi-Resource Shifts** wizard when a date and task are selected.
-
-The minimum gap and related visit are configured on the protocol visit record itself (by your system administrator).
-
-#### Publishing a shift
-
-A shift starts in **Draft** status. In this state it is not visible to field workers.
-
-To make a shift visible and notify employees:
-- Click **Publish & Send** — publishes the shift and sends an email notification to the assigned employee
-- Or click **Send** on an already-published shift to re-send the notification
-
-> Publish shifts only once the assignment is confirmed. Employees receive an email each time you send.
-
-#### Recurring shifts
-
-To create a repeating shift, enable the **Repeat** toggle on the shift form and configure the interval and end condition. All occurrences are created at once and can be edited individually or as a group.
-
----
-
-### 4.7 Creating Multiple Shifts at Once
-
-When a project requires several people to be scheduled for the same shift (same date, time, role, and project), use the **Create Multi-Resource Shifts** wizard instead of creating shifts one by one.
-
-#### Opening the wizard
-
-There are three ways to open it:
-
-| From | How |
-|------|-----|
-| **Planning menu** | Planning → Schedule → *Create Multi-Resource Shifts* |
-| **Task form** | Open a task → click the **Create Shifts** button in the top-right button area |
-| **Shift list view** | Select one or more shifts → click **Edit Selected Shifts** (opens in edit mode) |
-
-#### Create mode — filling in shift details
-
-The wizard has two columns: **Shift Details** on the left and **Assign Resources** on the right.
-
-Fill in the Shift Details first:
-
-| Field | Notes |
-|-------|-------|
-| **Role** | Required — filters which employees appear as candidates |
-| **Shift Template** | Optional — pre-fills date/time from a saved template |
-| **Shift Type** | Required — must match employee preferences |
-| **Date** | Start and end date/time for the shift |
-| **Project / Task** | The project and task this shift belongs to |
-| **Counts for max shift per week** | Uncheck for shifts that should not count against the weekly cap |
-| **Required materials** | Equipment types needed |
-| **Reminder** | Preparation note sent to each assigned employee 24h before the shift |
-
-> Once Role, Shift Type, and Date are filled in, the Assign Resources column automatically shows all eligible employees as selectable tags.
-
-#### Selecting resources
-
-Click the name of each employee you want to assign. Selected names are highlighted in purple. You can select as many as needed — one shift will be created per selected employee.
-
-> Only employees who pass **all** eligibility checks are shown: role match, shift type preference, validated availability, weekly cap, evening/morning conflict, and weekend availability. If someone you expect is missing, check their availability entries for that date.
-
-#### Protocol visit window warning
-
-If the selected date falls outside the protocol visit window for the linked task, an amber warning banner appears above the form. The shift can still be created — the warning is informational only.
-
-#### After clicking Create Shifts
-
-One shift is created per selected employee. If any employee fails a constraint at save time (which can happen in edge cases), a summary banner lists who was created and who was skipped, with the reason.
-
----
-
-#### Edit mode — bulk-editing existing shifts
-
-To update several shifts at once:
-
-1. Go to **Planning → Schedule** in list view
-2. Select the shifts you want to edit (tick the checkboxes)
-3. Click **Edit Selected Shifts** in the action bar
-4. The wizard shows the selected shifts as tags at the top
-5. Tick the checkbox next to each field you want to update, then fill in the new value
-6. Click **Apply Changes** — only ticked fields are written
-
-> If you want to update the Task but not the Project, tick only *Update task*. The project on existing shifts is left unchanged.
-
----
-
-### 4.8 Assigning People to Shifts
-
-#### How the candidate list is filtered
-
-The **Resource** dropdown on a shift does not show all employees — it shows only those who are eligible for that specific shift at that specific time. An employee must satisfy **all** of the following:
-
-1. **Role match** — has the shift's required role in their profile
-2. **Shift type preference** — has opted into this shift type
-3. **Validated availability** — has a validated availability entry for this date and shift type
-4. **Weekly shift cap** — would not exceed their maximum shifts for that week (if the shift counts toward the cap)
-5. **No evening/morning conflict** — would not be assigned to a morning shift the day after an evening shift (or vice versa), if they have opted out of combining these
-6. **Weekend availability** — works weekends (or the shift is not a weekend/Friday evening/Monday morning shift)
-
-If the dropdown shows no candidates, it usually means one or more employees have not yet had their availability validated for that date and shift type. Check **Planning → Employee Availability** and validate pending entries first.
-
-> The system also enforces these rules when you save — if an ineligible employee is somehow selected, saving will show a clear error message explaining which rule was violated.
-
-#### Assigning a person
-
-1. Open the shift
-2. Select the employee from the **Resource** dropdown
-3. Click **Publish & Send** to notify them
-
-#### Handling shift requests
-
-When an employee requests an open shift (see §3.3), you will receive a notification in your Inbox. Review the request, open the shift, assign the employee, and publish.
-
----
-
-### 4.9 Registering & Validating Worked Hours
-
-#### Register Hours button
-
-Once a shift is published and has an assigned employee, a **Register Hours** button appears in the shift header (visible to the assigned employee and to planning managers).
-
-Clicking it creates a pre-filled timesheet entry with:
-- The shift date
-- The allocated hours
-- The linked project and task
-
-The timesheet opens immediately for review. Adjust the hours if the employee worked more or less than planned, then save.
-
-> The Register Hours button is only visible **after the shift is published** and **only to the assigned employee or a planning manager**. Other managers cannot register hours on behalf of someone else's shift.
-
-#### Validating timesheets
-
-> *[TODO: Tamara — describe your validation/approval flow for timesheets if you have one configured.]*
-
----
-
-## 5. Inventory & Tools
+## 4. Inventory & Tools
 
 The inventory module is accessible via **Planning → Materials**.
 
@@ -924,7 +582,7 @@ Open any material type to see the list of individual units and their current sta
 
 ---
 
-## 7. Notifications & Approvals
+## 5. Notifications & Approvals
 
 ### Notifications you will receive
 
@@ -936,6 +594,12 @@ Open any material type to see the list of individual units and their current sta
 | Availability reset to draft | Employee | Inbox notification + live toast |
 | Shift request submitted | Planning managers | To-do activity |
 | Availability submitted for validation | Planning managers | To-do activity |
+
+### Pending approvals
+
+Planning managers can see pending availability validations as **to-do activities** in their Activity view or in the Inbox. Each activity groups all pending entries from one employee and shows the date range covered.
+
+To validate: open the activity, review the availability entries, and click **Validate**.
 
 ---
 
@@ -951,11 +615,15 @@ Open any material type to see the list of individual units and their current sta
 | **Role** | The function performed on a shift (Field Worker, Project Leader, etc.) |
 | **Availability entry** | A declaration by an employee that they are (or are not) available on a specific date for a specific shift type |
 | **Validated availability** | An availability entry confirmed by a manager — required before an employee can be assigned |
-| **Protocol** | *[TODO: Tamara — add GL-Ecologie definition]* |
-| **Protocol visit** | *[TODO: Tamara — add GL-Ecologie definition]* |
+| **Project** | A coordinated body of work (e.g. a monitoring contract) that contains tasks and shifts. Projects can be nested under a parent (master) project. |
+| **Task** | A discrete unit of work within a project, typically corresponding to a specific protocol visit instance. Tasks group the shifts assigned to that monitoring event. |
+| **Location** | A named address entry linked to a project. Includes a label, address, optional notes and tags, and a direct Google Maps link. |
+| **Protocol** | A standardised monitoring procedure defining how, when, and for which species a field survey is conducted. Each protocol has a date window, a type, and one or more protocol visits. *[TODO: Tamara — add GL-Ecologie specific definition if needed]* |
+| **Protocol visit** | A specific visit defined within a protocol, including a date/time window, goal, weather restrictions, species involved, and an optional dependency on a related (previous) visit. |
+| **Species** | A plant or animal species tracked in the context of one or more protocols. Each entry contains a name, optional scientific name, description, tags, and a list of associated protocols. |
 
 ### Contact for support
 
 For technical issues with the system, contact:
-**Julian Ruiz Burgos** — Ruiz Burgos Ecology and Software
-`[TODO: add contact email/phone]`
+**Julian Ruiz Burgos** — Ruiz Burgos Ecology and Software at
+`contact@julianruizburgos.net`
