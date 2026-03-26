@@ -28,12 +28,21 @@
                             <span>Shift date is outside the protocol visit window for the associated task.</span>
                         </p>
                     </div>
+                    <div role="alert"
+                         class="alert alert-warning text-center py-1 mb-1"
+                         invisible="not date_violates_related_visit_gap">
+                        <p class="align-middle mb-0">
+                            <field name="related_visit_gap_warning_text" readonly="1" nolabel="1"/>
+                        </p>
+                    </div>
                 </xpath>
                 <xpath expr="//group[@name='slot_info_right']" position="inside">
                     <field name="resource_ids_domain" invisible="1"/>
                     <field name="can_register_hours" invisible="1"/>
                     <field name="counts_for_max_shift_per_week"/>
                     <field name="date_outside_protocol_window" invisible="1"/>
+                    <field name="date_violates_related_visit_gap" invisible="1"/>
+                    <field name="related_visit_gap_warning_text" invisible="1"/>
                 </xpath>
                 <xpath expr="//group[@name='slot_info_right']" position="after">
                     <group name="materials_needed_group" string="Materials needed" colspan="1">
@@ -57,6 +66,18 @@
                             type="object"
                             class="btn btn-primary"
                             invisible="not resource_id or not start_datetime or state != 'published' or not can_register_hours"/>
+                </xpath>
+            </field>
+        </record>
+        <!-- Change "Schedule by Project" gantt default grouping from
+             project only → project + task. -->
+        <record id="view_planning_gantt_group_by_project_task_default" model="ir.ui.view">
+            <field name="name">planning.slot.gantt.group.by.project.task.default</field>
+            <field name="model">planning.slot</field>
+            <field name="inherit_id" ref="project_forecast.planning_view_gantt_group_by_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="/gantt" position="attributes">
+                    <attribute name="default_group_by">project_id,task_id</attribute>
                 </xpath>
             </field>
         </record>

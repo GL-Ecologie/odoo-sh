@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+        <!-- Add "Create Shifts for Task" stat button to the task form,
+             visible only to planning managers. -->
+        <record id="view_project_task_form_create_shifts_button" model="ir.ui.view">
+            <field name="name">project.task.form.create_shifts_button</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_create_shifts_for_task"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-calendar-plus-o"
+                            groups="planning.group_planning_manager">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_text">Create Shifts</span>
+                        </div>
+                    </button>
+                    <button name="action_edit_shifts_for_task"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-calendar"
+                            groups="planning.group_planning_manager"
+                            invisible="planning_shift_count == 0">
+                        <field name="planning_shift_count" widget="statinfo"
+                               string="Shifts"/>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

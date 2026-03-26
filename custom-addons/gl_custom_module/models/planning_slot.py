@@ -50,6 +50,15 @@ class PlanningSlot(models.Model):
         store=False,
     )
 
+    date_violates_related_visit_gap = fields.Boolean(
+        compute="_compute_related_visit_gap",
+        store=False,
+    )
+    related_visit_gap_warning_text = fields.Char(
+        compute="_compute_related_visit_gap",
+        store=False,
+    )
+
     can_register_hours = fields.Boolean(
         compute="_compute_can_register_hours",
     )
@@ -166,6 +175,78 @@ class PlanningSlot(models.Model):
             return False
 
         return shift_date < window_start or shift_date > window_end
+
+    @api.depends(
+        "task_id", "start_datetime", "project_id",
+        "task_id.x_studio_protocol_visit_single",
+        "task_id.x_studio_protocol_visit_single.x_studio_related_visit",
+        "task_id.x_studio_protocol_visit_single.x_studio_minimum_days_from_previous_visit",
+    )
+    def _compute_related_visit_gap(self):
+        for slot in self:
+            violation, message = slot._check_related_visit_gap()
+            slot.date_violates_related_visit_gap = violation
+            slot.related_visit_gap_warning_text = message
+
+    def _check_related_visit_gap(self):
+        """Returns (violation: bool, message: str).
+
+        True when the shift date is fewer than the required minimum days
+        after the latest existing shift for the related protocol visit.
+        The related visit always points backwards (e.g. HM1 when this
+        shift belongs to HM2).
+        """
+        self.ensure_one()
+        if not self.task_id or not self.start_datetime or not self.project_id:
+            return False, ""
+
+        visit = self.task_id.x_studio_protocol_visit_single
+        if not visit:
+            return False, ""
+
+        related_visit = visit.x_studio_related_visit
+        min_days = visit.x_studio_minimum_days_from_previous_visit
+
+        if not related_visit or not min_days or min_days <= 0:
+            return False, ""
+
+        # Find tasks in the same project linked to the related visit
+        related_tasks = self.env["project.task"].search([
+            ("project_id", "=", self.project_id.id),
+            ("x_studio_protocol_visit_single", "=", related_visit.id),
+        ])
+        if not related_tasks:
+            return False, ""
+
+        # Find their shifts; exclude self if it already has a DB id
+        domain = [
+            ("task_id", "in", related_tasks.ids),
+            ("start_datetime", "!=", False),
+        ]
+        if self._origin.id:
+            domain.append(("id", "!=", self._origin.id))
+
+        related_slots = self.env["planning.slot"].search(domain)
+        if not related_slots:
+            return False, ""
+
+        latest_related_date = max(
+            fields.Datetime.to_datetime(s.start_datetime).date()
+            for s in related_slots
+        )
+
+        current_date = fields.Datetime.to_datetime(self.start_datetime).date()
+        gap = (current_date - latest_related_date).days
+
+        if gap < min_days:
+            visit_name = related_visit.x_studio_name or str(related_visit.id)
+            message = (
+                f"This shift is only {max(gap, 0)} day(s) after the most recent "
+                f"{visit_name} shift. The required minimum gap is {min_days} day(s)."
+            )
+            return True, message
+
+        return False, ""
 
     @api.depends("resource_id")
     def _compute_can_register_hours(self):
@@ -406,6 +487,20 @@ class PlanningSlot(models.Model):
         ):
             weekends_conflict = True
         return weekends_conflict
+
+    def action_open_multi_assign_create_wizard(self):
+        """Open the multi-resource shift creation wizard.
+        Ignores any selected records — always opens a fresh create wizard.
+        """
+        return self.env["planning.multi_assign_wizard"].action_open_create_wizard()
+
+    def action_open_multi_assign_edit_wizard(self):
+        """Open the multi-resource shift edit wizard for the selected shifts.
+        Called from the list view <header> button with self = selected records.
+        """
+        return self.env["planning.multi_assign_wizard"].with_context(
+            active_ids=self.ids
+        ).action_open_edit_wizard()
 
     def action_register_timesheet(self):
             """Create a pre-filled timesheet entry for this shift and open it."""

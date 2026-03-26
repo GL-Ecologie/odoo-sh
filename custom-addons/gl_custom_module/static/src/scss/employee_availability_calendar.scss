@@ -1,3 +1,71 @@
+// Widen the multi-assign shift wizard dialog and apply 65/35 column split
+.modal-dialog:has(.o_planning_multi_assign) {
+    max-width: 1200px;
+    width: 95vw;
+}
+
+// Outer columns: Shift Details (65%) vs Assign Resources (35%)
+.o_planning_multi_assign_shift_info {
+    flex: 0 0 65% !important;
+    max-width: 65% !important;
+}
+
+.o_planning_multi_assign_resource_availability {
+    flex: 0 0 35% !important;
+    max-width: 35% !important;
+}
+
+// Inner columns within Shift Details: left (40%) vs right (60%)
+.o_planning_multi_assign_shift_info_left {
+    flex: 0 0 45% !important;
+    max-width: 45% !important;
+}
+
+.o_planning_multi_assign_shift_info_right {
+    flex: 0 0 55% !important;
+    max-width: 55% !important;
+}
+
+// Style resource checkboxes as clickable tag pills
+.o_planning_multi_assign_resource_availability {
+    .o_field_many2many_checkboxes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+
+        .form-check {
+            padding: 0;
+            margin: 0;
+
+            .form-check-input {
+                display: none;
+            }
+
+            .form-check-label {
+                cursor: pointer;
+                padding: 4px 12px;
+                border-radius: 20px;
+                border: 1px solid #adb5bd;
+                background: transparent;
+                font-size: 0.85em;
+                margin: 0;
+                transition: all 0.15s ease;
+
+                &:hover {
+                    border-color: #875a7b;
+                    background: rgba(135, 90, 123, 0.08);
+                }
+            }
+
+            .form-check-input:checked + .form-check-label {
+                background: #875a7b;
+                border-color: #875a7b;
+                color: white;
+            }
+        }
+    }
+}
+
 .o_availability_event {
     border-radius: 0;
     border-width: 1px;
