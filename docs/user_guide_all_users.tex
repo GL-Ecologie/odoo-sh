@@ -1,0 +1,1565 @@
+%%
+% Copyright (c) 2017 - 2026, Pascal Wagler;
+% Copyright (c) 2014 - 2026, John MacFarlane
+%
+% All rights reserved.
+%
+% Redistribution and use in source and binary forms, with or without
+% modification, are permitted provided that the following conditions
+% are met:
+%
+% - Redistributions of source code must retain the above copyright
+% notice, this list of conditions and the following disclaimer.
+%
+% - Redistributions in binary form must reproduce the above copyright
+% notice, this list of conditions and the following disclaimer in the
+% documentation and/or other materials provided with the distribution.
+%
+% - Neither the name of John MacFarlane nor the names of other
+% contributors may be used to endorse or promote products derived
+% from this software without specific prior written permission.
+%
+% THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+% "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+% LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+% FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+% COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+% INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+% BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+% LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+% CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+% LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+% ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+% POSSIBILITY OF SUCH DAMAGE.
+%%
+
+%%
+% This is the Eisvogel pandoc LaTeX template.
+%
+% For usage information and examples visit the official GitHub page:
+% https://github.com/Wandmalfarbe/pandoc-latex-template
+%%
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names,table}{xcolor}
+\documentclass[
+  paper=a4,
+  ,captions=tableheading
+]{scrartcl}
+\usepackage{xcolor}
+\usepackage[margin=2.5cm,includehead=true,includefoot=true,centering,]{geometry}
+\usepackage{amsmath,amssymb}
+
+% add backlinks to footnote references, cf. https://tex.stackexchange.com/questions/302266/make-footnote-clickable-both-ways
+\usepackage{footnotebackref}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+
+% Use setspace anyway because we change the default line spacing.
+% The spacing is changed early to affect the titlepage and the TOC.
+\usepackage{setspace}
+\setstretch{1.2}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{longtable,booktabs,array}
+\newcounter{none} % for unnumbered tables
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+% Make use of float-package and set default placement for figures to H.
+% The option H means 'PUT IT HERE' (as  opposed to the standard h option which means 'You may put it here if you like').
+\usepackage{float}
+\floatplacement{figure}{H}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{graphicx}
+\setkeys{Gin}{width=\linewidth,height=0.45\textheight,keepaspectratio}
+\usepackage{mdframed}
+\definecolor{calloutbg}{HTML}{FFF3E0}
+\definecolor{calloutborder}{HTML}{E67E22}
+\renewenvironment{quote}{\begin{mdframed}[backgroundcolor=calloutbg,linecolor=calloutborder,linewidth=3pt,topline=false,bottomline=false,rightline=false,innerleftmargin=10pt,innerrightmargin=10pt,innertopmargin=6pt,innerbottommargin=6pt]\small}{\end{mdframed}}
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}{-1.5ex\@plus-1ex\@minus-.2ex}{1ex\@plus.2ex}{\normalfont\normalsize\bfseries}}
+\makeatother
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\definecolor{default-linkcolor}{HTML}{A50000}
+\definecolor{default-filecolor}{HTML}{A50000}
+\definecolor{default-citecolor}{HTML}{4077C0}
+\definecolor{default-urlcolor}{HTML}{4077C0}
+
+\hypersetup{
+  pdftitle={GL-Ecologie --- Odoo Planning System: User Guide},
+  pdfauthor={Ruiz Burgos Ecology and Software},
+  colorlinks=true,
+  linkcolor={teal},
+  filecolor={default-filecolor},
+  citecolor={default-citecolor},
+  urlcolor={teal},
+  breaklinks=true,
+  pdfcreator={LaTeX via pandoc with the Eisvogel template}}
+
+\title{GL-Ecologie --- Odoo Planning System: User Guide}
+\author{Ruiz Burgos Ecology and Software}
+\date{2026-03-26}
+
+
+%
+% for the background color of the title page
+%
+\usepackage{pagecolor}
+\usepackage{afterpage}
+\usepackage[margin=2.5cm,includehead=true,includefoot=true,centering]{geometry}
+
+%
+% break urls
+%
+\PassOptionsToPackage{hyphens}{url}
+
+%
+% When using babel or polyglossia with biblatex, loading csquotes is recommended
+% to ensure that quoted texts are typeset according to the rules of your main language.
+%
+\usepackage{csquotes}
+
+%
+% captions
+%
+\definecolor{caption-color}{HTML}{777777}
+\usepackage[font={stretch=1.2}, textfont={color=caption-color}, position=top, skip=4mm, labelfont=bf, singlelinecheck=false, justification=raggedright]{caption}
+\setcapindent{0em}
+
+%
+% blockquote
+%
+\definecolor{blockquote-border}{RGB}{221,221,221}
+\definecolor{blockquote-text}{RGB}{119,119,119}
+\usepackage{mdframed}
+\newmdenv[rightline=false,bottomline=false,topline=false,linewidth=3pt,linecolor=blockquote-border,skipabove=\parskip]{customblockquote}
+\renewenvironment{quote}{\begin{customblockquote}\list{}{\rightmargin=0em\leftmargin=0em}%
+\item\relax\color{blockquote-text}\ignorespaces}{\unskip\unskip\endlist\end{customblockquote}}
+
+%
+% Source Sans Pro as the default font family
+% Source Code Pro for monospace text
+%
+% 'default' option sets the default
+% font family to Source Sans Pro, not \sfdefault.
+%
+% Note that the font has been officially renamed to `Source Sans 3`, and
+% the version provided by the `sourcesanspro` package is slightly outdated.
+% You can install the newer version locally and use it, for example, with
+% `mainfont: "Source Sans 3"` in the YAML metadata (requires XeTeX or LuaTeX).
+%
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+    \usepackage[default]{sourcesanspro}
+  \usepackage{sourcecodepro}
+  \else % if not pdftex
+    \usepackage[default]{sourcesanspro}
+  \usepackage{sourcecodepro}
+
+  % XeLaTeX specific adjustments for straight quotes: https://tex.stackexchange.com/a/354887
+  % This issue is already fixed (see https://github.com/silkeh/latex-sourcecodepro/pull/5) but the
+  % fix is still unreleased.
+  % TODO: Remove this workaround when the new version of sourcecodepro is released on CTAN.
+  \ifxetex
+    \makeatletter
+    \defaultfontfeatures[\ttfamily]
+      { Numbers   = \sourcecodepro@figurestyle,
+        Scale     = \SourceCodePro@scale,
+        Extension = .otf }
+    \setmonofont
+      [ UprightFont    = *-\sourcecodepro@regstyle,
+        ItalicFont     = *-\sourcecodepro@regstyle It,
+        BoldFont       = *-\sourcecodepro@boldstyle,
+        BoldItalicFont = *-\sourcecodepro@boldstyle It ]
+      {SourceCodePro}
+    \makeatother
+  \fi
+  \fi
+
+%
+% heading color
+%
+\definecolor{heading-color}{RGB}{40,40,40}
+% By default, the KOMA-Script classes will typeset sectioning headings in
+% sans-serif. Use the normal body font for headings.
+\addtokomafont{disposition}{\normalfont\color{heading-color}\bfseries}
+
+%
+% variables for title, author and date
+%
+\usepackage{titling}
+\title{GL-Ecologie --- Odoo Planning System: User Guide}
+\author{Ruiz Burgos Ecology and Software}
+\date{2026-03-26}
+
+%
+% tables
+%
+
+\definecolor{table-row-color}{HTML}{F5F5F5}
+\definecolor{table-rule-color}{HTML}{999999}
+
+%\arrayrulecolor{black!40}
+\arrayrulecolor{table-rule-color}     % color of \toprule, \midrule, \bottomrule
+\setlength\heavyrulewidth{0.3ex}      % thickness of \toprule, \bottomrule
+\renewcommand{\arraystretch}{1.3}     % spacing (padding)
+
+
+%
+% remove paragraph indentation
+%
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+
+%
+%
+% Listings
+%
+%
+
+
+%
+% header and footer
+%
+\usepackage[headsepline,footsepline]{scrlayer-scrpage}
+
+\newpairofpagestyles{eisvogel-header-footer}{
+  \clearpairofpagestyles
+  \ihead*{GL-Ecologie --- Odoo Planning System: User Guide}
+  \chead*{}
+  \ohead*{2026-03-26}
+  \ifoot*{Ruiz Burgos Ecology and Software}
+  \cfoot*{}
+  \ofoot*{\thepage}
+  \addtokomafont{pageheadfoot}{\upshape}
+}
+\pagestyle{eisvogel-header-footer}
+
+
+
+%
+% Define watermark
+%
+
+\begin{document}
+
+\begin{titlepage}
+\newgeometry{left=6cm}
+\definecolor{titlepage-color}{HTML}{1b4332}
+\newpagecolor{titlepage-color}\afterpage{\restorepagecolor}
+\newcommand{\colorRule}[3][black]{\textcolor[HTML]{#1}{\rule{#2}{#3}}}
+\begin{flushleft}
+\noindent
+\\[-1em]
+\color[HTML]{FFFFFF}
+\makebox[0pt][l]{\colorRule[2d6a4f]{1.3\textwidth}{4pt}}
+\par
+\noindent
+
+{
+  \setstretch{1.4}
+  \vfill
+  \noindent {\huge \textbf{\textsf{GL-Ecologie --- Odoo Planning System:
+User Guide}}}
+    \vskip 2em
+  \noindent {\Large \textsf{Ruiz Burgos Ecology and Software}}
+  \vfill
+}
+
+
+\textsf{2026-03-26}
+\end{flushleft}
+\end{titlepage}
+\restoregeometry
+\pagenumbering{arabic}
+
+% don't generate the default title
+% \maketitle
+
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{table-of-contents}{%
+\subsection{Table of Contents}\label{table-of-contents}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \protect\hyperlink{introduction}{Introduction}
+\item
+  \protect\hyperlink{getting-started}{Getting Started}
+\item
+  \protect\hyperlink{for-all-users}{For All Users}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    3.1 \protect\hyperlink{general-features-across-apps}{General
+    features across apps}
+  \item
+    3.2 \protect\hyperlink{your-employee-profile}{Your Employee Profile}
+  \item
+    3.3 \protect\hyperlink{filling-in-your-availability}{Filling In Your
+    Availability}
+  \item
+    3.4
+    \protect\hyperlink{viewing-your-schedule-and-open-shifts}{Viewing
+    Your Schedule and Open Shifts}
+  \item
+    3.5 \protect\hyperlink{requesting-an-open-shift}{Requesting an Open
+    Shift}
+  \item
+    3.6 \protect\hyperlink{registering-hours}{Registering Hours}
+  \item
+    3.7 \protect\hyperlink{viewing-your-timesheets}{Viewing Your
+    Timesheets}
+  \item
+    3.8 \protect\hyperlink{viewing-locations}{Viewing Locations}
+  \item
+    3.9
+    \protect\hyperlink{viewing-protocols-protocol-visits-and-species}{Viewing
+    Protocols, Protocol Visits and Species}
+  \item
+    3.10 \protect\hyperlink{viewing-project-and-tasks}{Viewing Projects
+    and Tasks}
+  \end{itemize}
+\item
+  \protect\hyperlink{inventory-tools}{Inventory \& Tools}
+\item
+  \protect\hyperlink{notifications-approvals}{Notifications \&
+  Approvals}
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{introduction}{%
+\subsection{1. Introduction}\label{introduction}}
+
+This guide covers the day-to-day use of the GL-Ecologie planning system
+implemented using the Odoo platform. \textbf{Only non-manager related
+information is described in this document}. Manager-related
+documentation will follow at a future time.
+
+If you are new to the system, start with §2 (Getting Started) and then
+follow the track that matches your role.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{getting-started}{%
+\subsection{2. Getting Started}\label{getting-started}}
+
+\hypertarget{accessing-the-system}{%
+\subsubsection{2.1 Accessing the system}\label{accessing-the-system}}
+
+The system is available at:
+\href{https://gl-ecologie.odoo.com/odoo}{\textbf{https://gl-ecologie.odoo.com/odoo}}
+
+Log in with the email address and password defined when your account was
+created (either provided by your manager or specified by you). If you
+have forgotten your password, click \emph{Reset password} on the login
+page and follow the instructions sent to your email.
+
+\hypertarget{navigating-the-main-menu}{%
+\subsubsection{2.2 Navigating the main
+menu}\label{navigating-the-main-menu}}
+
+After logging in you will see the main application menu at the top of
+the screen. The apps you will use most often are:
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+App & Used for \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Employees} & Your employee profile \\
+\textbf{Planning} & Shifts, availability, your schedule \\
+\textbf{Project} & Projects, tasks \\
+\textbf{Protocols} & Protocols, protocol visits and species \\
+\textbf{Timesheets} & Timesheets tracking \\
+\textbf{Approvals} & Approval requests status, validation and
+tracking \\
+\end{longtable}
+
+Administrators also have access to the \textbf{Settings} app, where
+system configuration is handled.
+
+\begin{figure}
+\centering
+\includegraphics{gallery/homepage_no_admin.png}
+\caption{Home page for non administrator users}
+\end{figure}
+
+\hypertarget{language}{%
+\subsubsection{2.3 Language}\label{language}}
+
+The system supports limited automatic translation of the platform to
+multiple languages. Dutch and English are currently supported.
+
+If you would like the platform language changed, please contact your
+manager or platform administrator. If you are a manager/administrator,
+you can chage the language for a specific user at:
+
+\emph{Settings} → \emph{Users \& Companies} → \emph{Users} → (the
+desired user) → \emph{Preferences} → \emph{Language}
+
+\hypertarget{mobile-use}{%
+\subsubsection{2.4 Mobile use}\label{mobile-use}}
+
+The system works on mobile browsers. For the best experience when
+checking your schedule or registering hours on the go, use the Planning
+app in list or calendar view. The availability calendar works best on a
+desktop.
+
+In addition, Odoo has a mobile phone apps available for both
+\href{https://play.google.com/store/apps/details?id=com.odoo.mobile}{\emph{Android}}
+and \href{https://apps.apple.com/app/odoo/id1272543640}{\emph{iOS}}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{for-all-users}{%
+\subsection{3. For All Users}\label{for-all-users}}
+
+\hypertarget{general-features-across-apps}{%
+\subsubsection{3.1 General features across
+apps}\label{general-features-across-apps}}
+
+\hypertarget{menus}{%
+\paragraph{Menus}\label{menus}}
+
+A menu bar is displayed at the top of each application page. Each menu
+option will either redirect to a page or will display a sub-menu list,
+which when clicked will redirect to its assigned page.
+
+\begin{figure}
+\centering
+\includegraphics{gallery/general_features_menu bar.png}
+\caption{Menu bar for the Planning app (as a non admin user)}
+\end{figure}
+
+\hypertarget{views}{%
+\paragraph{Views}\label{views}}
+
+The platform offers multiple types of ways to visualize information at a
+given page, called views. The most common views are
+\textbf{\emph{Form}}, \textbf{\emph{List}}, \textbf{\emph{Gantt}},
+\textbf{\emph{Pivot}} and \textbf{\emph{Calendar}}. Which views are
+available at a given time depend on the specific page. Furthermore,
+different views will offer different features/operations.
+
+You can pick which view you want by clicking on the respective icon
+displayed at the top-right of the window:
+
+\begin{figure}
+\centering
+\includegraphics{gallery/general_features_views_icons.png}
+\caption{View icon section of form. Click one will switch to that view.}
+\end{figure}
+
+\hypertarget{saving-changes-on-current-entryform}{%
+\paragraph{Saving changes on current
+entry/form}\label{saving-changes-on-current-entryform}}
+
+When adding or editing single entries -availability, shifts, tasks,
+etc.-, \textbf{changes are automatically saved if you leave that page}.
+In addition, \textbf{\emph{Save}} and \textbf{\emph{Discard}} small
+buttons will appear on the top left section, underneath the menu bar
+(often next to other Buttons.), a \textbf{cloud shaped button} for the
+former and an \textbf{x shaped button} for the latter.
+
+\begin{figure}
+\centering
+\includegraphics{gallery/employee_availability_add_entry_list_view_save_button.png}
+\caption{Save and discard buttons for single entry}
+\end{figure}
+
+\hypertarget{searching-filtering-and-grouping-entries}{%
+\paragraph{Searching, filtering and grouping
+entries}\label{searching-filtering-and-grouping-entries}}
+
+Many views (List, Gantt, Calendar\ldots) display a search bar at the top
+center of the page. This bar allows to search for entries (records),
+filter and/or group them following specific criteria. For instance, it's
+possible to show only the availability entries for a specific resource,
+or to group shifts by a project and task. These are just two examples of
+what is possible.
+
+\begin{figure}
+\centering
+\includegraphics{gallery/general_features_search_bar.png}
+\caption{Search, filter and/or group entries}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{gallery/general_features_search_bar_grouping_example.png}
+\caption{Example: Planning schedule grouped by project and task}
+\end{figure}
+
+\hypertarget{action-buttons}{%
+\paragraph{Action buttons}\label{action-buttons}}
+
+Besides the intuitive buttons visible throughout the platform, there are
+a \emph{category} of buttons, the so called \textbf{\emph{Actions
+buttons}} which are either easy to miss, or only become visible under
+certain circumstances: for instance when a record is selected
+\textbf{\emph{List}} \textbf{view}. You can identify them by their icon
+(a toothed wheel or gearwheel), sometimes accompanied by the word
+\textbf{\emph{Actions}}.
+
+These buttons offer different functionalities, like exporting/importing
+records, deleting selected records, etc.
+
+\begin{figure}
+\centering
+\includegraphics{gallery/general_features_actions_buttons.png}
+\caption{Actions button, icon only. Often shows importing/exporting
+options.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{gallery/general_features_actions_buttons_with_label.png}
+\caption{Actions button, icon and label, with multiple options}
+\end{figure}
+
+\hypertarget{your-employee-profile}{%
+\subsubsection{3.2 Your Employee Profile}\label{your-employee-profile}}
+
+Your employee profile \textbf{stores your personal preferences} that the
+planning system uses when assigning shifts. \textbf{This profile can
+only be edited by managers or system administrators.} If you want to
+have your employee profile updated (for instance if your maximum number
+of shifts per week changed, or you got access to a vehicle) please
+notify your manager or system administrator and they will update your
+profile.
+
+You can find your profile at \textbf{\emph{Employees}} → (your name).
+
+The following information is available:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.3182}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.6818}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Tab
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Information
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{All} & Employee name, email address, contact phone numbers \\
+\textbf{Work} & Department job title, manager, office location, work
+location, planning constraints -maximum shifts per week, allowed shift
+types, weekend availability and willingness to combine evening and
+morning shifts.) \\
+\textbf{Resume} & Work experience, skills \& certifications \\
+\textbf{Certifications} & Employee certifications \\
+\end{longtable}
+
+\begin{quote}
+\textbf{Important!}
+
+Non manager/administrator employees can only see their own profile.
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\newpage
+
+\hypertarget{filling-in-your-availability}{%
+\subsubsection{3.3 Filling In Your
+Availability}\label{filling-in-your-availability}}
+
+Before a manager can assign you to a shift, you must declare your
+availability and have it \textbf{validated}. This is the most important
+step in the planning workflow.
+
+\hypertarget{how-availability-works}{%
+\paragraph{How availability works}\label{how-availability-works}}
+
+The system operates in \textbf{strict mode}: if there is no validated
+availability entry for a given date and shift type, you are treated as
+unavailable --- even if you are free that day. You must proactively
+declare availability for every date and shift type you are willing to
+work.
+
+\hypertarget{step-by-step}{%
+\paragraph{Step-by-step}\label{step-by-step}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Go to \textbf{Planning → Employee Availability → My Availability}
+\item
+  Two views are available: Calendar (default) or List:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Calendar} view:
+
+    \begin{enumerate}
+    \def\labelenumii{\arabic{enumii}.}
+    \tightlist
+    \item
+      Select on \textbf{one or multiple days} (control + click to select
+      multiple non-consecutive days, shift + click to select all days in
+      a specific range or simply click and drag across calendar days)
+    \item
+      Click on the \textbf{\emph{Add}} button that will appear on top of
+      the Calendar, \textbf{next to the \emph{N selected}}
+      \textbf{information box.}
+    \item
+      Fill in:
+
+      \begin{itemize}
+      \tightlist
+      \item
+        \textbf{Shift type}: the type of shift you are/are not available
+        for (morning, evening, etc.)
+      \item
+        \textbf{Available}: check this box if you \emph{are} available;
+        leave unchecked if you want to declare that you are \emph{not}
+        available for that day/shift
+      \end{itemize}
+    \item
+      Press \textbf{\emph{Add}}
+    \end{enumerate}
+  \item
+    \textbf{List} view:
+
+    \begin{enumerate}
+    \def\labelenumii{\arabic{enumii}.}
+    \tightlist
+    \item
+      Press the \textbf{\emph{New}} button at the top left of the
+      screen.
+    \item
+      Fill in:
+
+      \begin{itemize}
+      \tightlist
+      \item
+        \textbf{Date}: the date you want to specify availability for.
+      \item
+        \textbf{Shift type}: the type of shift you are/are not available
+        for (morning, evening, etc.)
+      \item
+        \textbf{Available}: check this box if you \textbf{\emph{are}}
+        available; leave unchecked if you want to declare that you are
+        \textbf{\emph{not}} available for that day/shift
+      \item
+        \textbf{Notes}: Any extra information the manager should know.
+      \end{itemize}
+    \item
+      Press on the cloud shaped save button to save, or the cross button
+      to discard.
+    \end{enumerate}
+  \end{itemize}
+\end{enumerate}
+
+\begin{figure}
+\centering
+\includegraphics{gallery/employee_availability_add_entry_list_view_save_button.png}
+\caption{New employee availability entry in list mode - Save button}
+\end{figure}
+
+\begin{quote}
+\textbf{New availability entries are automatically sent for validation}.
+\end{quote}
+
+\begin{quote}
+You need \textbf{one entry per date per shift type}. If you are
+available for both a morning and an evening on the same day, create two
+separate entries.
+\end{quote}
+
+\hypertarget{what-happens-next}{%
+\paragraph{What happens next?}\label{what-happens-next}}
+
+After you save, the entry status changes to \textbf{Validation
+Requested} and your manager receives a to-do notification. Once the
+manager validates it, you will receive a confirmation notification and
+the entry will turn solid green (confirmed available) in your calendar
+or solid red (confirmed not available). Alternatively, the manager might
+decide to deny the validation request. In this case your entry/ies will
+be sent back to \textbf{\emph{Draft}} state. You can then adjust them
+and send them again for validation.
+
+\hypertarget{viewing-your-availability-calendar}{%
+\paragraph{Viewing your availability
+calendar}\label{viewing-your-availability-calendar}}
+
+The calendar view shows all your entries colour-coded by status:
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Colour & Meaning \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Grey stripes} & Draft --- not yet submitted \\
+\textbf{Green stripes} & Submitted, waiting for validation \\
+\textbf{Red stripes} & Submitted unavailable, waiting for validation \\
+\textbf{Solid green} & Validated --- available \\
+\textbf{Solid red} & Validated --- not available \\
+\end{longtable}
+
+\begin{quote}
+\textbf{If your availability changes} after it has been validated, edit
+the entry (change the date, shift type, or available flag). It will
+automatically reset to \emph{Validation Requested} and your manager will
+be notified again.
+\end{quote}
+
+Clicking on an entry will display a popup form with the details of that
+entry. You can also edit the entry by click the \textbf{\emph{Edit}}
+button at its foot.
+
+\hypertarget{editing-your-availability}{%
+\paragraph{Editing your availability}\label{editing-your-availability}}
+
+Availability can be edited one \textbf{single entry at a time by
+clicking on a specific entry} or by selecting \textbf{multiple entries
+at a time} (batch editing), the two options availble in both list an
+calendar view).
+
+The steps to batch editing are as follow, depending on the view:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Calendar} view:
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    Select on \textbf{one or multiple days} which contain existing
+    entries (same procedure as for creating)
+  \item
+    Click on the \textbf{\emph{Edit}} button that will appear on top of
+    the Calendar, \textbf{next to the \emph{N selected}}
+    \textbf{information box.}
+  \item
+    Select which field you would like to edit:
+  \end{enumerate}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Update Shift type}: If checked, it will display the
+    \textbf{\emph{Shift type}} field so you can edit it.
+  \item
+    \textbf{Update availability}: If checked, it will display the
+    \textbf{\emph{Available}} field so you can edit it.
+  \end{itemize}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \setcounter{enumi}{3}
+  \tightlist
+  \item
+    Press \textbf{\emph{Apply}} or \textbf{\emph{Discard}} to accept or
+    discard the changes.
+  \end{enumerate}
+\item
+  \textbf{List} view:
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    Select the entries you want to edit.
+  \item
+    An \textbf{\emph{Actions}} button will appear on top of the
+    Calendar, \textbf{next to the \emph{N selected}} \textbf{information
+    box.}. Press on \textbf{\emph{Actions}} → \textbf{\emph{Batch edit
+    availability}}
+  \item
+    Select which field you would like to edit:
+  \end{enumerate}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Update Shift type}: If checked, it will display the
+    \textbf{\emph{Shift type}} field so you can edit it.
+  \item
+    \textbf{Update availability}: If checked, it will display the
+    \textbf{\emph{Available}} field so you can edit it.
+  \end{itemize}
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \setcounter{enumi}{3}
+  \tightlist
+  \item
+    Press \textbf{\emph{Apply}} or \textbf{\emph{Discard}} to accept or
+    discard the changes.
+  \end{enumerate}
+\end{itemize}
+
+\begin{quote}
+\textbf{Edited availability entries are automatically sent for
+validation}.
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\newpage
+
+\hypertarget{viewing-your-schedule-and-open-shifts}{%
+\subsubsection{3.4 Viewing Your Schedule and Open
+Shifts}\label{viewing-your-schedule-and-open-shifts}}
+
+Go to \textbf{Planning → My Planning} to see all shifts you are assigned
+to, and any open shifts available (shifts that have been created and
+published by a manager but do not yet have an assigned resource). The
+default view is a \textbf{\emph{Gantt}}, displayed \textbf{weekly}. If
+you want to see a different time split you can change that by either
+selecting a different time window (monthly, quarterly, yearly\ldots) on
+the top left. Alternatively you can select a different view, like
+\textbf{Calendar} (that defaults to monthly).
+
+Clicking on a specific shift will allow you to view that shift
+information (by clicking on the \textbf{\emph{View}} button).
+
+\begin{figure}
+\centering
+\includegraphics{gallery/planning_view_mine_open_gantt.png}
+\caption{My weekly schedule as shown by the Gantt view. Clicking on a
+specific shift shows a short description popup.}
+\end{figure}
+
+Each shift form shows the most relevant information you need for that
+shift:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Field
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Description
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Sample values
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{\emph{Resource}} & Who is assigned to this shift. Empty in the
+case of Open shifts. & \emph{Joost van NotMyTrueName}, \emph{John
+Doe} \\
+\textbf{\emph{Role}} & What role this shift is for. &
+\emph{Fieldworker}, \emph{Project leader} \\
+\textbf{\emph{Project}} & What project -if any- this shift is associated
+with. & \emph{Top Secret project 001: Invade Greenland} \\
+\textbf{\emph{Task}} & What task of the specified project -if any- this
+shift is associated with & \emph{Task 01: Negotiate assistance with
+Donald T.} \\
+\textbf{\emph{Shift type}} & Shift type associated to this shift &
+\emph{Hangover morning (16:00-18:00)}, \emph{Borrel evening
+(16:00-18:00)} \\
+\textbf{\emph{Date}} & Date and time of this shift & \emph{Mar 26, 16:00
+→ Mar 26m 18:00} \\
+\textbf{\emph{Allocated time}} & Length of the shift in
+\emph{hours:minutes} & 02:00 \\
+\textbf{\emph{Counts for max shift per week?}} & Whether this shift
+should take into account employee's maximum shift per week constraint &
+\emph{Yes}, \emph{No} \\
+\textbf{\emph{Required Materials}} & Which material types are needed for
+this shift? & \emph{Batlogger}, \emph{Camera Trap}, \emph{USS Gerald R.
+Ford} \\
+\textbf{\emph{Reminder}} & Optional preparation note. When not empty it
+will trigger an e-mail reminder 24h before the shift's date. &
+\emph{Remember to pick up the car keys from the oval office} \\
+\end{longtable}
+
+\begin{quote}
+\textbf{Important!!}
+
+Some fields, like \textbf{\emph{Role}}, \textbf{\emph{Project}} and
+\textbf{\emph{Task}}; will open a detailed form with the details about
+that specific field.
+
+For instance, if you are not sure where to go for your shift,
+\textbf{clicking on the project name will redirect you to the project
+details}, to see the location associated to this project.
+
+(\textbf{See also section \protect\hyperlink{38-locations}{Locations},
+to see how to get google map directions to a location.})
+\end{quote}
+
+\begin{figure}
+\centering
+\includegraphics{gallery/planning_assigned_shift.png}
+\caption{Assigned shift with conflict. \textbf{\emph{Ask to switch}}
+button available.}
+\end{figure}
+
+\begin{quote}
+\textbf{Important!!}
+
+You cannot self-unassign from a shift. If you are not available for a
+shift that has been assigned to you, open the affected shift and press
+the \textbf{\emph{Ask to switch}} button and notify your manager.
+\end{quote}
+
+\begin{quote}
+\textbf{Important!!}
+
+You will also receive an \textbf{email notification} when your schedule
+is published or updated, and an automated \textbf{reminder email} 24
+hours before each shift that has a preparation note.
+\end{quote}
+
+\newpage
+
+\hypertarget{requesting-an-open-shift}{%
+\subsubsection{3.5 Requesting an Open
+Shift}\label{requesting-an-open-shift}}
+
+You can request being assigned to an open shift. \textbf{A manager will
+then either approve or reject that request.}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Go to \textbf{Planning → My Planning} (or the main Planning view)
+\item
+  Open shifts are shown without a name in the resource column
+\item
+  Click the shift to open it
+\item
+  Click \textbf{Request shift} --- this sends a notification to your
+  manager
+\item
+  Your manager will review the request and either assign you or choose a
+  different person
+\end{enumerate}
+
+\begin{figure}
+\centering
+\includegraphics{gallery/planning_open_shift_form.png}
+\caption{Requesting an open shift}
+\end{figure}
+
+\begin{quote}
+You \textbf{cannot self-assign} to a shift. The \emph{Request shift}
+button notifies your manager, who makes the final assignment.
+\end{quote}
+
+\newpage
+
+\hypertarget{registering-hours}{%
+\subsubsection{3.6 Registering Hours}\label{registering-hours}}
+
+The \textbf{\emph{Timesheets}} app of the platform allows you to
+register your worked hours.
+
+The easiest way to do so, however, is via the planning app:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Go to \textbf{Planning → My Planning} and open the shift you want to
+  register hours for.
+\item
+  Press the \textbf{Register hours} button. This will create a new
+  timsheet entry and open it for you.
+\end{enumerate}
+
+\begin{figure}
+\centering
+\includegraphics{gallery/planning_assigned_shift.png}
+\caption{Assigned shift. \textbf{\emph{Register hours}} button
+available.}
+\end{figure}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  As you will see, the entry has already been pre-filled. \textbf{You
+  don't need to change anything here} unless something changed from the
+  initial planning (for instance if the shift took longer or shorter
+  than initially defined). If you want, however, \textbf{you can add a
+  description or comment} using the unnamed field immediately below
+  \textbf{\emph{Shift}}, which by default is just populated with
+  \textbf{\emph{``/''}} character.
+\end{enumerate}
+
+\begin{figure}
+\centering
+\includegraphics{gallery/timesheets_register_hours.png}
+\caption{Timesheet entry with example description field}
+\end{figure}
+
+\begin{quote}
+\textbf{Caution!!}
+
+Every time the \textbf{Register hours} button is pressed, the allocated
+hours will be registered. This is by design.
+\end{quote}
+
+Alternatively, you can register your hours directly from the
+\textbf{\emph{Timesheet}} app: 1. From the home menu, open the
+\textbf{\emph{Timesheets}} app. This will immediately open your time
+sheets \textbf{\emph{Grid}} view. 2. The grid view might already
+\textbf{show some of your shifts, even if you have not registered hours
+yet}. \textbf{This is normal}. The advantage of this view is that it
+shows you a whole day/week/month, so you could easily register hours for
+shifts that span multiple days.
+
+\begin{quote}
+\textbf{Caution!!}
+
+\textbf{Any changes made in this view are are automatically saved}.
+\end{quote}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\item
+  \textbf{Alternatively}, you can go to the \textbf{list view, and press
+  }\emph{New}**** on the top left. This will immediately create a new
+  entry (row) and ask you to \textbf{manually fill in the different
+  fields}. Once you've filled the entry, press the \textbf{\emph{Save}}
+  button on the top left.
+
+  \begin{quote}
+  \textbf{Caution!!}
+
+  \textbf{You are responsible for correctly filling the different
+  fields. Make sure the project and tasks selected match the selected
+  shift}.
+  \end{quote}
+\end{enumerate}
+
+\hypertarget{what-if-you-made-a-mistake}{%
+\paragraph{What if you made a
+mistake?}\label{what-if-you-made-a-mistake}}
+
+If you realise that you've made a mistake when registering hours for a
+shift, you can look for the relevant entry(ies) in the
+\textbf{\emph{List view}} and update or delete it/them.
+
+\begin{quote}
+\textbf{Caution!!}
+
+\textbf{Validated entries cannot be edited or deleted}.
+\end{quote}
+
+\newpage
+
+\hypertarget{viewing-your-timesheets}{%
+\subsubsection{3.7 Viewing Your
+Timesheets}\label{viewing-your-timesheets}}
+
+If you want to view your timesheets (to check whether they have already
+been validated or not, for instance), you just need to \textbf{open the
+Timesheets app in }\emph{List}** or \textbf{\emph{Calendar}} view**. You
+can also open a specific entry to see its state on the top right corner
+of the form.
+
+\begin{figure}
+\centering
+\includegraphics{gallery/timesheets_calendar_view.png}
+\caption{My timesheets calendar view. Draft (not yet validated) entries
+have stripes while validated ones show solid coloring}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{gallery/timesheets_register_hours.png}
+\caption{Timesheet entry. Notice validation state on the top right
+corner (Draft)}
+\end{figure}
+
+\newpage
+
+\hypertarget{viewing-locations}{%
+\subsubsection{3.8 Viewing Locations}\label{viewing-locations}}
+
+The \textbf{\emph{Locations}} app is a custom app that contains
+locations, mostly project-related locations.
+
+A location is the combination of a \textbf{Label} and an
+\textbf{Address}. Additionally, notes and tags can be assigned to
+locations. \textbf{This can be useful, for instance, to categorize
+locations, or to search locations by tag later on.}
+
+\begin{quote}
+\textbf{Important!!}
+
+Each location has an automatically generated field called
+\textbf{\emph{Show in maps}}. Clicking on it will open the location on
+google maps.
+\end{quote}
+
+\newpage
+
+\hypertarget{viewing-protocols-protocol-visits-and-species}{%
+\subsubsection{3.9 Viewing Protocols, protocol visits and
+species}\label{viewing-protocols-protocol-visits-and-species}}
+
+The \textbf{\emph{Protocols}} app contains information about the
+different species protocols and the associated species and protocol
+visits.
+
+\hypertarget{protocols}{%
+\paragraph{Protocols}\label{protocols}}
+
+You can access the details of a protocol in multiple ways. The most
+common are:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{Homepage}} → \textbf{\emph{Protocols}} app →
+  \textbf{Click on the protocol's name.}
+\item
+  \textbf{\emph{Planning}} → Open a \textbf{\emph{shift}} form →
+  associated \textbf{\emph{Task}} → visit name → associated
+  \textbf{\emph{Protocol Visit}} → field \textbf{\emph{In protocol}}.
+\end{itemize}
+
+\begin{figure}
+\centering
+\includegraphics{gallery/protocols_list.png}
+\caption{List of available protocols. Clicking on one will open its
+details.}
+\end{figure}
+
+Each protocol entry shows important information regarding: - Overarching
+date window for the protocol - Remaining days for this protocol viable
+window. - What type of protocol this is (Regular, SMP\ldots) - Species
+covered by this protocol - Protocol Description.
+
+\begin{figure}
+\centering
+\includegraphics{gallery/protocols_detail.png}
+\caption{Protocol details}
+\end{figure}
+
+In addition, each protocol has a tab where all its
+\textbf{\emph{Protocol visits}} are listed. Pressing one will open a
+popup with basic information regarding the visit. \textbf{To see the
+full details of the visit, press on the maximize button at the top
+right.}
+
+\begin{figure}
+\centering
+\includegraphics{gallery/protocols_protocol_visit_popup.png}
+\caption{Protocol visit popup. Press the top right arrows button to
+maximize the form and see all details regarding this visit.}
+\end{figure}
+
+\hypertarget{protocol-visits}{%
+\paragraph{Protocol visits}\label{protocol-visits}}
+
+Each protocol has a number of \textbf{\emph{Protocol visits}} associated
+to it, which define the specifics of why, when, how and for whom this
+visit is for.
+
+In a protocol visit entry you will find: - What is the goal of this
+visit. For instance \emph{Verblijfplaatsen van huismussen en spreeuwen}
+- The Date and time window for the visit. - Whether the visit has a
+dependency to a previous one (field \textbf{\emph{Related visit}}) and
+the minimum amount of days to wait for this visit. - Species involved in
+this visit. - Which protocol the visit belongs to - Weather-related
+restrictions
+
+\begin{figure}
+\centering
+\includegraphics{gallery/protocols_protocol_visit_detail.png}
+\caption{Protocol visit form for Huismuis visit \#1.}
+\end{figure}
+
+\begin{quote}
+\textbf{Important!}
+
+When a protocol visit is associated with a task, a protocol visit will
+inform the \textbf{\emph{Planning}} app whether a shift being created is
+violating the \textbf{date} or \textbf{related visit} constraints
+defined by the visit.
+\end{quote}
+
+\hypertarget{species}{%
+\paragraph{Species}\label{species}}
+
+Species entries contain relevant information about the species.
+
+You can \textbf{access the species} list via \textbf{\emph{Homepage}} →
+\textbf{\emph{Protocols}} app → Menu Bar → \textbf{\emph{Species}}.
+\textbf{Pressing an entry will open the species details.}
+
+The information available is:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Name}
+\item
+  \textbf{Scientific name} (optional)
+\item
+  \textbf{Description} (optional)
+\item
+  \textbf{Tags} (optional)
+\item
+  \textbf{Protocols}: Tab that contains the list of protocols associated
+  to this species.
+\end{itemize}
+
+\begin{figure}
+\centering
+\includegraphics{gallery/protocols_species_detail.png}
+\caption{Species details of Huismuis}
+\end{figure}
+
+\newpage
+
+\hypertarget{viewing-project-and-tasks}{%
+\subsubsection{3.10 Viewing project and
+tasks}\label{viewing-project-and-tasks}}
+
+All users can view the \textbf{\emph{Project}} app. This app is where
+the different projects and their respective tasks can be found. The most
+direct way to access it is from the Homepage. In addition, you can also
+reach the project app by clicking a project's name, when it appears as a
+field in another from (for instance in a shift).
+
+\hypertarget{projects}{%
+\paragraph{Projects}\label{projects}}
+
+The main view for the \textbf{\emph{Project}} app is the \textbf{kanban
+view}. Each column of this view represents a stage on the life of a
+project. Managers will move projects across the board -from left to
+right- as certain milestones are reached. \textbf{In kanban view,
+clicking on a project will not open the project's details}. Instead, it
+will open the \textbf{project's tasks} \textbf{kanban view}. Each
+column, again, represening a stage a task can be in.
+
+To see a project's settings/details: - Open the \textbf{\emph{Project}}
+app → Place the cursor over a project card → Press the 3 vertical dots
+button that appears → Press
+\textbf{\emph{View}}/\textbf{\emph{Settings}}. or - Open the
+\textbf{\emph{Project}} app → Select \textbf{\emph{List view}} → Click
+on the project's name.
+
+\begin{figure}
+\centering
+\includegraphics{gallery/project_gantt_project_dropdown_menu.png}
+\caption{Project card contextual menu. Pressing ``View'' will open the
+project details.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{gallery/project_form.png}
+\caption{Project details form}
+\end{figure}
+
+The project details (project's \textbf{form view}) contains important
+information regarding the project: Project Leader, Parent project (if
+applicable), Project type, Species monitored in this project, Species
+protocols involved, Project manager, Location of the project\ldots{}
+
+In addition, the following tabs are present:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{Description}}: Extra information regarding the project,
+  in text format.
+\item
+  \textbf{\emph{Settings}}: (Managers only)
+\item
+  \textbf{\emph{Shifts}}: List of shifts associated to the project.
+\item
+  \textbf{\emph{Tasks}}: A list of the project's tasks.
+\item
+  \textbf{\emph{Children projects}}: Only relevant for nested projects
+  (projects of type ``Master'')
+\end{itemize}
+
+\begin{quote}
+Only managers/administrators can edit project details.
+\end{quote}
+
+\hypertarget{tasks}{%
+\paragraph{Tasks}\label{tasks}}
+
+Tasks are discrete units of work (for example a specific Protol visit)
+within a project. You can see if any tasks are assigned to you via:
+
+\begin{quote}
+\textbf{Homepage} → \textbf{\emph{Project}} App → Menu bar
+\textbf{\emph{Tasks}} → \textbf{\emph{My Tasks}}.
+\end{quote}
+
+Each task has its own Title, associated project and, optionally,
+Asignees, an associated \textbf{Protocol} \& \textbf{Protocol Visit},
+Tags, associated Customer, Deadline, Allocated time and the
+\textbf{number of people needed}.
+
+Furthermore, the following tabs are available for each task:
+
+\begin{itemize}
+\item
+  \textbf{\emph{Description}}: Extra information regarding this task.
+\item
+  \textbf{\emph{Timesheets}}: List of timesheet entries associated with
+  this task.
+\item
+  \textbf{\emph{Sub-tasks}}: List of sub-tasks associated with this
+  task.
+\item
+  \textbf{\emph{Blocked-by}}: List of blocking tasks this task depends
+  on.
+\item
+  \textbf{\emph{Extra Info}}: Additional information.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{\emph{Parent Task}}: If this task is a sub-task, the parent
+    task will be referenced here.
+  \end{itemize}
+\item
+  \textbf{\emph{Shifts}}: List of shifts associated with this task.
+
+  \begin{quote}
+  \textbf{Important!!}
+
+  As shifts are uni-personal instances in this new platform, \emph{Task}
+  is the entity that conceptually replaces the ``Collective shift'' idea
+  (Protocol visit instance with multiple people associated)- from the
+  previous system.
+  \end{quote}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{inventory-tools}{%
+\subsection{4. Inventory \& Tools}\label{inventory-tools}}
+
+The inventory module is accessible via \textbf{Planning → Materials}.
+
+\hypertarget{structure}{%
+\subsubsection{Structure}\label{structure}}
+
+Materials are organised in three levels:
+
+\begin{verbatim}
+Category  (e.g. Bat research)
+  └─ Material type  (e.g. Bat detector SM4)
+       └─ Material unit  (individual physical item, e.g. SM4 #003)
+\end{verbatim}
+
+Each \textbf{material unit} has: - A \textbf{status} (e.g.~In service,
+Out for repair, Lost) - A serial number (optional) - A rental flag (if
+the item is rented rather than owned) - A material type
+
+\hypertarget{linking-materials-to-a-shift}{%
+\subsubsection{Linking materials to a
+shift}\label{linking-materials-to-a-shift}}
+
+On a shift form, use the \textbf{Materials needed} field to attach one
+or more material \emph{types} to the shift. This records which types of
+equipment are required --- it does not automatically reserve individual
+units or deduct stock.
+
+\begin{quote}
+Stock quantities (\texttt{booked\_quantity}, \texttt{needed\_stock}) are
+manually maintained. There is no automatic deduction when a shift is
+created.
+\end{quote}
+
+\hypertarget{checking-what-is-assigned}{%
+\subsubsection{Checking what is
+assigned}\label{checking-what-is-assigned}}
+
+Open any material type to see the list of individual units and their
+current statuses. Use the list view under \textbf{Planning → Materials →
+Material Types} to get an overview of available vs.~booked quantities
+across all types.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{notifications-approvals}{%
+\subsection{5. Notifications \&
+Approvals}\label{notifications-approvals}}
+
+\hypertarget{notifications-you-will-receive}{%
+\subsubsection{Notifications you will
+receive}\label{notifications-you-will-receive}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5714}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1786}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Event
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Who receives it
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+How
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Shift published / sent & Assigned employee & Email \\
+Shift reminder & Assigned employee & Email, 24h before shift (only if a
+\emph{Reminder} note is set on the shift) \\
+Availability validated & Employee whose entry was validated & Inbox
+notification + live toast \\
+Availability reset to draft & Employee & Inbox notification + live
+toast \\
+Shift request submitted & Planning managers & To-do activity \\
+Availability submitted for validation & Planning managers & To-do
+activity \\
+\end{longtable}
+
+\hypertarget{pending-approvals}{%
+\subsubsection{Pending approvals}\label{pending-approvals}}
+
+Planning managers can see pending availability validations as
+\textbf{to-do activities} in their Activity view or in the Inbox. Each
+activity groups all pending entries from one employee and shows the date
+range covered.
+
+To validate: open the activity, review the availability entries, and
+click \textbf{Validate}.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{appendix}{%
+\subsection{Appendix}\label{appendix}}
+
+\hypertarget{glossary}{%
+\subsubsection{Glossary}\label{glossary}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.4000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.6000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Term
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Meaning
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Shift} & A single work assignment: one employee, one date, one
+role, one project \\
+\textbf{Open shift} & A shift without an assigned employee --- available
+for employees to request \\
+\textbf{Shift type} & The time-of-day category of a shift (Morning,
+Evening, etc.) \\
+\textbf{Role} & The function performed on a shift (Field Worker, Project
+Leader, etc.) \\
+\textbf{Availability entry} & A declaration by an employee that they are
+(or are not) available on a specific date for a specific shift type \\
+\textbf{Validated availability} & An availability entry confirmed by a
+manager --- required before an employee can be assigned \\
+\textbf{Project} & A coordinated body of work (e.g.~a monitoring
+contract) that contains tasks and shifts. Projects can be nested under a
+parent (master) project. \\
+\textbf{Task} & A discrete unit of work within a project, typically
+corresponding to a specific protocol visit instance. Tasks group the
+shifts assigned to that monitoring event. \\
+\textbf{Location} & A named address entry linked to a project. Includes
+a label, address, optional notes and tags, and a direct Google Maps
+link. \\
+\textbf{Protocol} & A standardised monitoring procedure defining how,
+when, and for which species a field survey is conducted. Each protocol
+has a date window, a type, and one or more protocol visits. \\
+\textbf{Protocol visit} & A specific visit defined within a protocol,
+including a date/time window, goal, weather restrictions, species
+involved, and an optional dependency on a related (previous) visit. \\
+\textbf{Species} & A plant or animal species tracked in the context of
+one or more protocols. Each entry contains a name, optional scientific
+name, description, tags, and a list of associated protocols. \\
+\end{longtable}
+
+\hypertarget{contact-for-support}{%
+\subsubsection{Contact for support}\label{contact-for-support}}
+
+For technical issues with the system, contact: \textbf{Julian Ruiz
+Burgos} --- Ruiz Burgos Ecology and Software at
+\texttt{contact@julianruizburgos.net}
+
+\end{document}

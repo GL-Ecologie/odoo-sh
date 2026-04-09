@@ -1,0 +1,276 @@
+/* ============================================================
+   GL-Ecologie — Odoo User Guide
+   Export stylesheet for Pandoc HTML / browser print-to-PDF
+   ============================================================ */
+
+/* === Typography & base ====================================== */
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+                 Oxygen, Ubuntu, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.75;
+    color: #1c2b22;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2cm 2.5cm;
+    background: #ffffff;
+}
+
+/* === Headings =============================================== */
+
+h1 {
+    font-size: 22pt;
+    font-weight: 700;
+    color: #1b4332;
+    border-bottom: 3px solid #2d6a4f;
+    padding-bottom: 0.4em;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    break-after: avoid;
+}
+
+h2 {
+    font-size: 15pt;
+    font-weight: 600;
+    color: #2d6a4f;
+    border-bottom: 1.5px solid #b7e4c7;
+    padding-bottom: 0.25em;
+    margin-top: 2.5em;
+    margin-bottom: 0.8em;
+    break-before: page;   /* every ## starts on a new page     */
+    break-after: avoid;   /* heading always stays with content  */
+}
+
+h3 {
+    font-size: 12.5pt;
+    font-weight: 600;
+    color: #1b4332;
+    margin-top: 1.8em;
+    margin-bottom: 0.5em;
+    break-after: avoid;
+}
+
+h4 {
+    font-size: 11pt;
+    font-weight: 600;
+    color: #2d6a4f;
+    margin-top: 1.4em;
+    margin-bottom: 0.3em;
+    break-after: avoid;
+}
+
+/* === Cover block (title, meta) ==============================
+   The h1 + following paragraphs form the cover — no page break
+   before the first h2 (Table of Contents).
+*/
+h1:first-of-type {
+    margin-top: 3cm;
+    text-align: center;
+    border-bottom: none;
+    font-size: 26pt;
+}
+
+h1:first-of-type + p,
+h1:first-of-type + p + p,
+h1:first-of-type + p + p + p {
+    text-align: center;
+    color: #4a7c5f;
+    font-size: 10pt;
+}
+
+/* Pandoc injects an <h1 class="title"> from --metadata title — hide it,
+   the markdown's own # heading already serves as the document title. */
+h1.title { display: none; }
+
+/* ToC h2 should NOT force a page break */
+h2#table-of-contents {
+    break-before: auto;
+    border-bottom: none;
+    color: #1b4332;
+}
+
+/* === Paragraphs & inline ===================================== */
+
+p {
+    margin: 0 0 0.9em;
+}
+
+a {
+    color: #2d6a4f;
+    text-decoration: underline;
+}
+
+a:visited {
+    color: #1b4332;
+}
+
+strong {
+    color: #1a2e1f;
+}
+
+/* === Horizontal rules ======================================= */
+
+hr {
+    border: none;
+    border-top: 1px solid #b7e4c7;
+    margin: 2em 0;
+}
+
+/* === Tables ================================================= */
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1.2em 0 1.6em;
+    font-size: 9.8pt;
+    break-inside: avoid;   /* never split a table across pages  */
+}
+
+thead tr {
+    background-color: #2d6a4f;
+    color: #ffffff;
+}
+
+th {
+    padding: 8px 13px;
+    text-align: left;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+td {
+    padding: 7px 13px;
+    border-bottom: 1px solid #d8f3dc;
+    vertical-align: top;
+}
+
+tr:nth-child(even) td {
+    background-color: #f0faf4;
+}
+
+/* === Blockquotes / callouts ================================= */
+
+blockquote {
+    border-left: 4px solid #2d6a4f;
+    background-color: #f0faf4;
+    margin: 1.2em 0;
+    padding: 0.75em 1.1em;
+    border-radius: 0 6px 6px 0;
+    break-inside: avoid;   /* never split a callout across pages */
+    color: #1c2b22;
+}
+
+blockquote p {
+    margin: 0.2em 0;
+}
+
+blockquote strong:first-child {
+    color: #1b4332;
+}
+
+/* === Code ================================================== */
+
+code {
+    font-family: 'Consolas', 'Cascadia Code', 'Fira Code', monospace;
+    font-size: 9pt;
+    background: #edf7f0;
+    color: #1b4332;
+    padding: 0.15em 0.4em;
+    border-radius: 3px;
+}
+
+pre {
+    background: #1b2e22;
+    color: #d8f3dc;
+    padding: 1em 1.3em;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 9pt;
+    line-height: 1.55;
+    break-inside: avoid;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    border-radius: 0;
+}
+
+/* === Images & captions ====================================== */
+
+p img,
+p[align="center"] img {
+    display: block;
+    max-width: 85%;
+    height: auto;
+    margin: 0.8em auto 0;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.13);
+}
+
+/* Prevent an image paragraph from being orphaned */
+p:has(img) {
+    break-inside: avoid;
+}
+
+/* <center> is used for image captions throughout the document */
+center {
+    display: block;
+    font-size: 9pt;
+    color: #4a7c5f;
+    font-style: italic;
+    text-align: center;
+    margin: 0.2em auto 1.4em;
+    break-before: avoid;   /* caption stays on the same page as image */
+}
+
+/* === Definition / glossary lists =========================== */
+
+dl {
+    margin: 0.8em 0;
+}
+
+dt {
+    font-weight: 600;
+    color: #1b4332;
+    margin-top: 0.6em;
+}
+
+dd {
+    margin-left: 1.5em;
+    margin-bottom: 0.3em;
+}
+
+/* === Print / PDF ============================================
+   Reinforces all break rules when the browser renders for print.
+   These apply when using "Print → Save as PDF" in Chrome/Firefox.
+*/
+
+@media print {
+    body {
+        padding: 0;
+        font-size: 10pt;
+    }
+
+    /* Suppress URL expansion after links */
+    a[href]::after {
+        content: none !important;
+    }
+
+    h2 { break-before: page; break-after: avoid; }
+    h3, h4 { break-after: avoid; }
+
+    blockquote, table, pre, figure {
+        break-inside: avoid;
+    }
+
+    /* Keep caption on same page as preceding image */
+    center { break-before: avoid; }
+
+    /* Keep a heading together with the paragraph that follows */
+    h3 + p, h4 + p, h3 + blockquote, h4 + blockquote {
+        break-before: avoid;
+    }
+}
