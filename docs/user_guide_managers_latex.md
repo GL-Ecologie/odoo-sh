@@ -1,62 +1,26 @@
-# GL-Ecologie — Odoo Planning System: User Guide
-
-**Version:** 1.3
-**Last updated:** 2026-03-26
-**Prepared by:** Ruiz Burgos Ecology and Software
-
 ---
-
-## Table of Contents
-
-1. [Introduction](#introduction)
-2. [Getting Started](#getting-started)
-3. [For All Users](#for-all-users)
-   - 3.1 [General features across apps](#general-features-across-apps)
-   - 3.2 [Your Employee Profile](#your-employee-profile)
-   - 3.3 [Filling In Your Availability](#filling-in-your-availability)
-   - 3.4 [Viewing Your Schedule and Open Shifts](#viewing-your-schedule-and-open-shifts)
-   - 3.5 [Requesting an Open Shift](#requesting-an-open-shift)
-   - 3.6 [Registering Hours](#registering-hours)
-   - 3.7 [Viewing Your Timesheets](#viewing-your-timesheets)
-   - 3.8 [Viewing Locations](#viewing-locations)
-   - 3.9 [Viewing Protocols, Protocol Visits and Species](#viewing-protocols-protocol-visits-and-species)
-   - 3.10 [Viewing Projects and Tasks](#viewing-project-and-tasks)
-4. [For Managers & Project Leaders](#4-for-managers--project-leaders)
-   - 4.1 [Managing Employees](#41-managing-employees)
-     - 4.1.1 [Adding and editing employees](#411-adding-and-editing-employees)
-     - 4.1.2 [Deleting employees](#412-deleting-employees)
-   - 4.2 [Locations & Meeting Points](#42-locations--meeting-points)
-   - 4.3 [Protocols](#43-protocols)
-     - 4.3.1 [Creating and deleting protocols](#431-creating-and-deleting-protocols)
-     - 4.3.2 [Protocol visits](#432-protocol-visits)
-   - 4.4 [Projects & Tasks](#44-projects--tasks)
-     - 4.4.1 [Customizations](#441-customizations)
-     - 4.4.2 [Projects](#442-projects)
-       - 4.4.2.1 [Add and delete projects](#4421-add-and-delete-projects)
-       - 4.4.2.2 [Creating a project template](#4422-creating-a-project-template)
-       - 4.4.2.3 [Creating subprojects](#4423-creating-subprojects)
-     - 4.4.3 [Tasks](#443-tasks)
-       - 4.4.3.1 [Assigning shifts to a task](#4431-assigning-shifts-to-a-task)
-   - 4.5 [Planning](#45-planning)
-     - 4.5.1 [Shift Types & Roles](#451-shift-types-and-shift-roles)
-       - 4.5.1.1 [Shift types](#4511-shift-types)
-       - 4.5.1.2 [Shift roles](#4512-shift-roles)
-     - 4.5.2 [Creating & Publishing Shifts](#452-creating--publishing-shifts)
-       - 4.5.2.1 [Creating a shift](#4521-creating-a-shift)
-       - 4.5.2.2 [Publishing a shift](#4522-publishing-a-shift)
-     - 4.5.3 [Creating Multiple Shifts at Once](#453-creating-multiple-shifts-at-once)
-       - 4.5.3.1 [Opening the wizard](#4531-opening-the-wizard)
-       - 4.5.3.2 [Create mode — filling in shift details](#4532-create-mode--filling-in-shift-details)
-       - 4.5.3.3 [Edit mode — bulk-editing existing shifts](#4533-edit-mode--bulk-editing-existing-shifts)
-     - 4.5.4 [Assigning People to Shifts](#454-assigning-people-to-shifts)
-       - 4.5.4.1 [How the candidate list is filtered](#4541-how-the-candidate-list-is-filtered)
-   - 4.6 [Validations](#46-validations)
-     - 4.6.1 [Employee Availability](#461-employee-availability)
-     - 4.6.2 [Shift Requests](#462-shift-requests)
-     - 4.6.3 [Timesheets](#463-timesheets)
-   - 4.7 [Inventory & Materials](#47-inventory--materials)
-5. [Notifications & Approvals](#notifications-approvals)
-
+title: "GL-Ecologie — Odoo Planning System: Manager User Guide"
+author: "Ruiz Burgos Ecology and Software"
+date: "2026-04-09"
+titlepage: true
+titlepage-color: "1b4332"
+titlepage-text-color: "FFFFFF"
+titlepage-rule-color: "2d6a4f"
+toc-own-page: true
+colorlinks: true
+linkcolor: teal
+urlcolor: teal
+header-includes:
+  - |
+    \usepackage{graphicx}
+    \setkeys{Gin}{width=\linewidth,height=0.45\textheight,keepaspectratio}
+    \usepackage{mdframed}
+    \definecolor{calloutbg}{HTML}{FFF3E0}
+    \definecolor{calloutborder}{HTML}{E67E22}
+    \AtBeginDocument{\renewenvironment{quote}{\begin{mdframed}[backgroundcolor=calloutbg,linecolor=calloutborder,linewidth=3pt,topline=false,bottomline=false,rightline=false,innerleftmargin=10pt,innerrightmargin=10pt,innertopmargin=6pt,innerbottommargin=6pt]\small}{\end{mdframed}}}
+    \makeatletter
+    \renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}{-1.5ex\@plus-1ex\@minus-.2ex}{1ex\@plus.2ex}{\normalfont\normalsize\bfseries}}
+    \makeatother
 ---
 
 ## 1. Introduction
@@ -64,8 +28,6 @@
 This guide covers the day-to-day use of the GL-Ecologie planning system implemented using the Odoo platform. It is intended for **managers and project leaders**, and covers both the general features available to all users (§2–§3) and the manager-specific features (§4 onwards).
 
 If you are new to the system, start with §2 (Getting Started) and then proceed to §4 for manager-specific workflows.
-
----
 
 ## 2. Getting Started
 
@@ -90,11 +52,7 @@ After logging in you will see the main application menu at the top of the screen
 
 Administrators also have access to the **Settings** app, where system configuration is handled.
 
-<p align="center">
   <img src="gallery/homepage_no_admin.png" alt="Home page for non administrator users" />
-</p>
-<center><i> Home page for non administrator users </i></center>
-
 
 ### 2.3 Language
 
@@ -111,78 +69,42 @@ The system works on mobile browsers. For the best experience when checking your 
 
 In addition, Odoo has a mobile phone apps available for both [*Android*](https://play.google.com/store/apps/details?id=com.odoo.mobile) and [*iOS*](https://apps.apple.com/app/odoo/id1272543640)
 
----
-
 ## 3. For All Users
 
 ### 3.1 General features across apps
 
 #### Menus
 A menu bar is displayed at the top of each application page. Each menu option will either redirect to a page or will display a sub-menu list, which when clicked will redirect to its assigned page.
-<br>
-<p align="center">
-  <img src="gallery/general_features_menu bar.png" alt="Menu bar" />
-</p>
-<center><i> Menu bar for the Planning app (as a non admin user) </i></center>
-<br>
+
+![ Menu bar for the Planning app (as a non admin user) ](gallery/general_features_menu bar.png)
 
 #### Views
 The platform offers multiple types of ways to visualize information at a given page, called views. The most common views are ***Form***, ***List***, ***Gantt***, ***Pivot*** and ***Calendar***. Which views are available at a given time depend on the specific page. Furthermore, different views will offer different features/operations.
 
 You can pick which view you want by clicking on the respective icon displayed at the top-right of the window:
-<br>
-<p align="center">
-  <img src="gallery/general_features_views_icons.png" alt="View icons" />
-</p>
-<center><i> View icon section of form. Click one will switch to that view. </i></center>
-<br>
+
+![ View icon section of form. Click one will switch to that view. ](gallery/general_features_views_icons.png)
 
 #### Saving changes on current entry/form
 When adding or editing single entries -availability, shifts, tasks, etc.-, **changes are automatically saved if you leave that page**. In addition, ***Save*** and ***Discard*** small buttons will appear on the top left section, underneath the menu bar (often next to other Buttons.), a **cloud shaped button** for the former and an **x shaped button** for the latter.
 
-<br>
-<p align="center">
-   <img src="gallery/employee_availability_add_entry_list_view_save_button.png" alt="Save and discard buttons for single entry" />
-</p>
-<center><i>Save and discard buttons for single entry</i></center>
-<br>
+![Save and discard buttons for single entry](gallery/employee_availability_add_entry_list_view_save_button.png)
 
 #### Searching, filtering and grouping entries
 Many views (List, Gantt, Calendar...) display a search bar at the top center of the page. This bar allows to search for entries (records), filter and/or group them following specific criteria. For instance, it's possible to show only the availability entries for a specific resource, or to group shifts by a project and task. These are just two examples of what is possible.
 
-<br>
-<p align="center">
-   <img src="gallery/general_features_search_bar.png" alt="Search bar" />
-</p>
-<center><i>Search, filter and/or group entries</i></center>
-<br>
+![Search, filter and/or group entries](gallery/general_features_search_bar.png)
 
-<br>
-<p align="center">
-   <img src="gallery/general_features_search_bar_grouping_example.png" alt="Shifts grouped by project and task" />
-</p>
-<center><i>Example: Planning schedule grouped by project and task</i></center>
-<br>
+![Example: Planning schedule grouped by project and task](gallery/general_features_search_bar_grouping_example.png)
 
 #### Action buttons
 Besides the intuitive buttons visible throughout the platform, there are a *category* of buttons, the so called ***Actions buttons*** which are either easy to miss, or only become visible under certain circumstances: for instance when a record is selected ***List*** **view**. You can identify them by their icon (a toothed wheel or gearwheel), sometimes accompanied by the word ***Actions***.
 
 These buttons offer different functionalities, like exporting/importing records, deleting selected records, etc. 
 
+![Actions button, icon only. Often shows importing/exporting options.](gallery/general_features_actions_buttons.png)
 
-<br>
-<p align="center">
-   <img src="gallery/general_features_actions_buttons.png" alt="Icon only actions button" />
-</p>
-<center><i>Actions button, icon only. Often shows importing/exporting options.</i></center>
-<br>
-
-<br>
-<p align="center">
-   <img src="gallery/general_features_actions_buttons_with_label.png" alt="Icon and label actions button" />
-</p>
-<center><i>Actions button, icon and label, with multiple options</i></center>
-<br>
+![Actions button, icon and label, with multiple options](gallery/general_features_actions_buttons_with_label.png)
 
 ### 3.2 Your Employee Profile
 
@@ -199,15 +121,11 @@ The following information is available:
 | **Resume** | Work experience, skills & certifications |
 |**Certifications** | Employee certifications |
 
-<br>
-
 > **Important!**
 >
 > Non manager/administrator employees can only see their own profile.
 
----
-
-<div style="page-break-before: always;"></div>
+\newpage
 
 ### 3.3 Filling In Your Availability
 
@@ -222,6 +140,7 @@ The system operates in **strict mode**: if there is no validated availability en
 1. Go to **Planning → Employee Availability → My Availability**
 2. Two views are available: Calendar (default) or List:
    - **Calendar** view:
+
       1. Select on **one or multiple days** (control + click to select multiple non-consecutive days, shift + click to select all days in a specific range or simply click and drag across calendar days)
       2. Click on the ***Add*** button that will appear on top of the Calendar, **next to the *N selected*** **information box.**
       3. Fill in:
@@ -229,6 +148,7 @@ The system operates in **strict mode**: if there is no validated availability en
          - **Available**: check this box if you *are* available; leave unchecked if you want to declare that you are *not* available for that day/shift
       4. Press ***Add***
    - **List** view:
+
       1. Press the ***New*** button at the top left of the screen.
       2. Fill in:
          - **Date**: the date you want to specify availability for.
@@ -237,12 +157,7 @@ The system operates in **strict mode**: if there is no validated availability en
          - **Notes**: Any extra information the manager should know.
       3. Press on the cloud shaped save button to save, or the cross button to discard.
 
-<br>
-<p align="center">
-   <img src="gallery/employee_availability_add_entry_list_view_save_button.png" alt="Save button for employee availability entry in list mode" />
-</p>
-<center><i>New employee availability entry in list mode - Save button</i></center>
-<br>
+![New employee availability entry in list mode - Save button](gallery/employee_availability_add_entry_list_view_save_button.png)
 
 > **New availability entries are automatically sent for validation**.
 
@@ -274,7 +189,9 @@ Clicking on an entry will display a popup form with the details of that entry. Y
 Availability can be edited one **single entry at a time by clicking on a specific entry** or by selecting **multiple entries at a time** (batch editing), the two options availble in both list an calendar view).
 
 The steps to batch editing are as follow, depending on the view:
+
    - **Calendar** view:
+
       1. Select on **one or multiple days** which contain existing entries (same procedure as for creating)
       2. Click on the ***Edit*** button that will appear on top of the Calendar, **next to the *N selected*** **information box.** 
       3. Select which field you would like to edit:
@@ -282,6 +199,7 @@ The steps to batch editing are as follow, depending on the view:
          - **Update availability**: If checked, it will display the ***Available*** field so you can edit it.
       4. Press ***Apply*** or ***Discard*** to accept or discard the changes.
    - **List** view:
+
       1. Select the entries you want to edit.
       2. An ***Actions*** button will appear on top of the Calendar, **next to the *N selected*** **information box.**. Press on ***Actions*** → ***Batch edit availability***
       3. Select which field you would like to edit:
@@ -289,13 +207,9 @@ The steps to batch editing are as follow, depending on the view:
          - **Update availability**: If checked, it will display the ***Available*** field so you can edit it.
       4. Press ***Apply*** or ***Discard*** to accept or discard the changes.
 
-<br>
-
 > **Edited availability entries are automatically sent for validation**.
 
----
-
-<div style="page-break-before: always;"></div>
+\newpage
 
 ### 3.4 Viewing Your Schedule and Open Shifts
 
@@ -304,14 +218,10 @@ The default view is a ***Gantt***, displayed **weekly**. If you want to see a di
 
 Clicking on a specific shift will allow you to view that shift information (by clicking on the ***View*** button).
 
-<br>
-<p align="center">
-   <img src="gallery/planning_view_mine_open_gantt.png" alt="My planning - Gantt view" />
-</p>
-<center><i>My weekly schedule as shown by the Gantt view. Clicking on a specific shift shows a short description popup.</i></center>
-<br>
+![My weekly schedule as shown by the Gantt view. Clicking on a specific shift shows a short description popup.](gallery/planning_view_mine_open_gantt.png)
 
 Each shift form shows the most relevant information you need for that shift:
+
 | Field | Description | Sample values|
 |---|---|---|
 |***Resource*** | Who is assigned to this shift. Empty in the case of Open shifts. | *Joost van NotMyTrueName*, *John Doe* |
@@ -325,8 +235,6 @@ Each shift form shows the most relevant information you need for that shift:
 |***Required Materials***| Which material types are needed for this shift? | *Batlogger*, *Camera Trap*, *USS Gerald R. Ford* |
 |***Reminder***| Optional preparation note.  When not empty it will trigger an e-mail reminder 24h before the shift's date. | *Remember to pick up the car keys from the oval office*|
 
-<br>
-
 >**Important!!**
 >
 >Some fields, like ***Role***, ***Project*** and ***Task***; will open a detailed form with the details about that specific field.
@@ -335,14 +243,7 @@ Each shift form shows the most relevant information you need for that shift:
 >
 >(**See also section [Locations](#38-locations), to see how to get google map directions to a location.**)
 
-
-
-<br>
-<p align="center">
-   <img src="gallery/planning_assigned_shift.png" alt="Assign shift conflict ask to switch" />
-</p>
-<center><i>Assigned shift with conflict. ***Ask to switch*** button available.</i></center>
-<br>
+![Assigned shift with conflict. ***Ask to switch*** button available.](gallery/planning_assigned_shift.png)
 
 >**Important!!**
 >
@@ -352,7 +253,7 @@ Each shift form shows the most relevant information you need for that shift:
 >
 >You will also receive an **email notification** when your schedule is published or updated, and an automated **reminder email** 24 hours before each shift that has a preparation note.
 
-<div style="page-break-before: always;"></div>
+\newpage
 
 ### 3.5 Requesting an Open Shift
 
@@ -364,16 +265,11 @@ You can request being assigned to an open shift. **A manager will then either ap
 4. Click **Request shift** — this sends a notification to your manager
 5. Your manager will review the request and either assign you or choose a different person
 
-<br>
-<p align="center">
-   <img src="gallery/planning_open_shift_form.png" alt="Open shift form view" />
-</p>
-<center><i>Requesting an open shift</i></center>
-<br>
+![Requesting an open shift](gallery/planning_open_shift_form.png)
 
 > You **cannot self-assign** to a shift. The *Request shift* button notifies your manager, who makes the final assignment.
 
-<div style="page-break-before: always;"></div>
+\newpage
 
 ### 3.6 Registering Hours
 The ***Timesheets*** app of the platform allows you to register your worked hours.
@@ -383,28 +279,18 @@ The easiest way to do so, however, is via the planning app:
 1. Go to **Planning → My Planning** and open the shift you want to register hours for.
 2. Press the **Register hours** button. This will create a new timsheet entry and open it for you.
 
-   <br>
-   <p align="center">
-      <img src="gallery/planning_assigned_shift.png" alt="Assigned shift with Register hours button" />
-   </p>
-   <center><i>Assigned shift. ***Register hours*** button available.</i></center>
-   <br>
+![Assigned shift. ***Register hours*** button available.](gallery/planning_assigned_shift.png)
+
 3. As you will see, the entry has already been pre-filled. **You don't need to change anything here** unless something changed from the initial planning (for instance if the shift took longer or shorter than initially defined). If you want, however, **you can add a description or comment** using the unnamed field immediately below ***Shift***, which by default is just populated with ***"/"*** character. 
 
-   <br>
-   <p align="center">
-      <img src="gallery/timesheets_register_hours.png" alt="Timesheet entry form" />
-   </p>
-   <center><i>Timesheet entry with example description field</i></center>
-   <br>
+![Timesheet entry with example description field](gallery/timesheets_register_hours.png)
 
    > **Caution!!**
    >
    >Every time the **Register hours** button is pressed, the allocated hours will be registered. This is by design.
 
-<br>
-
 Alternatively, you can register your hours directly from the ***Timesheet*** app:
+
 1. From the home menu, open the ***Timesheets*** app. This will immediately open your time sheets ***Grid*** view.
 2. The grid view might already **show some of your shifts, even if you have not registered hours yet**. **This is normal**. The advantage of this view is that it shows you a whole day/week/month, so you could easily register hours for shifts that span multiple days. 
 
@@ -420,30 +306,21 @@ Alternatively, you can register your hours directly from the ***Timesheet*** app
 
 #### What if you made a mistake?
 If you realise that you've made a mistake when registering hours for a shift, you can look for the relevant entry(ies) in the ***List view*** and update or delete it/them. 
+
    > **Caution!!**
    >
    > **Validated entries cannot be edited or deleted**.
 
-<div style="page-break-before: always;"></div>
+\newpage
 
 ### 3.7 Viewing Your Timesheets
 If you want to view your timesheets (to check whether they have already been validated or not, for instance), you just need to open the Timesheets app in ***List*** or ***Calendar*** view. You can also open a specific entry to see its state on the top right corner of the form.
 
-<br>
-   <p align="center">
-      <img src="gallery/timesheets_calendar_view.png" alt="Timesheets calendar view" />
-   </p>
-   <center><i>My timesheets calendar view. Draft (not yet validated) entries have stripes while validated ones show solid coloring</i></center>
-<br>
-<br>
-<br>
-   <p align="center">
-      <img src="gallery/timesheets_register_hours.png" alt="Timesheet entry"/>
-   </p>
-   <center><i>Timesheet entry. Notice validation state on the top right corner (Draft)</i></center>
-<br>
+![My timesheets calendar view. Draft (not yet validated) entries have stripes while validated ones show solid coloring](gallery/timesheets_calendar_view.png)
 
-<div style="page-break-before: always;"></div>
+![Timesheet entry. Notice validation state on the top right corner (Draft)](gallery/timesheets_register_hours.png)
+
+\newpage
 
 ### 3.8 Viewing Locations
 The ***Locations*** app is a custom app that contains locations, mostly project-related locations.
@@ -454,50 +331,38 @@ A location is the combination of a **Label** and an **Address**. Additionally, n
 >
 >Each location has an automatically generated field called ***Show in maps***. Clicking on it will open the location on google maps.
 
-<div style="page-break-before: always;"></div>
+\newpage
 
 ### 3.9 Viewing Protocols, protocol visits and species
 The ***Protocols*** app contains information about the different species protocols and the associated species and protocol visits.
 
 #### Protocols
 You can access the details of a protocol in multiple ways. The most common are:
+
 - ***Homepage*** → ***Protocols*** app → **Click on the protocol's name.**
 - ***Planning*** → Open a ***shift*** form → associated ***Task*** → visit name → associated ***Protocol Visit*** → field ***In protocol***.
 
-<br>
-   <p align="center">
-      <img src="gallery/protocols_list.png" alt="Available protocols"/>
-   </p>
-   <center><i>List of available protocols. Clicking on one will open its details.</i></center>
-<br>
+![List of available protocols. Clicking on one will open its details.](gallery/protocols_list.png)
 
 Each protocol entry shows important information regarding:
+
 - Overarching date window for the protocol
 - Remaining days for this protocol viable window.
 - What type of protocol this is (Regular, SMP...)
 - Species covered by this protocol
 - Protocol Description.
 
-<br>
-   <p align="center">
-      <img src="gallery/protocols_detail.png" alt="Protocol details"/>
-   </p>
-   <center><i>Protocol details</i></center>
-<br>
+![Protocol details](gallery/protocols_detail.png)
 
 In addition, each protocol has a tab where all its ***Protocol visits*** are listed. Pressing one will open a popup with basic information regarding the visit. **To see the full details of the visit, press on the maximize button at the top right.**
 
-<br>
-   <p align="center">
-      <img src="gallery/protocols_protocol_visit_popup.png" alt="Protocol visit popup"/>
-   </p>
-   <center><i>Protocol visit popup. Press the top right arrows button to maximize the form and see all details regarding this visit.</i></center>
-<br>
+![Protocol visit popup. Press the top right arrows button to maximize the form and see all details regarding this visit.](gallery/protocols_protocol_visit_popup.png)
 
 #### Protocol visits
 Each protocol has a number of ***Protocol visits*** associated to it, which define the specifics of why, when, how and for whom this visit is for.
 
 In a protocol visit entry you will find:
+
 - What is the goal of this visit. For instance *Verblijfplaatsen van huismussen en spreeuwen*
 - The Date and time window for the visit.
 - Whether the visit has a dependency to a previous one (field ***Related visit***) and the minimum amount of days to wait for this visit.
@@ -505,12 +370,7 @@ In a protocol visit entry you will find:
 - Which protocol the visit belongs to
 - Weather-related restrictions
 
-<br>
-   <p align="center">
-      <img src="gallery/protocols_protocol_visit_detail.png" alt="Protocol visit detail"/>
-   </p>
-   <center><i>Protocol visit form for Huismuis visit #1.</i></center>
-<br>
+![Protocol visit form for Huismuis visit #1.](gallery/protocols_protocol_visit_detail.png)
 
 >**Important!** 
 >
@@ -522,20 +382,16 @@ Species entries contain relevant information about the species.
 You can **access the species** list via ***Homepage*** → ***Protocols*** app → Menu Bar → ***Species***. **Pressing an entry will open the species details.**
 
 The information available is:
+
 - **Name**
 - **Scientific name** (optional)
 - **Description** (optional)
 - **Tags** (optional)
 - **Protocols**: Tab that contains the list of protocols associated to this species.
 
-<br>
-   <p align="center">
-      <img src="gallery/protocols_species_detail.png" alt="Species details"/>
-   </p>
-   <center><i>Species details of Huismuis</i></center>
-<br>
+![Species details of Huismuis](gallery/protocols_species_detail.png)
 
-<div style="page-break-before: always;"></div>
+\newpage
 
 ### 3.10 Viewing project and tasks
 All users can view the ***Project*** app. This app is where the different projects and their respective tasks can be found. The most direct way to access it is from the Homepage. In addition, you can also reach the project app by clicking a project's name, when it appears as a field in another from (for instance in a shift).
@@ -545,27 +401,20 @@ The main view for the ***Project*** app is the **kanban view**. Each column of t
 **In kanban view, clicking on a project will not open the project's details**. Instead, it will open the **project's tasks** **kanban view**. Each column, again, represening a stage a task can be in.
 
 To see a project's settings/details:
+
 - Open the ***Project*** app → Place the cursor over a project card → Press the 3 vertical dots button that appears → Press ***View***/***Settings***. 
 or
+
 - Open the ***Project*** app → Select ***List view*** → Click on the project's name.
 
-<br>
-   <p align="center">
-      <img src="gallery/project_gantt_project_dropdown_menu.png" alt="Project card menu"/>
-   </p>
-   <center><i>Project card contextual menu. Pressing "View" will open the project details.</i></center>
-<br>
+![Project card contextual menu. Pressing "View" will open the project details.](gallery/project_gantt_project_dropdown_menu.png)
 
-<br>
-   <p align="center">
-      <img src="gallery/project_form.png" alt="Project details"/>
-   </p>
-   <center><i>Project details form</i></center>
-<br>
+![Project details form](gallery/project_form.png)
 
 The project details (project's **form view**) contains important information regarding the project: Project Leader, Parent project (if applicable), Project type, Species monitored in this project, Species protocols involved, Project manager, Location of the project...
 
 In addition, the following tabs are present:
+
 - ***Description***: Extra information regarding the project, in text format.
 - ***Settings***: (Managers only)
 - ***Shifts***: List of shifts associated to the project. 
@@ -582,6 +431,7 @@ Tasks are discrete units of work (for example a specific Protol visit) within a 
 Each task has its own Title, associated project and, optionally, Asignees, an associated **Protocol** & **Protocol Visit**, Tags, associated Customer, Deadline, Allocated time and the **number of people needed**.
 
 Furthermore, the following tabs are available for each task:
+
 - ***Description***: Extra information regarding this task.
 - ***Timesheets***: List of timesheet entries associated with this task.
 - ***Sub-tasks***: List of sub-tasks associated with this task.
@@ -594,10 +444,7 @@ Furthermore, the following tabs are available for each task:
    >
    > As shifts are uni-personal instances in this new platform, *Task* is the entity that conceptually replaces the "Collective shift" idea (Protocol visit instance with multiple people associated)- from the previous system.
 
----
-
-
-<div style="page-break-before: always;"></div>
+\newpage
 
 ## 4. For Managers & Project Leaders
 This section **extends the user guide** with information that is mostly of interest **for managers** and **project leaders**. Please make sure that you've read the previous sections before reading further.
@@ -608,12 +455,14 @@ Unlike non-manager/administrator users, **managers can see and edit the profiles
 #### 4.1.1 Adding and editing employees
 
 To add a new employee:
+
 1. Create the new employee via **Employees → New**
 2. Go to the ***Settings*** tab → ***User*** section and  associate the new employee to a previously created user. **If the user doesn't exist yet, ask the system administrator to create it for you.**
 
 3. Fill the different Employee fields, as fitting. These are, by tab:
 
    - ***Settings***:
+
       |Field|Description|
       |---|---|
       |***Timezone***|The timezone the user lives in. Most likely *Europe/Amsterdam*|
@@ -624,6 +473,7 @@ To add a new employee:
       |***Hourly cost*** (if applicable) |The hourly rate of the employee|
 
    - ***Payroll***:
+
       |Field|Description|Example|
       |---|---|---|
       |***Contract***| Start date of the employee.||
@@ -634,6 +484,7 @@ To add a new employee:
       |***Working hours***|Hours per week the employee works. **Select from list or add new**| *Standard 40hours/week*|
 
    - ***Personal***:
+
       |Field|Description|Example|
       |---|---|---|
       |***Email***|Employee's private email address|*contact@nasa.com*|
@@ -662,10 +513,12 @@ To add a new employee:
       |***Means of transport*** → ***Other***|Can this employee travel by other  means?|*Yes*/*No*|
 
    - ***Resume***:
+
       - ***Resume***: Employee resume. Create more lines if relevant.
       - ***Skills & certifications***: Pick and add if relevant.
 
    - ***Work***:
+
       |Field|Description|Example|
       |---|---|---|
       |***Department***|What department the employee belongs to. **Select from list or add new**||
@@ -694,6 +547,7 @@ To add a new employee:
 
 #### 4.1.2 Deleting employees
 In order to delete an existing employee, either:
+
 - ***Employees*** → ***List view*** → Select employee(s) to delete →***Actions*** → ***Delete***
 
    or
@@ -704,9 +558,7 @@ In order to delete an existing employee, either:
 >
 > **Deleting an Employee is a risky action.** If unsure, ***Archive*** the employee **instead**.
 
----
-
-<div style="page-break-before: always;"></div>
+\newpage
 
 ### 4.2 Locations & Meeting Points
 
@@ -716,25 +568,13 @@ The custom app ***Locations*** allows you to create location entries that can la
 
 To create a new location, from the ***Homepage*** go to ***Locations*** → ***New***. Once you have filled the information for the location, click on the **cloud shaped** save button or simply leave the form. Changes are automatically saved.
 
-<br>
-   <p align="center">
-      <img src="gallery/locations_add_new.png" alt="New Location form" />
-   </p>
-   <center><i>Adding a new location.</i></center>
-<br>
+![Adding a new location.](gallery/locations_add_new.png)
 
 Alternatively, it is also possible to create a new location from within a **Project's form**, via its field ***Location*** → ***Add line*** → ***New*** .
 
-<br>
-   <p align="center">
-      <img src="gallery/project_form.png" alt="Project details" />
-   </p>
-   <center><i>Project form, an existing or new location can be added by pressing "Add a line"</i></center>
-<br>
+![Project form, an existing or new location can be added by pressing "Add a line"](gallery/project_form.png)
 
----
-
-<div style="page-break-before: always;"></div>
+\newpage
 
 ### 4.3 Protocols
 
@@ -749,35 +589,32 @@ Alternatively, it is also possible to create a new location from within a **Proj
 >
 > Don't forget to save the change!
 
-<br>
-   <p align="center">
-      <img src="gallery/settings_user_protocol_role_admin.png" alt="User settings role customization" />
-   </p>
-   <center><i>Selecting role "Administrator" will give the user write, create and delete rights over protocols.</i></center>
-<br>
+![Selecting role "Administrator" will give the user write, create and delete rights over protocols.](gallery/settings_user_protocol_role_admin.png)
 
-##### Add new protocol
+**Add new protocol**
+
 You can create a new protocol from ***Protocols*** → ***New***. 
 
 You can fill in the protocol information here. If you want to add protocol visits already, please remember to save changes first. Then you can add protocol visits by pressing ***Add a line*** in the ***Protocol visits*** tab of the open Protocol.
 
-##### Delete existing protocol
+**Delete existing protocol**
 
 Select an existing protocol from the **Protocols list view** → ***Actions*** button → *Delete*.
 
 #### 4.3.2 Protocol visits
 
-##### Add new protocol visit
+**Add new protocol visit**
+
 The two main ways to add protocol visits are:
+
 - **Homepage** → ***Protocols*** → *Select Protocol* → *Protocol Visits* tab → ***Add a line***
 - **Homepage** → ***Protocols*** → Select ***Protocol visits*** from top menu bar → ***New***
 
-##### Delete existing protocol visit
+**Delete existing protocol visit**
+
 Select an existing protocol visit from the **Protocols visits list view** → ***Actions*** button → *Delete*.
 
----
-
-<div style="page-break-before: always;"></div>
+\newpage
 
 ### 4.4 Projects & Tasks
 
@@ -799,17 +636,22 @@ The most relevant are: *Project Roles*, *Project Stages*, *Task Stages* and *Tag
 ***Project stages*** and ***Task Stages***, are specially relevant, as they define the lifecycle stages of your projects and tasks. These stages are visible in their respective kanban view.
 
 #### 4.4.2 Projects
-##### 4.4.2.1 Add and delete projects
+
+**4.4.2.1 Add and delete projects**
+
 Projects can be created via **Homepage** → ***Project*** → ***New***.
 
 You can either create a **new blank/default project**, or you can Select a **previously created project template** to base your project on.
 
-###### Delete an existing project
+**Delete an existing project**
+
 The two main ways to delete existing projects are:
+
 - Open an existing project →  ***Gear-shaped actions button*** → *Delete*. 
 - Select one or more existing projects from the **Project app list view** → ***Actions*** button → *Delete*. 
 
-##### 4.4.2.2 Creating a project template
+**4.4.2.2 Creating a project template**
+
 In order to create a project template, you can either use an existing project or create one from scratch.
 
 Create or open an existing project → ***Gear-shaped actions button*** → *Convert to template*
@@ -819,7 +661,8 @@ Create or open an existing project → ***Gear-shaped actions button*** → *Con
 >Any **fields filled** in a project template will be **carried over** when creating a >project from it. This includes any tasks associated to the template. 
 > Take advantage of this to **speed up creating projects that share the same protocols, protocol visits and tasks**.
 
-##### 4.4.2.3 Creating subprojects
+**4.4.2.3 Creating subprojects**
+
 A subproject is just any project that has a parent project associated. 
 
 You can **either Create the parent project first** and then add its subprojects via its tab ***Children Projects*** → *Add new line* **or, alternatively, create the children project as a regular project** (for instance using a template) **and then specify the parent project** via its ***Parent project*** field.
@@ -835,7 +678,8 @@ When creating a new tasks, you can specify which people are assigned to a specif
 >
 >A task displays a warning banner when the number of assigned people falls below the required number set in the *People needed* field.
 
-##### 4.4.3.1 Assigning shifts to a task
+**4.4.3.1 Assigning shifts to a task**
+
 A task can have zero to many shifts associated with it. You can find them in the ***Shifts*** tab.
 
 The **Create Shifts** button on a task form opens the multi-resource wizard pre-filled with that task's project and task.
@@ -844,9 +688,7 @@ The **Create Shifts** button on a task form opens the multi-resource wizard pre-
 >
 >Once at least one shift exists for the task, an **Edit Shifts** button appears showing the shift count. Clicking it opens the bulk-edit wizard pre-loaded with all shifts for that task.
 
----
-
-<div style="page-break-before: always;"></div>
+\newpage
 
 ### 4.5 Planning
 >**Important!**
@@ -860,7 +702,9 @@ The **Create Shifts** button on a task form opens the multi-resource wizard pre-
 Shift types and roles are configured under **Planning → Configuration**.
 
 #### 4.5.1 Shift types and Shift Roles
-##### 4.5.1.1 Shift types
+
+**4.5.1.1 Shift types**
+
 Define the time-of-day category of a shift. They always have a **Name**, which is free text,  and a **Time of Day**, which offers a predefined list of options.
 
 >**Important!**
@@ -869,13 +713,14 @@ Define the time-of-day category of a shift. They always have a **Name**, which i
 >- Evening/morning conflict detection (an employee who does not want to combine shifts cannot be assigned to a morning shift the day after an evening shift)
 >- Availability entries (employees declare availability per date *and* per shift type)
 
-##### 4.5.1.2 Shift Roles
+**4.5.1.2 Shift Roles**
+
 Shift roles define the function performed on a shift. An employee must have the required role assigned on their profile to appear as a candidate for a shift with that role.
 
----
-
 #### 4.5.2 Creating & Publishing Shifts
-##### 4.5.2.1 Creating a shift
+
+**4.5.2.1 Creating a shift**
+
 1. Go to **Planning** and click **New**, or click directly on a time slot in the Gantt view
 2. Fill in the required fields:
 
@@ -892,7 +737,7 @@ Shift roles define the function performed on a shift. An employee must have the 
 | **Required materials** | Any equipment required for this shift |
 | **Reminder** | A preparation note sent automatically to the assigned employee 24 hours before the shift (e.g. "Pick up keys from the office before departure") |
 
-###### Protocol visit window warning
+**Protocol visit window warning**
 
 If the shift is linked to a task that has a protocol visit, and the shift date falls **outside** the defined monitoring window for that visit, an amber warning bar appears at the top of the shift form:
 
@@ -900,7 +745,7 @@ If the shift is linked to a task that has a protocol visit, and the shift date f
 
 This is informational only — the shift can still be saved. Use it as a prompt to double-check the date.
 
-###### Related visit minimum gap warning
+**Related visit minimum gap warning**
 
 Some protocol visits require a minimum number of days to have passed since a related (previous) visit. For example, HM2 may require at least 10 days after the most recent HM1 shift in the same project.
 
@@ -912,25 +757,24 @@ Like the window warning, this is informational only — the shift can still be s
 
 The minimum gap and related visit are configured on the protocol visit record itself.
 
-##### 4.5.2.2 Publishing a shift
+**4.5.2.2 Publishing a shift**
 
 A shift starts in **Draft** status. In this state it is not visible to field workers.
 
 To make a shift visible and notify employees:
+
 - Click **Publish & Send** — publishes the shift and sends an email notification to the assigned employee
 - Or click **Send** on an already-published shift to re-send the notification
 
 > Publish shifts only once the assignment is confirmed. Employees receive an email each time you send.
 
----
-
-<div style="page-break-before: always;"></div>
+\newpage
 
 #### 4.5.3 Creating Multiple Shifts at Once
 
 When a project requires several people to be scheduled for the same shift (same date, time, role, and project), use the **Create Multi-Resource Shifts** wizard instead of creating shifts one by one.
 
-##### 4.5.3.1 Opening the wizard
+**4.5.3.1 Opening the wizard**
 
 There are three ways to open it:
 
@@ -940,7 +784,7 @@ There are three ways to open it:
 | **Task form** | Open a task → click the **Create Shifts** button in the top-right button area |
 | **Shift list view** | Select one or more shifts → click **Edit Selected Shifts** (opens in edit mode) |
 
-##### 4.5.3.2 Create mode — filling in shift details
+**4.5.3.2 Create mode — filling in shift details**
 
 The wizard has two columns: **Shift Details** on the left and **Assign Resources** on the right.
 
@@ -959,23 +803,21 @@ Fill in the Shift Details first:
 
 > Once Role, Shift Type, and Date are filled in, the Assign Resources column automatically shows all eligible employees as selectable tags.
 
-###### Selecting resources
+**Selecting resources**
 
 Click the name of each employee you want to assign. Selected names are highlighted in purple. You can select as many as needed — one shift will be created per selected employee.
 
 > Only employees who pass **all** eligibility checks are shown: role match, shift type preference, validated availability, weekly cap, evening/morning conflict, and weekend availability. If someone you expect is missing, check their availability entries for that date.
 
-###### Protocol visit window warning
+**Protocol visit window warning**
 
 If the selected date falls outside the protocol visit window for the linked task, an amber warning banner appears above the form. The shift can still be created — the warning is informational only.
 
-###### After clicking Create Shifts
+**After clicking Create Shifts**
 
 One shift is created per selected employee. If any employee fails a constraint at save time (which can happen in edge cases), a summary banner lists who was created and who was skipped, with the reason.
 
----
-
-##### 4.5.3.3 Edit mode — bulk-editing existing shifts
+**4.5.3.3 Edit mode — bulk-editing existing shifts**
 
 To update several shifts at once:
 
@@ -988,9 +830,9 @@ To update several shifts at once:
 
 > If you want to update the Task but not the Project, tick only *Update task*. The project on existing shifts is left unchanged.
 
----
 #### 4.5.4 Assigning People to Shifts
-##### 4.5.4.1 How the candidate list is filtered
+
+**4.5.4.1 How the candidate list is filtered**
 
 The **Resource** dropdown on a shift does not show all employees — it shows only those who are eligible for that specific shift at that specific time. An employee must satisfy **all** of the following:
 
@@ -1005,7 +847,7 @@ If the dropdown shows no candidates, it usually means one or more employees have
 
 > The system also enforces these rules when you save — if an ineligible employee is somehow selected, saving will show a clear error message explaining which rule was violated.
 
-##### Assigning a person
+**Assigning a person**
 
 1. Open the shift
 2. Select the employee from the **Resource** dropdown
@@ -1013,9 +855,7 @@ If the dropdown shows no candidates, it usually means one or more employees have
 
 > For shift requests submitted by employees, see §4.6.2.
 
----
-
-<div style="page-break-before: always;"></div>
+\newpage
 
 ### 4.6 Validations
 >**Important!**
@@ -1027,8 +867,6 @@ If the dropdown shows no candidates, it usually means one or more employees have
 > Don't forget to save the change!
 
 Three types of records require manager validation before the planning workflow can proceed: employee availability entries, shift requests, and worked hours (timesheets). Pending items for the first two appear as **to-do activities** in your Inbox; timesheets are reviewed directly in the Timesheets app.
-
----
 
 #### 4.6.1 Employee Availability
 
@@ -1048,8 +886,6 @@ Pending availability validations appear as to-do activities in your Inbox (the b
 Once validated, the employee is notified and their entries turn solid green (available) or solid red (not available) in the calendar. Refused entries return to Draft — the employee can edit and resubmit.
 
 > If you refuse an entry, the employee receives an Inbox notification and can resubmit after adjusting.
-
----
 
 #### 4.6.2 Shift Requests
 
@@ -1072,8 +908,6 @@ When an employee requests an open shift (see §3.5), you receive a **to-do activ
 If you decide not to assign the requesting employee, simply assign someone else (or leave the shift open). There is no formal rejection notification — it is good practice to inform the employee directly.
 
 > Only one employee can be assigned per shift. If multiple employees request the same shift, assign the most suitable candidate and inform the others.
-
----
 
 #### 4.6.3 Timesheets
 
@@ -1106,9 +940,7 @@ If an employee forgot to register their hours, you can do it on their behalf:
 2. Filter by employee and date range
 3. Review all entries — correct any obvious errors directly in the list
 
----
-
-<div style="page-break-before: always;"></div>
+\newpage
 
 ### 4.7 Inventory & Materials
 >**Important!**
@@ -1132,6 +964,7 @@ Category  (e.g. Bat research)
 ```
 
 Each **material unit** has:
+
 - A **status** (e.g. In service, Out for repair, Lost)
 - A serial number (optional)
 - A rental flag (if the item is rented rather than owned)
@@ -1147,10 +980,7 @@ On a shift form, use the **Materials needed** field to attach one or more materi
 
 Open any material type to see the list of individual units and their current statuses. Use the list view under **Planning → Materials → Material Types** to get an overview of available vs. booked quantities across all types.
 
-
----
-
-<div style="page-break-before: always;"></div>
+\newpage
 
 ## 5. Notifications & Approvals
 
@@ -1168,8 +998,6 @@ Open any material type to see the list of individual units and their current sta
 ### Pending approvals
 
 For the full validation workflow (availability entries, shift requests, and timesheets), see §4.6.
-
----
 
 ## Appendix
 
