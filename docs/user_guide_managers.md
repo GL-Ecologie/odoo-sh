@@ -61,9 +61,9 @@
 
 ## 1. Introduction
 
-This guide covers the day-to-day use of the GL-Ecologie planning system implemented using the Odoo platform. **Only non-manager related information is described in this document**. Manager-related documentation will follow at a future time.
+This guide covers the day-to-day use of the GL-Ecologie planning system implemented using the Odoo platform. It is intended for **managers and project leaders**, and covers both the general features available to all users (§2–§3) and the manager-specific features (§4 onwards).
 
-If you are new to the system, start with §2 (Getting Started) and then follow the track that matches your role.
+If you are new to the system, start with §2 (Getting Started) and then proceed to §4 for manager-specific workflows.
 
 ---
 
@@ -597,11 +597,13 @@ Furthermore, the following tabs are available for each task:
 ---
 
 
+<div style="page-break-before: always;"></div>
+
 ## 4. For Managers & Project Leaders
 This section **extends the user guide** with information that is mostly of interest **for managers** and **project leaders**. Please make sure that you've read the previous sections before reading further.
 
 ### 4.1 Managing Employees
-Unlike non manager/adminstrator users, **managers can see and edit the profiles of all employees in the platform**, **as well as all fields**, even those that are not visible to employees about themselves.
+Unlike non-manager/administrator users, **managers can see and edit the profiles of all employees in the platform**, **as well as all fields**, even those that are not visible to employees about themselves.
 
 #### 4.1.1 Adding and editing employees
 
@@ -617,7 +619,7 @@ To add a new employee:
       |***Timezone***|The timezone the user lives in. Most likely *Europe/Amsterdam*|
       |***HR Responsible***| The person responsible for validating the employee's contracts|
       |***Timesheet*** | The person responsible for approval of the employee's timesheets. If left empty the responsibility is delegated to users with role ***Administrator*** or ***User: All timesheets***.|
-      |***Roles***|Which roles this employee can fullfill. This constraints what shifts are visible and can be assigned to the employee.|
+      |***Roles***|Which roles this employee can fulfill. This constraints what shifts are visible and can be assigned to the employee.|
       |***Default Role***|When creating a shift for the employee, this role will be assigned by default|
       |***Hourly cost*** (if applicable) |The hourly rate of the employee|
 
@@ -667,9 +669,9 @@ To add a new employee:
       |Field|Description|Example|
       |---|---|---|
       |***Department***|What department the employee belongs to. **Select from list or add new**||
-      |Job Position|Self-Descriptive. **Select from list or add new**|*Fieldworker*|
-      |Job Title|Self-Descriptive. **Select from list or add new**|*Fieldworker*|
-      |Manager|Self-Descriptive. **Select from list**||
+      |***Job Position***|Self-Descriptive. **Select from list or add new**|*Fieldworker*|
+      |***Job Title***|Self-Descriptive. **Select from list or add new**|*Fieldworker*|
+      |***Manager***|Self-Descriptive. **Select from list**||
       |***SMP Eligible***|**Is this employee eligible for SMP projects/shifts?**|*Yes*/*No*|
       |Work Address|Place of work. **Select from list or add new**|*Nasa*|
       |Work Location|Main work location. **Select from list or add new**|*International Space Station*|
@@ -682,7 +684,7 @@ To add a new employee:
       > **Important!!** 
       >
       >**Always** 
-      >  - **Fill** *Allowed shift types*, *Max shifts per week*, *Available to work weekends*, and *ombine evening and morning shift* — **these directly affect which shifts the employee can be assigned to**.
+      >  - **Fill** *Allowed shift types*, *Max shifts per week*, *Available to work weekends*, and *Combine evening and morning shift* — **these directly affect which shifts the employee can be assigned to**.
       >
       >  - **Assign** one or more **planning roles** (e.g. Field Worker, Project Leader) — **the employee will only appear as a candidate for shifts that require one of their assigned roles**
 
@@ -703,6 +705,8 @@ In order to delete an existing employee, either:
 > **Deleting an Employee is a risky action.** If unsure, ***Archive*** the employee **instead**.
 
 ---
+
+<div style="page-break-before: always;"></div>
 
 ### 4.2 Locations & Meeting Points
 
@@ -730,6 +734,8 @@ Alternatively, it is also possible to create a new location from within a **Proj
 
 ---
 
+<div style="page-break-before: always;"></div>
+
 ### 4.3 Protocols
 
 > *[TODO: Tamara — you are already managing protocols. Add a brief description of what a protocol is in GL-Ecologie's context, the key fields, and how protocols connect to projects.]*
@@ -739,7 +745,7 @@ Alternatively, it is also possible to create a new location from within a **Proj
 >
 >In order to add new protocols, users need to have the **Protocols Administrator** role. This can be done by going to:
 >
-> ***Settings*** → ***Users & Companies*** → ***Users*** → *Choose user* → ***Acess rights*** tab → ***Customizations*** → ***Protocol*** → Select *Administrator* role
+> ***Settings*** → ***Users & Companies*** → ***Users*** → *Choose user* → ***Access rights*** tab → ***Customizations*** → ***Protocol*** → Select *Administrator* role
 >
 > Don't forget to save the change!
 
@@ -771,15 +777,17 @@ Select an existing protocol visit from the **Protocols visits list view** → **
 
 ---
 
+<div style="page-break-before: always;"></div>
+
 ### 4.4 Projects & Tasks
 
 > *[TODO: Tamara — brief walkthrough of creating a project, required fields, and how sub-projects are structured.]*
 
 >**Important!**
 >
->In order to add new protocols, users need to have the **Project Administrator** role. This can be done by going to:
+>In order to add new projects, users need to have the **Project Administrator** role. This can be done by going to:
 >
-> ***Settings*** → ***Users & Companies*** → ***Users*** → *Choose user* → ***Acess rights*** tab → ***Services*** → ***Project*** → Select *Administrator* role
+> ***Settings*** → ***Users & Companies*** → ***Users*** → *Choose user* → ***Access rights*** tab → ***Services*** → ***Project*** → Select *Administrator* role
 >
 > Don't forget to save the change!
 
@@ -838,12 +846,14 @@ The **Create Shifts** button on a task form opens the multi-resource wizard pre-
 
 ---
 
+<div style="page-break-before: always;"></div>
+
 ### 4.5 Planning
 >**Important!**
 >
 >In order to add new **Shifts**, **Shift types** and **Shift roles**, users need to have the **Planning Administrator** role. This can be done by going to:
 >
-> ***Settings*** → ***Users & Companies*** → ***Users*** → *Choose user* → ***Acess rights*** tab → ***Services*** → ***Human Resources*** → Select *Administrator* role
+> ***Settings*** → ***Users & Companies*** → ***Users*** → *Choose user* → ***Access rights*** tab → ***Services*** → ***Human Resources*** → Select *Administrator* role
 >
 > Don't forget to save the change!
 
@@ -871,7 +881,7 @@ Shift roles define the function performed on a shift. An employee must have the 
 
 | Field | Notes |
 |-------|-------|
-| **Resource** | The employee to assign. Leave empty to create an open shift. The dropdown only shows eligible candidates (see §4.7). |
+| **Resource** | The employee to assign. Leave empty to create an open shift. The dropdown only shows eligible candidates (see §4.5.4). |
 | **Role** | The function required for this shift |
 | **Shift type** | Morning, Evening, etc. Must match the employee's preferences |
 | **Project** | The project this shift belongs to |
@@ -913,6 +923,8 @@ To make a shift visible and notify employees:
 > Publish shifts only once the assignment is confirmed. Employees receive an email each time you send.
 
 ---
+
+<div style="page-break-before: always;"></div>
 
 #### 4.5.3 Creating Multiple Shifts at Once
 
@@ -993,7 +1005,7 @@ If the dropdown shows no candidates, it usually means one or more employees have
 
 > The system also enforces these rules when you save — if an ineligible employee is somehow selected, saving will show a clear error message explaining which rule was violated.
 
-#### Assigning a person
+##### Assigning a person
 
 1. Open the shift
 2. Select the employee from the **Resource** dropdown
@@ -1003,12 +1015,14 @@ If the dropdown shows no candidates, it usually means one or more employees have
 
 ---
 
+<div style="page-break-before: always;"></div>
+
 ### 4.6 Validations
 >**Important!**
 >
 >In order to perform validations users need to have the proper **Administrator** role for the type of entity they are to validate. This can be done by going to:
 >
-> ***Settings*** → ***Users & Companies*** → ***Users*** → *Choose user* → ***Acess rights*** → And specifying *Administrator* role for the appropiate section.
+> ***Settings*** → ***Users & Companies*** → ***Users*** → *Choose user* → ***Access rights*** → And specifying *Administrator* role for the appropriate section.
 >
 > Don't forget to save the change!
 
@@ -1094,12 +1108,14 @@ If an employee forgot to register their hours, you can do it on their behalf:
 
 ---
 
+<div style="page-break-before: always;"></div>
+
 ### 4.7 Inventory & Materials
 >**Important!**
 >
 >In order to make changes to the inventory, users must have **Planning Administrator** role. This can be done by going to:
 >
-> ***Settings*** → ***Users & Companies*** → ***Users*** → *Choose user* → ***Acess rights*** → Planning → *Administrator*.
+> ***Settings*** → ***Users & Companies*** → ***Users*** → *Choose user* → ***Access rights*** → Planning → *Administrator*.
 >
 > Don't forget to save the change!
 
@@ -1133,6 +1149,8 @@ Open any material type to see the list of individual units and their current sta
 
 
 ---
+
+<div style="page-break-before: always;"></div>
 
 ## 5. Notifications & Approvals
 
