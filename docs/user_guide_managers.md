@@ -21,8 +21,20 @@
    - 3.8 [Viewing Locations](#viewing-locations)
    - 3.9 [Viewing Protocols, Protocol Visits and Species](#viewing-protocols-protocol-visits-and-species)
    - 3.10 [Viewing Projects and Tasks](#viewing-project-and-tasks)
-4. [Inventory & Tools](#inventory-tools)
-5. [Notifications & Approvals](#notifications-approvals)
+4. [For Managers & Project Leaders](#4-for-managers--project-leaders)
+   - 4.1 [Managing Employees](#41-managing-employees)
+     - 4.1.1 [Adding and editing employees](#411-adding-and-editing-employees)
+     - 4.1.2 [Deleting employees](#412-deleting-employees)
+   - 4.2 [Locations & Meeting Points](#42-locations--meeting-points)
+   - 4.3 [Protocols](#43-protocols)
+   - 4.4 [Projects & Sub-projects](#44-projects--sub-projects)
+   - 4.5 [Shift Types & Roles](#45-shift-types--roles)
+   - 4.6 [Creating & Publishing Shifts](#46-creating--publishing-shifts)
+   - 4.7 [Creating Multiple Shifts at Once](#47-creating-multiple-shifts-at-once)
+   - 4.8 [Assigning People to Shifts](#48-assigning-people-to-shifts)
+   - 4.9 [Registering & Validating Worked Hours](#49-registering--validating-worked-hours)
+5. [Inventory & Tools](#inventory-tools)
+6. [Notifications & Approvals](#notifications-approvals)
 
 ---
 
@@ -563,7 +575,437 @@ Furthermore, the following tabs are available for each task:
 
 ---
 
-## 4. Inventory & Tools
+
+## 4. For Managers & Project Leaders
+This section **extends the user guide** with information that is mostly of interest **for managers** and **project leaders**. Please make sure that you've read the previous sections before reading further.
+
+### 4.1 Managing Employees
+Unlike non manager/adminstrator users, **managers can see and edit the profiles of all employees in the platform**, **as well as all fields**, even those that are not visible to employees about themselves.
+
+#### 4.1.1 Adding and editing employees
+
+To add a new employee:
+1. Create the new employee via **Employees → New**
+2. Go to the ***Settings*** tab → ***User*** section and  associate the new employee to a previously created user. **If the user doesn't exist yet, ask the system administrator to create it for you.**
+
+3. Fill the different Employee fields, as fitting. These are, by tab:
+
+   - ***Settings***:
+      |Field|Description|
+      |---|---|
+      |***Timezone***|The timezone the user lives in. Most likely *Europe/Amsterdam*|
+      |***HR Responsible***| The person responsible for validating the employee's contracts|
+      |***Timesheet*** | The person responsible for approval of the employee's timesheets. If left empty the responsibility is delegated to users with role ***Administrator*** or ***User: All timesheets***.|
+      |***Roles***|Which roles this employee can fullfill. This constraints what shifts are visible and can be assigned to the employee.|
+      |***Default Role***|When creating a shift for the employee, this role will be assigned by default|
+      |***Hourly cost*** (if applicable) |The hourly rate of the employee|
+
+   - ***Payroll***:
+      |Field|Description|Example|
+      |---|---|---|
+      |***Contract***| Start date of the employee.||
+      |***Wage***|Gross monthly salary|$5,000,000|
+      |***Employee type***|Employee type. **Select from list or add new**| *Contractor*, *Freelance*|
+      |***Contract Type***|Employee contract type. **Select from list or add new**|*Seasonal*, *Permanent*...|
+      |***Pay category***|Employee category. **Select from list or add new**| *Worker*, *Employee*|
+      |***Working hours***|Hours per week the employee works. **Select from list or add new**| *Standard 40hours/week*|
+
+   - ***Personal***:
+      |Field|Description|Example|
+      |---|---|---|
+      |***Email***|Employee's private email address|*contact@nasa.com*|
+      |***Phone***|Employee's private phone|*+31645645622*|
+      |***Bank accounts***| Employee's Bank accounts, select **Select from list or add new**| *NL580000000000000*|
+      |***Legal name***|Self-descriptive||
+      |***Birthday***|Self-descriptive||
+      |***Show to all employees***| Whether to make the birthday available to all employees or not||
+      |***Place of Birth***|Self-descriptive||
+      |***Gender***|Self-descriptive||
+      |***Emergency contact*** → ***Contact***|Self-descriptive||
+      |***Emergency contact*** → ***Phone***|Self-descriptive||
+      |***Nationality***|Self-descriptive||
+      |***Identification No***|National identification number|*52377859L*|
+      |***SSN No***|Social security number (BSN)||
+      |***Passport No***|Self-descriptive||
+      |***Private address***|Self-descriptive||
+      |***Home-Work Distance***|Self-descriptive||
+      |***Marital status***|Self-descriptive||
+      |***Dependent children***|Self-descriptive||
+      |***Certificate level***|Self-descriptive. **Select from list**||
+      |***Field of Study***|Self-descriptive||
+      |***Languages***|Self-descriptive||
+      |***Means of transport*** → ***Bicycle***|Can this employee travel by bicycle?|*Yes*/*No*|
+      |***Means of transport*** → ***Auto***|Can this employee travel by Auto?|*Yes*/*No*|
+      |***Means of transport*** → ***Other***|Can this employee travel by other  means?|*Yes*/*No*|
+
+   - ***Resume***:
+      - ***Resume***: Employee resume. Create more lines if relevant.
+      - ***Skills & certifications***: Pick and add if relevant.
+
+   - ***Work***:
+      |Field|Description|Example|
+      |---|---|---|
+      |***Department***|What department the employee belongs to. **Select from list or add new**||
+      |Job Position|Self-Descriptive. **Select from list or add new**|*Fieldworker*|
+      |Job Title|Self-Descriptive. **Select from list or add new**|*Fieldworker*|
+      |Manager|Self-Descriptive. **Select from list**||
+      |***SMP Eligible***|**Is this employee eligible for SMP projects/shifts?**|*Yes*/*No*|
+      |Work Address|Place of work. **Select from list or add new**|*Nasa*|
+      |Work Location|Main work location. **Select from list or add new**|*International Space Station*|
+      |***Usual work location*** → ***Weekday***|Self-descriptive. **Select from list or add new**|*International Space Station*|
+      |**Max shifts per week** | The maximum number of shifts the employee wants to work in a single week. **Set to 0 if there is no limit.** |*3*|
+      | **Available to work weekends** | If unchecked, the employee will not be offered or assigned to Saturday/Sunday shifts, Friday evening shifts, or Monday morning shifts.|*Yes*|
+      | **Combine evening and morning shift** | If unchecked, the system will not assign the employee to a morning shift the day after an evening shift (and vice versa). |*Yes*|
+      | **Allowed shift types** | The types of shifts (morning, evening, etc.) the employee is willing to work. Employee will only appear as a candidate for shift types listed here. |*Ochtend HM*|
+      
+      > **Important!!** 
+      >
+      >**Always** 
+      >  - **Fill** *Allowed shift types*, *Max shifts per week*, *Available to work weekends*, and *ombine evening and morning shift* — **these directly affect which shifts the employee can be assigned to**.
+      >
+      >  - **Assign** one or more **planning roles** (e.g. Field Worker, Project Leader) — **the employee will only appear as a candidate for shifts that require one of their assigned roles**
+
+      > **Important!!**
+      >
+      > **Changes** to these fields **take effect immediately for future shift assignments. They do not affect shifts you are already assigned to**.
+
+#### 4.1.2 Deleting employees
+In order to delete an existing employee, either:
+- ***Employees*** → ***List view*** → Select employee(s) to delete →***Actions*** → ***Delete***
+
+   or
+
+- ***Employees*** → Open employee to delete → Press ***Gear actions*** button → ***Delete***
+
+> ***Caution!***
+>
+> **Deleting an Employee is a risky action.** If unsure, ***Archive*** the employee **instead**.
+
+---
+
+### 4.2 Locations & Meeting Points
+
+> *[TODO: Tamara — brief description of how you use locations and meeting points in your workflow.]*
+
+The custom app ***Locations*** allows you to create location entries that can later on be associated to projects.
+
+To create a new location, from the ***Homepage*** go to ***Locations*** → ***New***. Once you have filled the information for the location, click on the **cloud shaped** save button or simply leave the form. Changes are automatically saved.
+
+<br>
+   <p align="center">
+      <img src="gallery/locations_add_new.png" alt="New Location form" />
+   </p>
+   <center><i>Adding a new location.</i></center>
+<br>
+
+Alternatively, it is also possible to create a new location from within a **Project's form**, via its field ***Location*** → ***Add line*** → ***New*** .
+
+<br>
+   <p align="center">
+      <img src="gallery/project_form.png" alt="Project details" />
+   </p>
+   <center><i>Project form, an existing or new location can be added by pressing "Add a line"</i></center>
+<br>
+
+---
+
+### 4.3 Protocols
+
+> *[TODO: Tamara — you are already managing protocols. Add a brief description of what a protocol is in GL-Ecologie's context, the key fields, and how protocols connect to projects.]*
+
+#### 4.3.1 Creating and deleting protocols
+>**Important!**
+>
+>In order to add new protocols, users need to have the **Protocols Administrator** role. This can be done by going to:
+>
+> ***Settings*** → ***Users & Companies*** → ***Users** → *Choose user* → ***Acess rights*** tab → ***Customizations*** → ***Protocol*** → Select *Administrator* role
+>
+> Don't forget to save the change!
+
+<br>
+   <p align="center">
+      <img src="gallery/settings_user_protocol_role_admin.png" alt="User settings role customization" />
+   </p>
+   <center><i>Selecting role "Administrator" will give the user write, create and delete rights over protocols.</i></center>
+<br>
+
+##### Add new protocol
+You can create a new protocol from ***Protocols*** → ***New***. 
+
+You can fill in the protocol information here. If you want to add protocol visits already, please remember to save changes first. Then you can add protocol visits by pressing ***Add a line*** in the ***Protocol visits*** tab of the open Protocol.
+
+##### Delete existing protocol
+
+Select an existing protocol from the **Protocols list view** → ***Actions*** button → *Delete*.
+
+#### 4.3.2 Protocol visits
+
+##### Add new protocol visit
+The two main ways to add protocol visits are:
+- **Homepage** → ***Protocols*** → *Select Protocol* → *Protocol Visits* tab → ***Add a line***
+- **Homepage** → ***Protocols*** → Select ***Protocol visits*** from top menu bar → ***New***
+
+##### Delete existing protocol visit
+Select an existing protocol visit from the **Protocols visits list view** → ***Actions*** button → *Delete*.
+
+---
+
+### 4.4 Projects & Tasks
+
+> *[TODO: Tamara — brief walkthrough of creating a project, required fields, and how sub-projects are structured.]*
+
+>**Important!**
+>
+>In order to add new protocols, users need to have the **Project Administrator** role. This can be done by going to:
+>
+> ***Settings*** → ***Users & Companies*** → ***Users** → *Choose user* → ***Acess rights*** tab → ***Services*** → ***Project*** → Select *Administrator* role
+>
+> Don't forget to save the change!
+
+#### 4.4.1 Customizations
+There are multiple project related parameters that can be customized from the ***Configuration*** menu at the menu top bar.
+
+The most relevant are: *Project Roles*, *Project Stages*, *Task Stages* and *Tags*.
+
+***Project stages*** and ***Task Stages***, are specially relevant, as they define the lifecycle stages of your projects and tasks. These stages are visible in their respective kanban view.
+
+#### 4.4.2 Projects
+##### 4.4.2.1 Add and delete projects
+Projects can be created via **Homepage** → ***Project*** → ***New***.
+
+You can either create a **new blank/default project**, or you can Select a **previously created project template** to base your project on.
+
+###### Delete an existing project
+The two main ways to delete existing projects are:
+- Open an existing project →  ***Gear-shaped actions button*** → *Delete*. 
+- Select one or more existing projects from the **Project app list view** → ***Actions*** button → *Delete*. 
+
+##### 4.4.2.2 Creating a project template
+In order to create a project template, you can either use an existing project or create one from scratch.
+
+Create or open an existing project → ***Gear-shaped actions button*** → *Convert to template*
+
+>**Useful tip!**
+>
+>Any **fields filled** in a project template will be **carried over** when creating a >project from it. This includes any tasks associated to the template. 
+> Take advantage of this to **speed up creating projects that share the same protocols, protocol visits and tasks**.
+
+##### 4.4.2.3 Creating subprojects
+A subproject is just any project that has a parent project associated. 
+
+You can **either Create the parent project first** and then add its subprojects via its tab ***Children Projects*** → *Add new line* **or, alternatively, create the children project as a regular project** (for instance using a template) **and then specify the parent project** via its ***Parent project*** field.
+
+#### 4.4.3 Tasks
+Each project can have one or more **tasks**. These can be added directly from the general ***All tasks*** menu from the **menu top bar**, or, usually preferred, directly from an existing project from:
+
+Open an existing project → Select ***Tasks*** tab → *Add a line*. 
+
+When creating a new tasks, you can specify which people are assigned to a specific task, which protocol and protocol visits are involved **(1 per task)** and shifts can be associated to the task.
+
+>***Important!*** 
+>
+>A task displays a warning banner when the number of assigned people falls below the required number set in the *People needed* field.
+
+##### 4.4.3.1 Assigning shifts to a task
+A task can have zero to many shifts associated with it. You can find them in the ***Shifts*** tab.
+
+The **Create Shifts** button on a task form opens the multi-resource wizard pre-filled with that task's project and task.
+
+>***Important!*** 
+>
+>Once at least one shift exists for the task, an **Edit Shifts** button appears showing the shift count. Clicking it opens the bulk-edit wizard pre-loaded with all shifts for that task.
+
+---
+
+### 4.5 Planning
+>**Important!**
+>
+>In order to add new **Shifts**, **Shift types** and **Shift roles**, users need to have the **Planning Administrator** role. This can be done by going to:
+>
+> ***Settings*** → ***Users & Companies*** → ***Users** → *Choose user* → ***Acess rights*** tab → ***Services*** → ***Human Resources*** → Select *Administrator* role
+>
+> Don't forget to save the change!
+
+Shift types and roles are configured under **Planning → Configuration**.
+
+#### 4.5.1 Shift types and Shift Roles
+##### 4.5.1.1 Shift types
+Define the time-of-day category of a shift. They always have a **Name**, which is free text,  and a **Time of Day**, which offers a predefined list of options.
+
+>**Important!**
+> Shift type is a core entity in the planning workflow. They are used in:
+>- Employee preference matching (employees declare which types they want to work)
+>- Evening/morning conflict detection (an employee who does not want to combine shifts cannot be assigned to a morning shift the day after an evening shift)
+>- Availability entries (employees declare availability per date *and* per shift type)
+
+##### 4.5.1.2 Shift Roles
+Shift roles define the function performed on a shift. An employee must have the required role assigned on their profile to appear as a candidate for a shift with that role.
+
+---
+
+#### 4.5.2 Creating & Publishing Shifts
+##### 4.5.2.1 Creating a shift
+1. Go to **Planning** and click **New**, or click directly on a time slot in the Gantt view
+2. Fill in the required fields:
+
+| Field | Notes |
+|-------|-------|
+| **Resource** | The employee to assign. Leave empty to create an open shift. The dropdown only shows eligible candidates (see §4.7). |
+| **Role** | The function required for this shift |
+| **Shift type** | Morning, Evening, etc. Must match the employee's preferences |
+| **Project** | The project this shift belongs to |
+| **Task** | The specific task within the project (optional but recommended) |
+| **Date / Time** | Start and end datetime |
+| **Allocated hours** | Auto-calculated from start/end; can be adjusted |
+| **Counts for max shift per week?** | Uncheck to exclude this shift from the weekly cap (e.g. for training shifts or special arrangements) |
+| **Required materials** | Any equipment required for this shift |
+| **Reminder** | A preparation note sent automatically to the assigned employee 24 hours before the shift (e.g. "Pick up keys from the office before departure") |
+
+###### Protocol visit window warning
+
+If the shift is linked to a task that has a protocol visit, and the shift date falls **outside** the defined monitoring window for that visit, an amber warning bar appears at the top of the shift form:
+
+> *"Shift date is outside the protocol visit window for the associated task."*
+
+This is informational only — the shift can still be saved. Use it as a prompt to double-check the date.
+
+###### Related visit minimum gap warning
+
+Some protocol visits require a minimum number of days to have passed since a related (previous) visit. For example, HM2 may require at least 10 days after the most recent HM1 shift in the same project.
+
+If this condition is not met, an amber warning bar appears with a specific message, for example:
+
+> *"This shift is only 3 day(s) after the most recent HM1 shift. The required minimum gap is 10 day(s)."*
+
+Like the window warning, this is informational only — the shift can still be saved. The same warning also appears in the **Create Multi-Resource Shifts** wizard when a date and task are selected.
+
+The minimum gap and related visit are configured on the protocol visit record itself.
+
+##### 4.5.2.2 Publishing a shift
+
+A shift starts in **Draft** status. In this state it is not visible to field workers.
+
+To make a shift visible and notify employees:
+- Click **Publish & Send** — publishes the shift and sends an email notification to the assigned employee
+- Or click **Send** on an already-published shift to re-send the notification
+
+> Publish shifts only once the assignment is confirmed. Employees receive an email each time you send.
+
+---
+
+#### 4.5.3 Creating Multiple Shifts at Once
+
+When a project requires several people to be scheduled for the same shift (same date, time, role, and project), use the **Create Multi-Resource Shifts** wizard instead of creating shifts one by one.
+
+##### 4.5.3.1 Opening the wizard
+
+There are three ways to open it:
+
+| From | How |
+|------|-----|
+| **Planning menu** | Planning → Schedule → *Create Multi-Resource Shifts* |
+| **Task form** | Open a task → click the **Create Shifts** button in the top-right button area |
+| **Shift list view** | Select one or more shifts → click **Edit Selected Shifts** (opens in edit mode) |
+
+##### 4.5.3.2 Create mode — filling in shift details
+
+The wizard has two columns: **Shift Details** on the left and **Assign Resources** on the right.
+
+Fill in the Shift Details first:
+
+| Field | Notes |
+|-------|-------|
+| **Role** | Required — filters which employees appear as candidates |
+| **Shift Template** | Optional — pre-fills date/time from a saved template |
+| **Shift Type** | Required — must match employee preferences |
+| **Date** | Start and end date/time for the shift |
+| **Project / Task** | The project and task this shift belongs to |
+| **Counts for max shift per week** | Uncheck for shifts that should not count against the weekly cap |
+| **Required materials** | Equipment types needed |
+| **Reminder** | Preparation note sent to each assigned employee 24h before the shift |
+
+> Once Role, Shift Type, and Date are filled in, the Assign Resources column automatically shows all eligible employees as selectable tags.
+
+###### Selecting resources
+
+Click the name of each employee you want to assign. Selected names are highlighted in purple. You can select as many as needed — one shift will be created per selected employee.
+
+> Only employees who pass **all** eligibility checks are shown: role match, shift type preference, validated availability, weekly cap, evening/morning conflict, and weekend availability. If someone you expect is missing, check their availability entries for that date.
+
+###### Protocol visit window warning
+
+If the selected date falls outside the protocol visit window for the linked task, an amber warning banner appears above the form. The shift can still be created — the warning is informational only.
+
+###### After clicking Create Shifts
+
+One shift is created per selected employee. If any employee fails a constraint at save time (which can happen in edge cases), a summary banner lists who was created and who was skipped, with the reason.
+
+---
+
+##### 4.5.3.3 Edit mode — bulk-editing existing shifts
+
+To update several shifts at once:
+
+1. Go to **Planning → Schedule** in list view
+2. Select the shifts you want to edit (tick the checkboxes)
+3. Click **Edit Selected Shifts** in the action bar
+4. The wizard shows the selected shifts as tags at the top
+5. Tick the checkbox next to each field you want to update, then fill in the new value
+6. Click **Apply Changes** — only ticked fields are written
+
+> If you want to update the Task but not the Project, tick only *Update task*. The project on existing shifts is left unchanged.
+
+---
+#### 4.5.4 Assigning People to Shifts
+##### 4.5.4.1 How the candidate list is filtered
+
+The **Resource** dropdown on a shift does not show all employees — it shows only those who are eligible for that specific shift at that specific time. An employee must satisfy **all** of the following:
+
+1. **Role match** — has the shift's required role in their profile
+2. **Shift type preference** — has opted into this shift type
+3. **Validated availability** — has a validated availability entry for this date and shift type
+4. **Weekly shift cap** — would not exceed their maximum shifts for that week (if the shift counts toward the cap)
+5. **No evening/morning conflict** — would not be assigned to a morning shift the day after an evening shift (or vice versa), if they have opted out of combining these
+6. **Weekend availability** — works weekends (or the shift is not a weekend/Friday evening/Monday morning shift)
+
+If the dropdown shows no candidates, it usually means one or more employees have not yet had their availability validated for that date and shift type. Check **Planning → Employee Availability** and validate pending entries first.
+
+> The system also enforces these rules when you save — if an ineligible employee is somehow selected, saving will show a clear error message explaining which rule was violated.
+
+#### Assigning a person
+
+1. Open the shift
+2. Select the employee from the **Resource** dropdown
+3. Click **Publish & Send** to notify them
+
+#### Handling shift requests
+
+When an employee requests an open shift (see §3.3), you will receive a notification in your Inbox. Review the request, open the shift, assign the employee, and publish.
+
+---
+
+### 4.9 Registering & Validating Worked Hours
+
+#### Register Hours button
+
+Once a shift is published and has an assigned employee, a **Register Hours** button appears in the shift header (visible to the assigned employee and to planning managers).
+
+Clicking it creates a pre-filled timesheet entry with:
+- The shift date
+- The allocated hours
+- The linked project and task
+
+The timesheet opens immediately for review. Adjust the hours if the employee worked more or less than planned, then save.
+
+> The Register Hours button is only visible **after the shift is published** and **only to the assigned employee or a planning manager**. Other managers cannot register hours on behalf of someone else's shift.
+
+#### Validating timesheets
+
+> *[TODO: Tamara — describe your validation/approval flow for timesheets if you have one configured.]*
+
+---
+
+## 5. Inventory & Tools
 
 The inventory module is accessible via **Planning → Materials**.
 
@@ -596,7 +1038,7 @@ Open any material type to see the list of individual units and their current sta
 
 ---
 
-## 5. Notifications & Approvals
+## 6. Notifications & Approvals
 
 ### Notifications you will receive
 
