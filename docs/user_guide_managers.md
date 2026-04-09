@@ -27,14 +27,35 @@
      - 4.1.2 [Deleting employees](#412-deleting-employees)
    - 4.2 [Locations & Meeting Points](#42-locations--meeting-points)
    - 4.3 [Protocols](#43-protocols)
-   - 4.4 [Projects & Sub-projects](#44-projects--sub-projects)
-   - 4.5 [Shift Types & Roles](#45-shift-types--roles)
-   - 4.6 [Creating & Publishing Shifts](#46-creating--publishing-shifts)
-   - 4.7 [Creating Multiple Shifts at Once](#47-creating-multiple-shifts-at-once)
-   - 4.8 [Assigning People to Shifts](#48-assigning-people-to-shifts)
-   - 4.9 [Registering & Validating Worked Hours](#49-registering--validating-worked-hours)
-5. [Inventory & Tools](#inventory-tools)
-6. [Notifications & Approvals](#notifications-approvals)
+     - 4.3.1 [Creating and deleting protocols](#431-creating-and-deleting-protocols)
+     - 4.3.2 [Protocol visits](#432-protocol-visits)
+   - 4.4 [Projects & Tasks](#44-projects--tasks)
+     - 4.4.1 [Customizations](#441-customizations)
+     - 4.4.2 [Projects](#442-projects)
+       - 4.4.2.1 [Add and delete projects](#4421-add-and-delete-projects)
+       - 4.4.2.2 [Creating a project template](#4422-creating-a-project-template)
+       - 4.4.2.3 [Creating subprojects](#4423-creating-subprojects)
+     - 4.4.3 [Tasks](#443-tasks)
+       - 4.4.3.1 [Assigning shifts to a task](#4431-assigning-shifts-to-a-task)
+   - 4.5 [Planning](#45-planning)
+     - 4.5.1 [Shift Types & Roles](#451-shift-types-and-shift-roles)
+       - 4.5.1.1 [Shift types](#4511-shift-types)
+       - 4.5.1.2 [Shift roles](#4512-shift-roles)
+     - 4.5.2 [Creating & Publishing Shifts](#452-creating--publishing-shifts)
+       - 4.5.2.1 [Creating a shift](#4521-creating-a-shift)
+       - 4.5.2.2 [Publishing a shift](#4522-publishing-a-shift)
+     - 4.5.3 [Creating Multiple Shifts at Once](#453-creating-multiple-shifts-at-once)
+       - 4.5.3.1 [Opening the wizard](#4531-opening-the-wizard)
+       - 4.5.3.2 [Create mode — filling in shift details](#4532-create-mode--filling-in-shift-details)
+       - 4.5.3.3 [Edit mode — bulk-editing existing shifts](#4533-edit-mode--bulk-editing-existing-shifts)
+     - 4.5.4 [Assigning People to Shifts](#454-assigning-people-to-shifts)
+       - 4.5.4.1 [How the candidate list is filtered](#4541-how-the-candidate-list-is-filtered)
+   - 4.6 [Validations](#46-validations)
+     - 4.6.1 [Employee Availability](#461-employee-availability)
+     - 4.6.2 [Shift Requests](#462-shift-requests)
+     - 4.6.3 [Timesheets](#463-timesheets)
+   - 4.7 [Inventory & Materials](#47-inventory--materials)
+5. [Notifications & Approvals](#notifications-approvals)
 
 ---
 
@@ -718,7 +739,7 @@ Alternatively, it is also possible to create a new location from within a **Proj
 >
 >In order to add new protocols, users need to have the **Protocols Administrator** role. This can be done by going to:
 >
-> ***Settings*** → ***Users & Companies*** → ***Users** → *Choose user* → ***Acess rights*** tab → ***Customizations*** → ***Protocol*** → Select *Administrator* role
+> ***Settings*** → ***Users & Companies*** → ***Users*** → *Choose user* → ***Acess rights*** tab → ***Customizations*** → ***Protocol*** → Select *Administrator* role
 >
 > Don't forget to save the change!
 
@@ -758,7 +779,7 @@ Select an existing protocol visit from the **Protocols visits list view** → **
 >
 >In order to add new protocols, users need to have the **Project Administrator** role. This can be done by going to:
 >
-> ***Settings*** → ***Users & Companies*** → ***Users** → *Choose user* → ***Acess rights*** tab → ***Services*** → ***Project*** → Select *Administrator* role
+> ***Settings*** → ***Users & Companies*** → ***Users*** → *Choose user* → ***Acess rights*** tab → ***Services*** → ***Project*** → Select *Administrator* role
 >
 > Don't forget to save the change!
 
@@ -822,7 +843,7 @@ The **Create Shifts** button on a task form opens the multi-resource wizard pre-
 >
 >In order to add new **Shifts**, **Shift types** and **Shift roles**, users need to have the **Planning Administrator** role. This can be done by going to:
 >
-> ***Settings*** → ***Users & Companies*** → ***Users** → *Choose user* → ***Acess rights*** tab → ***Services*** → ***Human Resources*** → Select *Administrator* role
+> ***Settings*** → ***Users & Companies*** → ***Users*** → *Choose user* → ***Acess rights*** tab → ***Services*** → ***Human Resources*** → Select *Administrator* role
 >
 > Don't forget to save the change!
 
@@ -978,38 +999,113 @@ If the dropdown shows no candidates, it usually means one or more employees have
 2. Select the employee from the **Resource** dropdown
 3. Click **Publish & Send** to notify them
 
-#### Handling shift requests
-
-When an employee requests an open shift (see §3.3), you will receive a notification in your Inbox. Review the request, open the shift, assign the employee, and publish.
+> For shift requests submitted by employees, see §4.6.2.
 
 ---
 
-### 4.9 Registering & Validating Worked Hours
+### 4.6 Validations
+>**Important!**
+>
+>In order to perform validations users need to have the proper **Administrator** role for the type of entity they are to validate. This can be done by going to:
+>
+> ***Settings*** → ***Users & Companies*** → ***Users*** → *Choose user* → ***Acess rights*** → And specifying *Administrator* role for the appropiate section.
+>
+> Don't forget to save the change!
 
-#### Register Hours button
-
-Once a shift is published and has an assigned employee, a **Register Hours** button appears in the shift header (visible to the assigned employee and to planning managers).
-
-Clicking it creates a pre-filled timesheet entry with:
-- The shift date
-- The allocated hours
-- The linked project and task
-
-The timesheet opens immediately for review. Adjust the hours if the employee worked more or less than planned, then save.
-
-> The Register Hours button is only visible **after the shift is published** and **only to the assigned employee or a planning manager**. Other managers cannot register hours on behalf of someone else's shift.
-
-#### Validating timesheets
-
-> *[TODO: Tamara — describe your validation/approval flow for timesheets if you have one configured.]*
+Three types of records require manager validation before the planning workflow can proceed: employee availability entries, shift requests, and worked hours (timesheets). Pending items for the first two appear as **to-do activities** in your Inbox; timesheets are reviewed directly in the Timesheets app.
 
 ---
 
-## 5. Inventory & Tools
+#### 4.6.1 Employee Availability
+
+Before an employee can be assigned to a shift, their availability entry for that date and shift type must be validated (see §3.3 for how employees submit availability).
+
+**Finding pending entries**
+
+Pending availability validations appear as to-do activities in your Inbox (the bell icon, top-right) and in **Planning → Employee Availability**. Each activity groups all pending entries from one employee and shows the date range covered.
+
+**Validating**
+
+1. Open the activity or go to **Planning → Employee Availability**
+2. Filter by **Status: Validation Requested** to see all pending entries
+3. Review the entries — check dates and shift types against the employee's stated availability
+4. Select the entries you want to act on and click **Validate** (or **Refuse** to send them back to Draft)
+
+Once validated, the employee is notified and their entries turn solid green (available) or solid red (not available) in the calendar. Refused entries return to Draft — the employee can edit and resubmit.
+
+> If you refuse an entry, the employee receives an Inbox notification and can resubmit after adjusting.
+
+---
+
+#### 4.6.2 Shift Requests
+
+When an employee requests an open shift (see §3.5), you receive a **to-do activity** notification in your Inbox. Pending requests are also listed under **Approvals → Shifts**.
+
+**Reviewing a request**
+
+1. Go to **Approvals → Shifts** (or open the Inbox notification)
+2. Find the shift the employee has requested
+3. Review the request in context — check that the employee's availability is validated and that no constraints are violated
+
+**Approving a request**
+
+1. Open the shift
+2. Select the requesting employee in the **Resource** dropdown
+3. Click **Publish & Send** — the employee is notified by email
+
+**Rejecting a request**
+
+If you decide not to assign the requesting employee, simply assign someone else (or leave the shift open). There is no formal rejection notification — it is good practice to inform the employee directly.
+
+> Only one employee can be assigned per shift. If multiple employees request the same shift, assign the most suitable candidate and inform the others.
+
+---
+
+#### 4.6.3 Timesheets
+
+Employees register their worked hours from their shift using the **Register Hours** button (see §3.6). As a manager, your role is to review those entries.
+
+**Viewing timesheet entries**
+
+All timesheet entries are visible in the **Timesheets** app. You can filter and group by:
+
+- **Employee** — to review a specific person's hours
+- **Project** or **Task** — to see all hours logged against a project
+- **Date / week** — to review a specific period
+
+Each entry shows the employee name, date, project, task, and hours worked. If the employee adjusted the hours after clicking Register Hours, the entry reflects the adjusted value.
+
+**Registering hours on behalf of an employee**
+
+If an employee forgot to register their hours, you can do it on their behalf:
+
+1. Open the shift in **Planning**
+2. Click **Register Hours**
+3. Verify or adjust the hours in the timesheet entry that opens
+4. Save
+
+> The **Register Hours** button is only visible on **published** shifts with an **assigned employee**.
+
+**Reviewing entries**
+
+1. Go to **Timesheets → All Timesheets**
+2. Filter by employee and date range
+3. Review all entries — correct any obvious errors directly in the list
+
+---
+
+### 4.7 Inventory & Materials
+>**Important!**
+>
+>In order to make changes to the inventory, users must have **Planning Administrator** role. This can be done by going to:
+>
+> ***Settings*** → ***Users & Companies*** → ***Users*** → *Choose user* → ***Acess rights*** → Planning → *Administrator*.
+>
+> Don't forget to save the change!
 
 The inventory module is accessible via **Planning → Materials**.
 
-### Structure
+#### Structure
 
 Materials are organised in three levels:
 
@@ -1025,20 +1121,20 @@ Each **material unit** has:
 - A rental flag (if the item is rented rather than owned)
 - A material type
 
-### Linking materials to a shift
+#### Linking materials to a shift
 
 On a shift form, use the **Materials needed** field to attach one or more material *types* to the shift. This records which types of equipment are required — it does not automatically reserve individual units or deduct stock.
 
 > Stock quantities (`booked_quantity`, `needed_stock`) are manually maintained. There is no automatic deduction when a shift is created.
 
-### Checking what is assigned
+#### Checking what is assigned
 
 Open any material type to see the list of individual units and their current statuses. Use the list view under **Planning → Materials → Material Types** to get an overview of available vs. booked quantities across all types.
 
 
 ---
 
-## 6. Notifications & Approvals
+## 5. Notifications & Approvals
 
 ### Notifications you will receive
 
@@ -1053,9 +1149,7 @@ Open any material type to see the list of individual units and their current sta
 
 ### Pending approvals
 
-Planning managers can see pending availability validations as **to-do activities** in their Activity view or in the Inbox. Each activity groups all pending entries from one employee and shows the date range covered.
-
-To validate: open the activity, review the availability entries, and click **Validate**.
+For the full validation workflow (availability entries, shift requests, and timesheets), see §4.6.
 
 ---
 
